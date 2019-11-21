@@ -1,0 +1,12 @@
+eclipse.preferences.version=1
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.957956437/BATCH_BUILD/delimiter=;
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.957956437/BATCH_BUILD/operation=append
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.957956437/BATCH_BUILD/value=1
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.957956437/IDF_PATH/delimiter=;
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.957956437/IDF_PATH/operation=append
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.957956437/IDF_PATH/value=D\:\\iotprj\\packages\\esp-idf
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.957956437/PATH/delimiter=;
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.957956437/PATH/operation=replace
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.957956437/PATH/value=D\:\\iotprj\\buildtools\\msys32\\usr\\bin;D\:\\iotprj\\buildtools\\msys32\\mingw32\\bin;D\:\\iotprj\\buildtools\\msys32\\opt\\xtensa-esp32-elf\\bin
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.957956437/append=true
+environment/project/cdt.managedbuild.config.gnu.cross.exe.debug.957956437/appendContributed=true
