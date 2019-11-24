@@ -1,14 +1,12 @@
-/*
- * File  : wrpsys.cpp
- * Date  : 2019-10-06
- * Author: AOG1HC
- *
- */
-
 /********************************************************************************************************
- * INCLUDES
+ * @File  : wrpsystem.cpp
+ * @Date  : 2019-10-06
+ * @Author: nguyenhtm - htminhnguyen@gmail.com
+ *
  ********************************************************************************************************/
 #include "wrpsystem.hpp"
+
+namespace WrpSys {
 
 /********************************************************************************************************
  * VARIABLES
@@ -18,44 +16,6 @@
 /********************************************************************************************************
  * FUNCTIONS
  ********************************************************************************************************/
-namespace WrpSys
-{
-
-// IWrpSysState
-IWrpSysState::IWrpSysState()
-{
-	m_listOfObservers.clear();
-}
-
-IWrpSysState::~IWrpSysState()
-{
-	m_listOfObservers.clear();
-}
-
-void IWrpSysState::Attach(IWrpSysStateClient* client)
-{
-	m_listOfObservers.push_back(client);
-}
-
-void IWrpSysState::Detach(IWrpSysStateClient* client)
-{
-	std::vector<IWrpSysStateClient*>::iterator it;
-	it = std::find(m_listOfObservers.begin(), m_listOfObservers.end(), client);
-	if (it != m_listOfObservers.end())
-	{
-		m_listOfObservers.erase(it);
-	}
-}
-
-void IWrpSysState::Notify()
-{
-	size_t numOfElements = m_listOfObservers.size();
-	for (int i = 0; i < numOfElements; i++)
-	{
-		m_listOfObservers[i]->Update();
-	}
-}
-
 void SwReset()
 {
 

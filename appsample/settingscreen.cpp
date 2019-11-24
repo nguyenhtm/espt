@@ -1,7 +1,7 @@
 /********************************************************************************************************
  * @File  : settingscreen.cpp
  * @Date  : 2019-10-06
- * @Author: nguyenhtm - htminhnguyen@yahoo.com
+ * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
 #include "appdefines.hpp"
@@ -61,28 +61,4 @@ void SettingScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int 
 		}
 		break;
 	}
-}
-
-void SettingScreen::EnableAnimation()
-{
-	lv_anim_t a;
-	// object need to be animated
-	a.var = m_pScrHandler->GetProperty()._pBackground;
-	// func to execute anim x
-	a.exec_cb = (lv_anim_exec_xcb_t)lv_obj_set_x;
-	a.path_cb = lv_anim_path_linear;
-	a.ready_cb = NULL;
-	// set start/end value
-	a.start = 320; //240 / 2;
-	a.end = 0;
-    a.time = 200;
-    // make delay
-    a.act_time = -500;
-    // no play back
-    a.playback = 0;
-    a.playback_pause = 0;
-    // no repeat
-    a.repeat = 0;
-    a.repeat_pause = 0;
-    lv_anim_create(&a);
 }

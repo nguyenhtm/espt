@@ -1,13 +1,12 @@
-/*
- * File  : wrpstyle.cpp
- * Date  : 2019-10-06
- * Author: nguyenhtm - htminhnguyen@yahoo.com
- */
-
 /********************************************************************************************************
- * INCLUDES
+ * @File  : wrpstyle.cpp
+ * @Date  : 2019-10-06
+ * @Author: nguyenhtm - htminhnguyen@gmail.com
+ *
  ********************************************************************************************************/
 #include "wrpstyle.hpp"
+
+namespace WrpGui {
 
 /********************************************************************************************************
  * VARIABLES
@@ -17,8 +16,6 @@
 /********************************************************************************************************
  * FUNCTIONS
  ********************************************************************************************************/
-namespace WrpGui
-{
 
 WrpStyle::WrpStyle()
 {
@@ -42,56 +39,50 @@ void WrpStyle::SetStyle(wrp_handler_t* handler, WrpStyleType style)
 		case SCREEN_DEFAULT:
 		{
 			lv_style_copy(&m_style, &lv_style_scr);
-			lv_obj_set_style(handler, &m_style);
 		}
 		break;
 		case SCREEN_PLAIN_COLOR:
 		{
 			lv_style_copy(&m_style, &lv_style_plain_color);
-			lv_obj_set_style(handler, &m_style);
 		}
 		break;
 		case SCREEN_PRETTY:
 		{
 			lv_style_copy(&m_style, &lv_style_pretty);
-			lv_obj_set_style(handler, &m_style);
 		}
 		break;
 		case SCREEN_PRETTY_COLOR:
 		{
 			lv_style_copy(&m_style, &lv_style_pretty_color);
-			lv_obj_set_style(handler, &m_style);
 		}
 		break;
 		case BUTTON_PRESS:
 		{
 			lv_style_copy(&m_style, &lv_style_btn_pr);
-			lv_obj_set_style(handler, &m_style);
 		}
 		break;
 		case BUTTON_RELEASE:
 		{
 			lv_style_copy(&m_style, &lv_style_btn_rel);
-			lv_obj_set_style(handler, &m_style);
 		}
 		break;
 		case BUTTON_TGL_PRESS:
 		{
 			lv_style_copy(&m_style, &lv_style_btn_tgl_pr);
-			lv_obj_set_style(handler, &m_style);
 		}
 		break;
 		case BUTTON_TGL_RELEASE:
 		{
 			lv_style_copy(&m_style, &lv_style_btn_tgl_rel);
-			lv_obj_set_style(handler, &m_style);
 		}
 		break;
 		default:
 		{
 			lv_obj_set_style(handler, &m_default);
 		}
+		return;
 	}
+	lv_obj_set_style(handler, &m_style);
 }
 
 void WrpStyle::SetDefault(wrp_handler_t* handler)

@@ -1,7 +1,7 @@
 /********************************************************************************************************
  * @File  : settingscreen.hpp
  * @Date  : 2019-10-06
- * @Author: nguyenhtm - htminhnguyen@yahoo.com
+ * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
 #ifndef APPSAMPLE_SETTINGSCREEN_HPP_
@@ -42,7 +42,6 @@ protected:
 private:
 	WrpHmiApp* m_pHmiApp;
 	WrpGui::WrpLabel*  m_pLblBackItem;
-	void EnableAnimation();
 };
 
 #endif /* APPSAMPLE_SETTINGSCREEN_HPP_ */

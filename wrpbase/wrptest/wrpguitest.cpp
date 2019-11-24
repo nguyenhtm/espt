@@ -1,20 +1,18 @@
-/*
- * File  : wrpguitest.cpp
- * Date  : 2019-10-06
- * Author: AOG1HC
- *
- */
-
 /********************************************************************************************************
- * INCLUDES
+ * @File  : wrpguitest.cpp
+ * @Date  : 2019-10-06
+ * @Author: nguyenhtm - htminhnguyen@gmail.com
+ *
  ********************************************************************************************************/
-#include "../wrpgui/wrpscreen.hpp"
-#include "../wrpgui/wrplabel.hpp"
-#include "../wrpsys/wrpdisplay.hpp"
 #include "wrptest.hpp"
-#include "../wrpsys/wrpstorage.hpp"
-#include "../wrpsys/wrpnetwork.hpp"
-#include "../wrpsys/wrpsystem.hpp"
+#include "wrpbase/wrpgui/wrpscreen.hpp"
+#include "wrpbase/wrpgui/wrplabel.hpp"
+#include "wrpbase/wrpsys/wrpdisplay.hpp"
+#include "wrpbase/wrpsys/wrpstorage.hpp"
+#include "wrpbase/wrpsys/wrpnetwork.hpp"
+#include "wrpbase/wrpsys/wrpsystem.hpp"
+
+namespace WrpTest {
 
 /********************************************************************************************************
  * DEFINES
@@ -27,13 +25,11 @@
 /********************************************************************************************************
  * FUNCTIONS
  ********************************************************************************************************/
-namespace WrpTest {
-
 void wrpguitest(void)
 {
 	WrpSys::PrintChipInfo();
 	WrpSys::WrpSysStorage::InitNVS(); // must 1st initialization
-	WrpSys::WrpSysNetwork::InitWifiStation();
+	WrpSys::Network::InitWifiStation();
 	WrpSys::InitLvglLib();
 
 	WrpGui::WrpScreen* masterScreen = new WrpGui::WrpScreen(true); // loaded by default

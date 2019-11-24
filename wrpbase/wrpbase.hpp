@@ -1,10 +1,9 @@
-/*
- * File  : wrpbase.hpp
- * Date  : 2019-10-06
- * Author: nguyenhtm - htminhnguyen@yahoo.com
+/********************************************************************************************************
+ * @File  : wrpbase.hpp
+ * @Date  : 2019-10-06
+ * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
- */
-
+ ********************************************************************************************************/
 #ifndef WRPBASE_WRPDEFINE_HPP_
 #define WRPBASE_WRPDEFINE_HPP_
 

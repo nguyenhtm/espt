@@ -1,7 +1,7 @@
 /********************************************************************************************************
  * @File  : appdefines.hpp
  * @Date  : 2019-10-06
- * @Author: nguyenhtm - htminhnguyen@yahoo.com
+ * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
 #ifndef APPSAMPLE_APPDEFINES_HPP_

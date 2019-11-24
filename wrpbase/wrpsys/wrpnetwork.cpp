@@ -1,14 +1,13 @@
-/*
- * File  : wrpnetwork.cpp
- * Date  : 2019-10-06
- * Author: AOG1HC
- *
- */
-
 /********************************************************************************************************
- * INCLUDES
+ * @File  : wrpnetwork.cpp
+ * @Date  : 2019-10-06
+ * @Author: nguyenhtm - htminhnguyen@gmail.com
+ *
  ********************************************************************************************************/
 #include "wrpnetwork.hpp"
+
+namespace WrpSys {
+namespace Network {
 
 /********************************************************************************************************
  * VARIABLES
@@ -22,8 +21,6 @@ static EventGroupHandle_t g_EventGroup = xEventGroupCreate();
 /********************************************************************************************************
  * FUNCTIONS
  ********************************************************************************************************/
-namespace WrpSys {
-namespace WrpSysNetwork {
 
 #if USE_ESP_IDF
 // legacy event loop: events from Wifi driver, Ethernet driver, and TCP/IP stack were dispatched
@@ -118,7 +115,6 @@ void WrpWebSocketClient::EventHandler(struct mg_connection *nc, int ev, void *ev
 			else
 			{
 				WRPPRINT("%s%d\n", "WrpWebSocketClient::EventHandler() Connected Failed! HTTP Code:", hm->resp_code);
-				/* Connection will be closed after this. */
 				m_status = WSCLIENT_STATUS_CONNECTED_ERROR;
 			}
 			break;
@@ -131,7 +127,7 @@ void WrpWebSocketClient::EventHandler(struct mg_connection *nc, int ev, void *ev
 		case MG_EV_WEBSOCKET_FRAME:
 		{
 			struct websocket_message *wm = (struct websocket_message *) ev_data;
-			WrpWebSocketClient::m_datalength = wm->size;
+			WrpWebSocketClient::m_datalength = (uint16_t)wm->size;
 			if (wm->size)
 			{
 				m_status = WSCLIENT_STATUS_DATA_RECEIVED;
@@ -149,7 +145,6 @@ void WrpWebSocketClient::EventHandler(struct mg_connection *nc, int ev, void *ev
 			}
 			break;
 		}
-
 	}
 }
 
@@ -192,11 +187,6 @@ bool WrpWebSocketClient::Create(const char *uri, const unsigned int port)
 
 	WRPPRINT("%s\n", "WrpWebSocketClient::Create() End");
 	return true;
-}
-
-void WrpWebSocketClient::Poll()
-{
-	mg_mgr_poll(&WrpWebSocketClient::mgr, 1000);
 }
 
 void WrpWebSocketClient::Close()

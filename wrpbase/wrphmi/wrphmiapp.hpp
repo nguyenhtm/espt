@@ -1,7 +1,7 @@
 /********************************************************************************************************
  * @File  : wrphmiapp.hpp
  * @Date  : 2019-10-06
- * @Author: nguyenhtm - htminhnguyen@yahoo.com
+ * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
 #ifndef WRPHMI_WRPHMIAPP_H_

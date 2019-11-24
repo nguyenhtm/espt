@@ -1,7 +1,7 @@
 /********************************************************************************************************
  * @File  : wrpmidwapp.cpp
  * @Date  : 2019-10-06
- * @Author: nguyenhtm - htminhnguyen@yahoo.com
+ * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
 #include "wrpmidwapp.hpp"
@@ -35,7 +35,7 @@ WrpMidwApp::WrpMidwApp()
 : m_wsClient(NULL)
 {
 	WRPPRINT("%s\n", "WrpMidwApp::WrpMidwApp() Begin");
-	m_wsClient = new WrpSys::WrpSysNetwork::WrpWebSocketClient;
+	m_wsClient = new WrpSys::Network::WrpWebSocketClient;
 	m_listOfObservers.clear();
 	WRPPRINT("%s\n", "WrpMidwApp::WrpMidwApp() End");
 }
@@ -89,7 +89,7 @@ void WrpMidwApp::Start()
 {
 	WrpSys::PrintChipInfo();
 	WrpSys::WrpSysStorage::InitNVS(); // must 1st initialization
-	WrpSys::WrpSysNetwork::InitWifiStation();
+	WrpSys::Network::InitWifiStation();
 
 	m_status = MIDWAPP_STATUS_STARTED;
 #if LVGL_PC_SIMU
@@ -124,7 +124,8 @@ void WrpMidwApp::ThreadWrpMidwApp(void* param)
 #if LVGL_PC_SIMU
 	app->m_wsClient->Create("127.0.0.1", 8000);
 #elif LVGL_ESP32_ILI9341
-	app->m_wsClient->Create("192.168.2.141", 8000);
+	//app->m_wsClient->Create("192.168.2.141", 8000);
+	app->m_wsClient->Create("172.20.10.5", 8000);
 #endif
 
 	while(bEnableLoop)
@@ -150,10 +151,6 @@ void WrpMidwApp::ThreadWrpMidwApp(void* param)
 		switch(m_status)
 		{
 			case MIDWAPP_STATUS_INIT:
-			{
-				Notify(NULL, 0);
-			}
-			break;
 			case MIDWAPP_STATUS_STARTED:
 			{
 				Notify(NULL, 0);

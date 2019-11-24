@@ -1,18 +1,16 @@
-/*
- * File  : wrpsystest.cpp
- * Date  : 2019-10-06
- * Author: AOG1HC
- *
- */
-
 /********************************************************************************************************
- * INCLUDES
+ * @File  : wrpsystest.cpp
+ * @Date  : 2019-10-06
+ * @Author: nguyenhtm - htminhnguyen@gmail.com
+ *
  ********************************************************************************************************/
 #include "wrpbase/wrpsys/wrpstorage.hpp"
 #include "wrpbase/wrpsys/wrpnetwork.hpp"
 #include "wrpbase/wrpsys/wrpsystem.hpp"
 #include "wrpbase/wrpsys/wrpnetwork.hpp"
 #include "wrptest.hpp"
+
+namespace WrpTest {
 
 /********************************************************************************************************
  * DEFINES
@@ -27,24 +25,23 @@
 /********************************************************************************************************
  * FUNCTIONS
  ********************************************************************************************************/
-namespace WrpTest {
+
 
 void wrpsystest(void)
 {
 	WrpSys::PrintChipInfo();
 	WrpSys::WrpSysStorage::InitNVS(); // must 1st initialization
-	WrpSys::WrpSysNetwork::InitWifiStation();
+	WrpSys::Network::InitWifiStation();
 
 	//websocket test
 	usleep(3000*1000); //wait until wifi done
 	int count = 5;
 
-	WrpSys::WrpSysNetwork::WrpWebSocketClient ws;
+	WrpSys::Network::WrpWebSocketClient ws;
 	while (--count)
 	{
 		usleep(1000*1000);
 	}
-
 }
 
 } /* Namespace WrpTest */

@@ -1,12 +1,8 @@
-/*
- * File  : wrpopup.cpp
- * Date  : 2019-10-06
- * Author: AOG1HC
- *
- */
-
 /********************************************************************************************************
- * INCLUDES
+ * @File  : wrpopup.cpp
+ * @Date  : 2019-10-06
+ * @Author: nguyenhtm - htminhnguyen@gmail.com
+ *
  ********************************************************************************************************/
 #include "wrppopup.hpp"
 #include "wrpscreen.hpp"
@@ -14,7 +10,6 @@
 /********************************************************************************************************
  * VARIABLES
  ********************************************************************************************************/
-
 
 /********************************************************************************************************
  * FUNCTIONS
@@ -62,11 +57,11 @@ void WrpPopup::EnableAnimation()
 	// func to execute anim y
 	a.exec_cb = (lv_anim_exec_xcb_t)lv_obj_set_y;
 	a.path_cb = lv_anim_path_linear;
-	a.ready_cb = NULL;//&WrpPopup::anim_end;
+	a.ready_cb = NULL;
 	// set start/end value
 	a.start = -20; //240 / 2;
 	a.end = 120;
-    a.time = 200;
+    a.time = 400;
     // make delay
     a.act_time = -500;
     // no play back

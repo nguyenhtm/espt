@@ -1,7 +1,7 @@
 /********************************************************************************************************
  * @File  : homescreen.cpp
  * @Date  : 2019-10-06
- * @Author: nguyenhtm - htminhnguyen@yahoo.com
+ * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
 #include "appdefines.hpp"
@@ -60,23 +60,33 @@ void HomeScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int len
 			{
 				m_pScrHandler->ShowPopup(true, "Shutting Down!");
 			}
-			else if(!strcmp(buffer, "style"))
+			else if(!strcmp(buffer, "SCREEN_PLAIN_COLOR"))
 			{
-				static int count = 0;
-				switch (count)
-				{
-				case 0: {m_pScrHandler->SetStyle(WrpGui::SCREEN_DEFAULT); count++;} break;
-				case 1: {m_pScrHandler->SetStyle(WrpGui::SCREEN_PLAIN_COLOR); count++;} break;
-				case 2: {m_pScrHandler->SetStyle(WrpGui::SCREEN_PRETTY); count++;} break;
-				case 3: {m_pScrHandler->SetStyle(WrpGui::SCREEN_PRETTY_COLOR); count++;} break;
-				case 4: {m_pScrHandler->SetStyle(WrpGui::BUTTON_PRESS); count++;} break;
-				case 5: {m_pScrHandler->SetStyle(WrpGui::BUTTON_RELEASE); count++;} break;
-				case 6: {m_pScrHandler->SetStyle(WrpGui::BUTTON_TGL_RELEASE); count++;} break;
-				case 7: {m_pScrHandler->SetStyle(WrpGui::BUTTON_TGL_PRESS); count++;} break;
-
-
-				default: count = 0; break;
-				}
+				m_pScrHandler->SetStyle(WrpGui::SCREEN_PLAIN_COLOR);
+			}
+			else if(!strcmp(buffer, "SCREEN_PRETTY"))
+			{
+				m_pScrHandler->SetStyle(WrpGui::SCREEN_PRETTY);
+			}
+			else if(!strcmp(buffer, "SCREEN_PRETTY_COLOR"))
+			{
+				m_pScrHandler->SetStyle(WrpGui::SCREEN_PRETTY_COLOR);
+			}
+			else if(!strcmp(buffer, "BUTTON_PRESS"))
+			{
+				m_pScrHandler->SetStyle(WrpGui::BUTTON_PRESS);
+			}
+			else if(!strcmp(buffer, "BUTTON_RELEASE"))
+			{
+				m_pScrHandler->SetStyle(WrpGui::BUTTON_RELEASE);
+			}
+			else if(!strcmp(buffer, "BUTTON_TGL_RELEASE"))
+			{
+				m_pScrHandler->SetStyle(WrpGui::BUTTON_TGL_RELEASE);
+			}
+			else if(!strcmp(buffer, "BUTTON_TGL_PRESS"))
+			{
+				m_pScrHandler->SetStyle(WrpGui::BUTTON_TGL_PRESS);
 			}
 			else if (strcmp(buffer, "back"))
 			{

@@ -1,7 +1,7 @@
 /********************************************************************************************************
  * @File  : wrpmidwapp.hpp
  * @Date  : 2019-10-06
- * @Author: nguyenhtm - htminhnguyen@yahoo.com
+ * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
 #ifndef WRPMIDW_WRPMIDWAPP_H_
@@ -54,7 +54,7 @@ private:
 	WrpMidwApp();
 	static std::vector<WrpMidwAppClient*> m_listOfObservers;
 	static eWrpMidwAppStatus m_status;
-	WrpSys::WrpSysNetwork::WrpWebSocketClient* m_wsClient;
+	WrpSys::Network::WrpWebSocketClient* m_wsClient;
 #if LVGL_PC_SIMU
 	static int ThreadWrpMidwApp(void* param);
 #elif LVGL_ESP32_ILI9341

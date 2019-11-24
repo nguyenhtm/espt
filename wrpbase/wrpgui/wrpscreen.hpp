@@ -1,10 +1,9 @@
-/*
- * File  : wrpscreen.hpp
- * Date  : 2019-10-06
- * Author: nguyenhtm - htminhnguyen@yahoo.com
+/********************************************************************************************************
+ * @File  : wrpscreen.hpp
+ * @Date  : 2019-10-06
+ * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
- */
-
+ ********************************************************************************************************/
 #ifndef WRPBASE_WRPGUI_WRPSCREEN_HPP_
 #define WRPBASE_WRPGUI_WRPSCREEN_HPP_
 
@@ -14,6 +13,8 @@
 #include "wrpbase/wrpbase.hpp"
 #include "wrppopup.hpp"
 #include "wrpstyle.hpp"
+
+namespace WrpGui {
 
 /********************************************************************************************************
  * DEFINES
@@ -31,8 +32,7 @@ struct WrpScreenProperty
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
-namespace WrpGui
-{
+
 // Class WrpScreen
 class WrpScreen : public WrpStyle
 {
