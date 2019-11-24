@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Hello</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style type="text/css">
+    body {
+      background-color: #789; margin: 0;
+      padding: 0; font: 14px Helvetica, Arial, sans-serif;
+    }
+    div.content {
+      width: 700px; margin: 2em auto; padding: 20px 50px;
+      background-color: #fff; border-radius: 0em;
+    }
+    #messages {
+      border: 2px solid #fec; border-radius: 0em;
+      height: 100px; overflow: scroll; padding: 0.5em 1em;
+    }
+    a:link, a:visited { color: #69c; text-decoration: none; }
+    @media (max-width: 700px) {
+      body { background-color: #fff; }
+      div.content {
+        width: auto; margin: 0 auto; border-radius: 0;
+        padding: 1em;
+      }
+    }
+</style>
+
+<script language="javascript" type="text/javascript">
+
+  var rooms = [];
+  var ws = new WebSocket('ws://' + location.host + '/ws');
+
+  if (!window.console) { window.console = { log: function() {} } };
+
+  ws.onopen = function(ev)  { console.log(ev); };
+  ws.onerror = function(ev) { console.log(ev); };
+  ws.onclose = function(ev) { console.log(ev); };
+  ws.onmessage = function(ev) {
+    console.log(ev);
+    var div = document.createElement('div');
+    div.innerHTML = ev.data;
+    document.getElementById('messages').appendChild(div);
+  };
+
+  window.onload = function() {
+    document.getElementById('send_button').onclick = function(ev) {
+      var msg = document.getElementById('send_input').value;
+      document.getElementById('send_input').value = '';
+      ws.send(msg);
+    };
+    document.getElementById('send_input').onkeypress = function(ev) {
+      if (ev.keyCode == 13 || ev.which == 13) {
+        document.getElementById('send_button').click();
+      }
+    };
+    document.getElementById('style1').onclick = function(ev) {
+      ws.send('SCREEN_PLAIN_COLOR');
+    };
+    document.getElementById('style2').onclick = function(ev) {
+      ws.send('SCREEN_PRETTY');
+    };
+    document.getElementById('style3').onclick = function(ev) {
+      ws.send('SCREEN_PRETTY_COLOR');
+    };
+    document.getElementById('style4').onclick = function(ev) {
+      ws.send('BUTTON_PRESS');
+    };
+    document.getElementById('style5').onclick = function(ev) {
+      ws.send('BUTTON_RELEASE');
+    };
+    document.getElementById('style6').onclick = function(ev) {
+      ws.send('BUTTON_TGL_RELEASE');
+    };
+    document.getElementById('style7').onclick = function(ev) {
+      ws.send('BUTTON_TGL_PRESS');
+    };
+  };
+</script>
+</head>
+<body>
+  <div class="content">
+	<table style="width:100%">
+		<tr>
+		<th align="left"><h1>CLI</h1></th>
+		<th align="left"><h1>OTA</h1></th>
+		</tr>
+		<tr>
+			<td>
+				<p>
+					<input type="text" id="send_input"/>
+					<button id="send_button">Send Message</button>
+				</p>
+			</td>
+			<td>
+				<p>
+					Select a file: <input type="file" name="myFile">
+				</p>
+			</td> 
+		</tr>
+	</table>
+	<div id="messages"></div>
+	<div class="container">
+		<button id="style1"><img src="SCREEN_PLAIN_COLOR.png" width="25" height="25"></button>
+		<button id="style2"><img src="SCREEN_PRETTY.png" width="25" height="25"></button>
+		<button id="style3"><img src="SCREEN_PLAIN_COLOR.png" width="25" height="25"></button>
+		<button id="style4"><img src="BUTTON_PRESS.png" width="25" height="25"></button>
+		<button id="style5"><img src="BUTTON_RELEASE.png" width="25" height="25"></button>
+		<button id="style6"><img src="BUTTON_TGL_RELEASE.png" width="25" height="25"></button>
+		<button id="style7"><img src="BUTTON_TGL_PRESS.png" width="25" height="25"></button>
+	</div>
+  </div>
+</body>
+</html>
