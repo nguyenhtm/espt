@@ -29,8 +29,8 @@ namespace WrpTest {
 
 void wrpsystest(void)
 {
-	WrpSys::PrintChipInfo();
-	WrpSys::WrpSysStorage::InitNVS(); // must 1st initialization
+	WrpSys::System::PrintChipInfo();
+	WrpSys::Storage::InitNVS(); // must 1st initialization
 	WrpSys::Network::InitWifiStation();
 
 	//websocket test

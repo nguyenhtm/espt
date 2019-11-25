@@ -1,56 +1,45 @@
 /********************************************************************************************************
- * @File  : wrplabel.cpp
+ * @File  : wrplabel.hpp
  * @Date  : 2019-10-06
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef WRPBASE_WRPGUI_WRPLABEL_HPP_
-#define WRPBASE_WRPGUI_WRPLABEL_HPP_
+#ifndef WRPGUI_WRPLABEL_HPP_
+#define WRPGUI_WRPLABEL_HPP_
 
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
-#include "wrpbase/wrpbase.hpp"
+#include "wrpgui.hpp"
 
 namespace WrpGui {
 
 /********************************************************************************************************
  * DEFINES
  ********************************************************************************************************/
-#define WRPLABEL_WIDTH  100
-#define WRPLABEL_HEIGHT 66
 
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
 
+// Forward Classes
 class WrpScreen;
 
-class WrpLabel
+// Class WrpLabel
+class WrpLabel : public WrpGui
 {
 public:
 	WrpLabel(WrpScreen* parent=NULL);
 	~WrpLabel();
 
-	wrp_pos_t GetX();
-	wrp_pos_t GetY();
-	wrp_pos_t GetW();
-	wrp_pos_t GetH();
-	void SetX(const wrp_pos_t x);
-	void SetY(const wrp_pos_t y);
-	void SetW(const wrp_pos_t w);
-	void SetH(const wrp_pos_t h);
-	void SetPos(const wrp_pos_t x, const wrp_pos_t y);
-	void SetSize(const wrp_pos_t w, const wrp_pos_t h);
 	void SetText(const char* text);
 
 protected:
-	wrp_handler_t* m_pHandler;
 
 private:
-	WrpScreen*     m_pParentScreen;
+	WrpScreen* m_pParentScreen;
 };
 
 } /* Namespace WrpGui */
 
-#endif /* WRPBASE_WRPGUI_WRPLABEL_HPP_ */
+#endif /* WRPGUI_WRPLABEL_HPP_ */

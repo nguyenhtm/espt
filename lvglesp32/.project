@@ -24,16 +24,4 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>appsample</name>
-			<type>2</type>
-			<location>D:/iotprj/appsample</location>
-		</link>
-		<link>
-			<name>wrpbase</name>
-			<type>2</type>
-			<location>D:/iotprj/wrpbase</location>
-		</link>
-	</linkedResources>
 </projectDescription>

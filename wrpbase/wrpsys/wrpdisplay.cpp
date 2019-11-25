@@ -30,7 +30,7 @@ void InitLvglLib()
 	static lv_color_t    m_buf2[LV_HOR_RES_MAX * 40]; // lvgl display buffer for 10 lines
 	static lv_disp_drv_t m_dispDriver;                // lvgl display driver
 
-	WRPPRINT("%s\n", "WrpDisplay::InitLvglLib() Begin");
+	WRPPRINT("%s\n", "WrpSys::WrpDisplay::InitLvglLib() Begin");
 
 	// initialize LVGL library
 	lv_init();
@@ -71,7 +71,7 @@ void InitLvglLib()
 	esp_register_freertos_tick_hook(lv_tick_task);
 	#endif
 
-	WRPPRINT("%s\n", "WrpDisplay::InitLvglLib() End");
+	WRPPRINT("%s\n", "WrpSys::WrpDisplay::InitLvglLib() End");
 
 }
 

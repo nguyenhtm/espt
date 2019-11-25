@@ -13,7 +13,7 @@
 #include "wrpbase/wrpbase.hpp"
 
 namespace WrpSys {
-namespace WrpSysStorage {
+namespace Storage {
 
 /********************************************************************************************************
  * DEFINES
@@ -25,7 +25,7 @@ namespace WrpSysStorage {
 
 void InitNVS();
 
-} /* Namespace WrpSysStorage */
+} /* Namespace Storage */
 } /* Namespace WrpSys */
 
 #endif /* WRPBASE_WRPSYS_WRPSTORAGE_HPP_ */

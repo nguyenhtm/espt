@@ -13,16 +13,24 @@
 #include "wrpbase/wrpbase.hpp"
 
 namespace WrpSys {
+namespace System {
 
 /********************************************************************************************************
  * DEFINES
  ********************************************************************************************************/
 
+// Thread Handling
+#if LVGL_PC_SIMU
+typedef SDL_Thread*    wrpthread_t;
+#elif LVGL_ESP32_ILI9341
+typedef TaskHandle_t   wrpthread_t;
+#endif
+typedef void (*wrpthread_handler_t)(void *param);
 
 /********************************************************************************************************
- * CLASSES
+ * PROTOTYPES
  ********************************************************************************************************/
-
+extern wrpthread_t WrpCreateThread(wrpthread_handler_t taskfunc, const char* taskname, void* arg);
 
 /*
  * Perform software reset of the chip. Execution of the program will stop, both CPUs will be reset
@@ -34,6 +42,11 @@ void HwReset();
 
 void PrintChipInfo();
 
+/********************************************************************************************************
+ * CLASSES
+ ********************************************************************************************************/
+
+} /* Namespace System */
 } /* Namespace WrpSys */
 
 #endif /* WRPBASE_WRPSYS_WRPSYS_HPP_ */

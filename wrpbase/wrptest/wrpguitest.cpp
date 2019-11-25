@@ -27,8 +27,8 @@ namespace WrpTest {
  ********************************************************************************************************/
 void wrpguitest(void)
 {
-	WrpSys::PrintChipInfo();
-	WrpSys::WrpSysStorage::InitNVS(); // must 1st initialization
+	WrpSys::System::PrintChipInfo();
+	WrpSys::Storage::InitNVS(); // must 1st initialization
 	WrpSys::Network::InitWifiStation();
 	WrpSys::InitLvglLib();
 

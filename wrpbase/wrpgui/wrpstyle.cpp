@@ -5,6 +5,7 @@
  *
  ********************************************************************************************************/
 #include "wrpstyle.hpp"
+#include "wrpbase/wrpbase.hpp"
 
 namespace WrpGui {
 
@@ -31,7 +32,7 @@ WrpStyle::~WrpStyle()
 	WRPPRINT("%s\n", "WrpStyle::~WrpStyle() End");
 }
 
-void WrpStyle::SetStyle(wrp_handler_t* handler, WrpStyleType style)
+void WrpStyle::SetStyle(wrpgui_handle_t* handler, WrpStyleType style)
 {
 	WRPNULL_CHECK(handler)
 	switch(style)
@@ -85,7 +86,7 @@ void WrpStyle::SetStyle(wrp_handler_t* handler, WrpStyleType style)
 	lv_obj_set_style(handler, &m_style);
 }
 
-void WrpStyle::SetDefault(wrp_handler_t* handler)
+void WrpStyle::SetDefault(wrpgui_handle_t* handler)
 {
 	WRPNULL_CHECK(handler)
 	lv_obj_set_style(handler, &m_default);

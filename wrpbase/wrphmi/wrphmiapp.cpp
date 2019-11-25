@@ -6,6 +6,7 @@
  ********************************************************************************************************/
 #include "wrphmiapp.hpp"
 #include "wrpbase/wrpsys/wrpdisplay.hpp"
+#include "wrpbase/wrpsys/wrpsystem.hpp"
 
 /********************************************************************************************************
  * VARIABLES
@@ -53,11 +54,7 @@ void WrpHmiApp::Start()
 	WrpSys::InitLvglLib();
 
 	m_status = eWrpHmiAppStatus::HMIAPP_STATUS_STARTED;
-#if LVGL_PC_SIMU
-	SDL_CreateThread(WrpHmiApp::ThreadWrpHmiApp, "ThreadWrpHmiApp", this);
-#elif LVGL_ESP32_ILI9341
-	xTaskCreate(&WrpHmiApp::ThreadWrpHmiApp, "ThreadWrpHmiApp", 4096, this, 5, NULL);
-#endif
+	WrpSys::System::WrpCreateThread(WrpHmiApp::ThreadWrpHmiApp, "WrpHmiApp", this);
 }
 
 void WrpHmiApp::Stop()
@@ -65,11 +62,7 @@ void WrpHmiApp::Stop()
 	m_status = eWrpHmiAppStatus::HMIAPP_STATUS_STOPPED;
 }
 
-#if LVGL_PC_SIMU
-int WrpHmiApp::ThreadWrpHmiApp(void* param)
-#elif LVGL_ESP32_ILI9341
 void WrpHmiApp::ThreadWrpHmiApp(void* param)
-#endif
 {
 	WRPPRINT("%s\n", "WrpHmiApp::ThreadWrpHmiApp() Begin");
 
@@ -80,9 +73,6 @@ void WrpHmiApp::ThreadWrpHmiApp(void* param)
 	}
 
 	WRPPRINT("%s\n", "WrpHmiApp::ThreadWrpHmiApp() End");
-#if LVGL_PC_SIMU
-	return 0;
-#endif
 }
 
 void WrpHmiApp::AddScreen(WrpGui::WrpScreen* handler, const uint16_t id)

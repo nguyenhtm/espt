@@ -10,7 +10,7 @@
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
-#include "wrpbase/wrpbase.hpp"
+#include "wrpgui.hpp"
 
 namespace WrpGui {
 
@@ -33,8 +33,8 @@ class WrpStyle
 public:
 	WrpStyle();
 	~WrpStyle();
-	void SetStyle(wrp_handler_t* handler, WrpStyleType style);
-	void SetDefault(wrp_handler_t* handler);
+	void SetStyle(wrpgui_handle_t* handler, WrpStyleType style);
+	void SetDefault(wrpgui_handle_t* handler);
 
 protected:
 
@@ -42,8 +42,8 @@ private:
 	// methods
 
 	// members
-	wrp_style_t m_style;
-	wrp_style_t m_default;
+	wrpgui_style_t m_style;
+	wrpgui_style_t m_default;
 };
 
 } /* Namespace WrpGui */

@@ -44,12 +44,11 @@ public:
 protected:
 
 private:
+	// methods
 	WrpHmiApp();
-#if LVGL_PC_SIMU
-	static int ThreadWrpHmiApp(void* param);
-#elif LVGL_ESP32_ILI9341
 	static void ThreadWrpHmiApp(void* param);
-#endif
+
+	// members
 	static WrpHmiApp*           m_pInstance;
 	eWrpHmiAppStatus            m_status;
 	std::vector<tWrpHmiScreen*> m_listOfScreens;

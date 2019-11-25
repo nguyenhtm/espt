@@ -51,17 +51,15 @@ public:
 protected:
 
 private:
+	// methods
 	WrpMidwApp();
+	static void ThreadWrpMidwApp(void* param);
+	static void Notify(char* buffer, unsigned int length);
+
+	// members
 	static std::vector<WrpMidwAppClient*> m_listOfObservers;
 	static eWrpMidwAppStatus m_status;
 	WrpSys::Network::WrpWebSocketClient* m_wsClient;
-#if LVGL_PC_SIMU
-	static int ThreadWrpMidwApp(void* param);
-#elif LVGL_ESP32_ILI9341
-	static void ThreadWrpMidwApp(void* param);
-#endif
-	static void Notify(char* buffer, unsigned int length);
-
 	static WrpMidwApp* m_pInstance;
 };
 

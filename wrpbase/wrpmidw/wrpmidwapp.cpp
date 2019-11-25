@@ -87,16 +87,13 @@ eWrpMidwAppStatus WrpMidwApp::GetStatus()
 
 void WrpMidwApp::Start()
 {
-	WrpSys::PrintChipInfo();
-	WrpSys::WrpSysStorage::InitNVS(); // must 1st initialization
+	WrpSys::System::PrintChipInfo();
+	WrpSys::Storage::InitNVS(); // must 1st initialization
 	WrpSys::Network::InitWifiStation();
 
 	m_status = MIDWAPP_STATUS_STARTED;
-#if LVGL_PC_SIMU
-	SDL_CreateThread(WrpMidwApp::ThreadWrpMidwApp, "WrpMidwApp", this);
-#elif LVGL_ESP32_ILI9341
-	xTaskCreate(&WrpMidwApp::ThreadWrpMidwApp, "WrpMidwApp", 4096, this, 5, NULL);
-#endif
+
+	WrpSys::System::WrpCreateThread(WrpMidwApp::ThreadWrpMidwApp, "WrpMidwApp", this);
 }
 
 void WrpMidwApp::Stop()
@@ -105,11 +102,7 @@ void WrpMidwApp::Stop()
 	usleep(2000*1000);
 }
 
-#if LVGL_PC_SIMU
-int WrpMidwApp::ThreadWrpMidwApp(void* param)
-#elif LVGL_ESP32_ILI9341
 void WrpMidwApp::ThreadWrpMidwApp(void* param)
-#endif
 {
 	WRPPRINT("%s\n", "WrpMidwApp::ThreadWrpMidwApp() Begin");
 	bool bEnableLoop = true;
@@ -124,7 +117,6 @@ void WrpMidwApp::ThreadWrpMidwApp(void* param)
 #if LVGL_PC_SIMU
 	app->m_wsClient->Create("127.0.0.1", 8000);
 #elif LVGL_ESP32_ILI9341
-	//app->m_wsClient->Create("192.168.2.141", 8000);
 	app->m_wsClient->Create("172.20.10.5", 8000);
 #endif
 
@@ -169,8 +161,4 @@ void WrpMidwApp::ThreadWrpMidwApp(void* param)
 		}
 	}
 	WRPPRINT("%s\n", "WrpMidwApp::ThreadWrpMidwApp() End");
-#if LVGL_PC_SIMU
-	return 0;
-#endif
-
 }

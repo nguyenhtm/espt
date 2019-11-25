@@ -13,7 +13,7 @@ Enter to D:\iotprj\buildtools
 + D:\iotprj\buildtools\eclipse: download eclipse-cpp-2019-03-R-win32-x86_64.zip at https://www.eclipse.org/downloads/packages/file/55067
 
 Step3
-Etner to D:\iotprj\packages
+Enter to D:\iotprj\packages
 + D:\iotprj\packages\esp-idf: git clone --recursive https://github.com/espressif/esp-idf.git
 + D:\iotprj\packages\lvgl: git clone --recursive https://github.com/littlevgl/lvgl.git
 + D:\iotprj\packages\pc_simulator_sdl_eclipse: git clone --recursive https://github.com/littlevgl/pc_simulator_sdl_eclipse.git

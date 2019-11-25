@@ -60,7 +60,7 @@ esp_err_t LegacyEventHandler(void *ctx, system_event_t *event)
 
 void InitWifiStation()
 {
-	WRPPRINT("WrpBase:%s\n", "WrpSysNetwork::InitWifiStation() Begin");
+	WRPPRINT("%s\n", "WrpSys::Network::InitWifiStation() Begin");
 #if USE_ESP_IDF
     esp_event_loop_init(LegacyEventHandler, NULL);
 
@@ -75,7 +75,7 @@ void InitWifiStation()
 
     esp_wifi_start();
 #endif
-	WRPPRINT("WrpBase:%s\n", "WrpSysNetwork::InitWifiStation() End");
+	WRPPRINT("%s\n", "WrpSys::Network::InitWifiStation() End");
 }
 
 eWrpWebSocketStatus WrpWebSocketClient::m_status = WSCLIENT_STATUS_INIT;

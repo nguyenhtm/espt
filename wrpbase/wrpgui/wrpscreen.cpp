@@ -5,6 +5,9 @@
  *
  ********************************************************************************************************/
 #include "wrpscreen.hpp"
+#include "wrplabel.hpp"
+#include "wrppopup.hpp"
+#include "wrpbase/wrpbase.hpp"
 
 namespace WrpGui {
 
@@ -16,70 +19,67 @@ namespace WrpGui {
  * FUNCTIONS
  ********************************************************************************************************/
 
-
-WrpScreen::WrpScreen(const bool bMaster)
-: m_pHandler(NULL)
+WrpScreen::WrpScreen(const bool bMasterScreen)
+: m_bMasterScreen(bMasterScreen)
+, m_pMenuTitle(NULL)
+, m_pTopPopup(NULL)
 {
-	WRPPRINT("WrpScreen::WrpScreen() bMaster=%d Begin\n", bMaster);
+	WRPPRINT("WrpScreen::WrpScreen() bMaster=%d Begin\n", bMasterScreen);
 
-	if (bMaster == true)
+	// screen creation
+	if (bMasterScreen == true)
     {
-    	// get the current loaded screen as a master screen
-    	m_pHandler = m_property._pHandler = lv_disp_get_scr_act(NULL);
+    	// not create new screen, use current loaded screen as a master screen
+    	m_pHandler = lv_disp_get_scr_act(NULL);
     }
     else
     {
-    	m_pHandler = m_property._pHandler = lv_obj_create(NULL, NULL);
+    	// create a new screen
+    	m_pHandler = lv_obj_create(NULL, NULL);
     }
-	// set screen properties
-	m_property._bMaster = bMaster;
-    m_property._pTitle  = lv_label_create(m_pHandler, NULL);
-    m_property._width   = lv_obj_get_width(m_pHandler);
-    m_property._height  = lv_obj_get_height(m_pHandler);
-    WRPPRINT("WrpScreen::WrpScreen() screen width:%d, height:%d\n", m_property._width, m_property._height);
 
-    // set title properties
-    lv_obj_set_pos(m_property._pTitle, 10, 10);
-    lv_obj_set_size(m_property._pTitle, 100, 66);
+	// screen menu items creation
+	m_pMenuTitle = new WrpLabel(this);
+	m_pMenuTitle->SetPos(WRPSCREEN_MENU_POSX, WRPSCREEN_MENU_POSY);
 
     WrpStyle::SetStyle(m_pHandler, SCREEN_PRETTY_COLOR);
-    m_popup = new WrpPopup(this);
-    WRPPRINT("WrpScreen::WrpScreen() bMaster=%d End\n", bMaster);
+    m_pTopPopup = new WrpPopup(this);
+    WRPPRINT("WrpScreen::WrpScreen() bMaster=%d End\n", bMasterScreen);
 }
 
 WrpScreen::~WrpScreen()
 {
-	WRPNULL_CHECK(m_property._pHandler)
 	// delete screen 'm_pHandler' and all its children
-	lv_obj_del(m_property._pHandler);
+	lv_obj_del(m_pHandler);
+	delete m_pMenuTitle;
+	delete m_pTopPopup;
 }
 
 void WrpScreen::Load()
 {
-	WRPNULL_CHECK(m_property._pHandler)
-	m_popup->Hide();
-	lv_disp_load_scr(m_property._pHandler);
+	WRPNULL_CHECK(m_pHandler)
+	m_pTopPopup->Hide();
+	lv_disp_load_scr(m_pHandler);
 }
 
-void WrpScreen::ShowPopup(bool bEnable, const char* text)
+void WrpScreen::ShowPopup(const bool bShowHide, const char* text)
 {
-	WRPNULL_CHECK(m_popup)
-	if (bEnable)
+	WRPNULL_CHECK(m_pTopPopup)
+	if (bShowHide)
 	{
-		m_popup->SetText(text);
-		m_popup->Show();
+		//m_pTopPopup->SetText(text);
+		m_pTopPopup->Show();
 	}
 	else
 	{
-		//lv_obj_set_hidden(m_popup, true);
-		m_popup->Hide();
+		m_pTopPopup->Hide();
 	}
 }
 
 void WrpScreen::SetTitle(const char* text)
 {
-	WRPNULL_CHECK(m_property._pTitle)
-    lv_label_set_text(m_property._pTitle, text);
+	WRPNULL_CHECK(m_pMenuTitle)
+	m_pMenuTitle->SetText(text);
 }
 
 void WrpScreen::SetStyle(const WrpStyleType style)
