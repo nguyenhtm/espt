@@ -67,7 +67,7 @@ void WrpScreen::ShowPopup(const bool bShowHide, const char* text)
 	WRPNULL_CHECK(m_pTopPopup)
 	if (bShowHide)
 	{
-		//m_pTopPopup->SetText(text);
+		m_pTopPopup->SetText(text);
 		m_pTopPopup->Show();
 	}
 	else
@@ -85,6 +85,7 @@ void WrpScreen::SetTitle(const char* text)
 void WrpScreen::SetStyle(const WrpStyleType style)
 {
 	WrpStyle::SetStyle(m_pHandler, style);
+	WrpStyle::SetStyle(m_pTopPopup->m_pHandler, style);
 }
 
 } /* WrpGui Namespace */

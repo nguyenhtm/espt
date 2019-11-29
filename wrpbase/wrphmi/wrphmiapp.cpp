@@ -69,7 +69,7 @@ void WrpHmiApp::ThreadWrpHmiApp(void* param)
 	WrpHmiApp* app = (WrpHmiApp*)param;
 	while(app->m_status == eWrpHmiAppStatus::HMIAPP_STATUS_STARTED)
 	{
-		usleep(500*1000);
+		usleep(100*1000);
 	}
 
 	WRPPRINT("%s\n", "WrpHmiApp::ThreadWrpHmiApp() End");

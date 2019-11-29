@@ -23,29 +23,14 @@ WrpPopup::WrpPopup(WrpScreen* parent)
 {
 	WRPPRINT("%s", "WrpPopup::WrpPopup() Begin\n");
 
-	static lv_style_t style1;
-	lv_style_copy(&style1, &lv_style_pretty_color);
-	//style1.body.main_color = LV_COLOR_WHITE;
-	//style1.body.grad_color = LV_COLOR_BLUE;
-	//style1.body.radius = 10;
-	//style1.body.border.color = LV_COLOR_GRAY;
-	//style1.body.border.width = 2;
-	//style1.body.border.opa = LV_OPA_50;
-	//style1.body.padding.left = 5;
-	//style1.body.padding.right = 5;
-	//style1.body.padding.top = 5;
-	//style1.body.padding.bottom = 5;
-	//style1.text.color = LV_COLOR_RED;
-	style1.line.color = LV_COLOR_RED;
-
 	m_pHandler = lv_obj_create(lv_scr_act(), NULL);
-	lv_obj_set_style(m_pHandler, &style1);
+	WrpStyle::SetStyle(m_pHandler, SCREEN_PRETTY_COLOR);
 	SetPos(80, -WRPPOPUP_HEIGHT);
 	SetSize(WRPPOPUP_WIDTH, WRPPOPUP_HEIGHT);
 
 	m_pPopupText = lv_label_create(m_pHandler, NULL);
-	lv_obj_align(m_pPopupText, NULL, LV_ALIGN_CENTER, 0, 0);
-	SetText("Hello");
+	lv_obj_align(m_pPopupText, NULL, LV_ALIGN_IN_LEFT_MID, 0, 0);
+
 	WRPPRINT("%s", "WrpPopup::WrpPopup() End\n");
 }
 
@@ -70,7 +55,9 @@ void WrpPopup::Hide()
 
 void WrpPopup::SetText(const char* text)
 {
-	lv_label_set_text(m_pPopupText, text);
+	char tmp[255];
+	sprintf(tmp, "%s%s", "  ", text);
+	lv_label_set_text(m_pPopupText, tmp);
 }
 
 void WrpPopup::EnableAnimation()
