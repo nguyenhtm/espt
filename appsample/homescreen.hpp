@@ -24,20 +24,29 @@
  * CLASSES
  ********************************************************************************************************/
 
-// forward classes
-//class WrpGui::WrpScreen;
-//class WrpGui::WrpLabel;
-
-class HomeScreen : public WrpMidwAppClient
+class HomeScreen : public WrpHmiAppClient
+                 , public WrpMidwAppClient
 {
 public:
 	HomeScreen(WrpHmiApp* app);
 	~HomeScreen();
+
+	/*
+	 * Call back function called on a screen creation
+	 */
+	void CreateAndShow();
+	/*
+	 * Call back function called on a screen destroy
+	 */
+	void HideAndDestroy();
+	/*
+	 * Call back function called on midw events update
+	 */
+	void Update(eWrpMidwAppStatus status, char* buffer, unsigned int length);
 	// data binding
-	WrpGui::WrpScreen* m_pScrHandler;
 	WrpGui::WrpLabel*  m_pLblProgramStatus;
 	WrpGui::WrpLabel*  m_pLblSettingItem;
-	void Update(eWrpMidwAppStatus status, char* buffer, unsigned int length);
+
 
 protected:
 

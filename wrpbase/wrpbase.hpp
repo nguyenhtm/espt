@@ -23,7 +23,11 @@
 #include <string>
 #include <algorithm>
 
+// data types
 #include <cstdint>
+
+// signals
+#include <csignal>
 
 /********************************************************************************************************
  * DEFINES

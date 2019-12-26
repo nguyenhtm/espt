@@ -4,8 +4,8 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef WRPBASE_WRPSYS_WRPSYS_HPP_
-#define WRPBASE_WRPSYS_WRPSYS_HPP_
+#ifndef WRPBASE_WRPSYS_WRPSYSTEM_HPP_
+#define WRPBASE_WRPSYS_WRPSYSTEM_HPP_
 
 /********************************************************************************************************
  * INCLUDES
@@ -49,4 +49,4 @@ void PrintChipInfo();
 } /* Namespace System */
 } /* Namespace WrpSys */
 
-#endif /* WRPBASE_WRPSYS_WRPSYS_HPP_ */
+#endif /* WRPBASE_WRPSYS_WRPSYSTEM_HPP_ */

@@ -11,7 +11,11 @@
  * INCLUDES
  ********************************************************************************************************/
 #include "wrpbase/wrpbase.hpp"
-
+#include "wrpbase/wrpgui/wrpscreen.hpp"
+#include "wrpbase/wrpgui/wrpcoverflow.hpp"
+#include "wrpbase/wrpgui/wrpwidget.hpp"
+#include "wrpbase/wrphmi/wrphmiapp.hpp"
+#include "wrpbase/wrpmidw/wrpmidwapp.hpp"
 
 /********************************************************************************************************
  * DEFINES
@@ -21,16 +25,36 @@
  * CLASSES
  ********************************************************************************************************/
 
-class LoadingScreen
+class LoadingScreen : public WrpHmiAppClient
+                    , public WrpMidwAppClient
 {
 public:
-	LoadingScreen();
+	/*
+	 * Constructor
+	 */
+	LoadingScreen(WrpHmiApp* app);
+	/*
+	 * Destructor
+	 */
 	~LoadingScreen();
+	/*
+	 * Call back function called on a screen creation
+	 */
+	void CreateAndShow();
+	/*
+	 * Call back function called on a screen destroy
+	 */
+	void HideAndDestroy();
+	/*
+	 * Call back function called on midw events update
+	 */
+	void Update(eWrpMidwAppStatus status, char* buffer, unsigned int length);
 
 protected:
 
 private:
-
+	WrpHmiApp* m_pHmiApp;
+	WrpGui::WrpLabel* m_pLblLoadingStatus;
 };
 
 #endif /* APPSAMPLE_LOADINGSCREEN_HPP_ */

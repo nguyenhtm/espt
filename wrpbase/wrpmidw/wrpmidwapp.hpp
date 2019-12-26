@@ -12,6 +12,10 @@
  ********************************************************************************************************/
 #include "wrpbase/wrpbase.hpp"
 #include "wrpbase/wrpsys/wrpnetwork.hpp"
+#include "wrpbase/wrpsys/wrpsystem.hpp"
+
+using namespace ::WrpSys::Network;
+using namespace ::WrpSys::System;
 
 /********************************************************************************************************
  * DEFINES
@@ -19,8 +23,8 @@
 enum eWrpMidwAppStatus
 {
 	MIDWAPP_STATUS_INIT = 0,
-	MIDWAPP_STATUS_STARTED,
-	MIDWAPP_STATUS_STOPPED,
+	MIDWAPP_STATUS_START,
+	MIDWAPP_STATUS_STOP,
 	MIDWAPP_STATUS_SHUTDOWN,
 	MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED,
 	MIDWAPP_WSCLIENT_STATUS_DATA_CLEAR
@@ -42,10 +46,9 @@ class WrpMidwApp
 public:
 	~WrpMidwApp();
 	static WrpMidwApp* GetInstance();
-	eWrpMidwAppStatus GetStatus();
 	void Attach(WrpMidwAppClient* client);
 	void Detach(WrpMidwAppClient* client);
-	void Start();
+	bool Start();
 	void Stop();
 
 protected:
@@ -53,14 +56,15 @@ protected:
 private:
 	// methods
 	WrpMidwApp();
+	void Notify(char* buffer, unsigned int length);
 	static void ThreadWrpMidwApp(void* param);
-	static void Notify(char* buffer, unsigned int length);
 
 	// members
-	static std::vector<WrpMidwAppClient*> m_listOfObservers;
-	static eWrpMidwAppStatus m_status;
-	WrpSys::Network::WrpWebSocketClient* m_wsClient;
-	static WrpMidwApp* m_pInstance;
+	static WrpMidwApp*  m_pInstance;
+	WrpWebSocketClient* m_pWsClient;
+	eWrpMidwAppStatus   m_status;
+	wrpthread_t         m_threadid;
+	std::vector<WrpMidwAppClient*> m_listOfObservers;
 };
 
 #endif /* WRPMIDW_WRPMIDWAPP_H_ */

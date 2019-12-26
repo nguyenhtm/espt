@@ -48,4 +48,4 @@ private:
 
 } /* Namespace WrpGui */
 
-#endif /* WRPBASE_WRPGUI_WRPSTYLE_HPP_ */
+#endif /* WRPGUI_WRPSTYLE_HPP_ */

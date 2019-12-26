@@ -181,6 +181,7 @@ bool WrpWebSocketClient::Create(const char *uri, const unsigned int port)
 	if (WrpWebSocketClient::nc == NULL)
 	{
 		WRPPRINT("%s\n", "WrpWebSocketClient::Create() Connection Failed!");
+		mg_mgr_free(&WrpWebSocketClient::mgr);
 		return false;
 	}
 	m_status = WSCLIENT_STATUS_CREATED;

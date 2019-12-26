@@ -6,15 +6,11 @@
  ********************************************************************************************************/
 #include "wrpmidwapp.hpp"
 #include "wrpbase/wrpsys/wrpstorage.hpp"
-#include "wrpbase/wrpsys/wrpnetwork.hpp"
-#include "wrpbase/wrpsys/wrpsystem.hpp"
 
 /********************************************************************************************************
  * VARIABLES
  ********************************************************************************************************/
 WrpMidwApp* WrpMidwApp::m_pInstance = NULL;
-eWrpMidwAppStatus WrpMidwApp::m_status = MIDWAPP_STATUS_INIT;
-std::vector<WrpMidwAppClient*> WrpMidwApp::m_listOfObservers = {};
 
 /********************************************************************************************************
  * FUNCTIONS
@@ -32,10 +28,12 @@ WrpMidwApp* WrpMidwApp::GetInstance()
 }
 
 WrpMidwApp::WrpMidwApp()
-: m_wsClient(NULL)
+: m_pWsClient(NULL)
+, m_status(MIDWAPP_STATUS_INIT)
+, m_threadid(NULL)
 {
 	WRPPRINT("%s\n", "WrpMidwApp::WrpMidwApp() Begin");
-	m_wsClient = new WrpSys::Network::WrpWebSocketClient;
+	m_pWsClient = new WrpWebSocketClient;
 	m_listOfObservers.clear();
 	WRPPRINT("%s\n", "WrpMidwApp::WrpMidwApp() End");
 }
@@ -43,7 +41,7 @@ WrpMidwApp::WrpMidwApp()
 WrpMidwApp::~WrpMidwApp()
 {
 	WRPPRINT("%s\n", "WrpMidwApp::~WrpMidwApp() Begin");
-	delete m_wsClient;
+	delete m_pWsClient;
 	m_listOfObservers.clear();
 	WRPPRINT("%s\n", "WrpMidwApp::~WrpMidwApp() End");
 }
@@ -73,39 +71,41 @@ void WrpMidwApp::Notify(char* buffer, unsigned int length)
 {
 	WRPPRINT("%s\n", "WrpMidwApp::Notify() Begin");
 	size_t numOfElements = m_listOfObservers.size();
-	for (int i = 0; i < numOfElements; i++)
+	for (size_t i = 0; i < numOfElements; i++)
 	{
 		m_listOfObservers[i]->Update(m_status, buffer, length);
 	}
 	WRPPRINT("%s\n", "WrpMidwApp::Notify() End");
 }
 
-eWrpMidwAppStatus WrpMidwApp::GetStatus()
+bool WrpMidwApp::Start()
 {
-	return m_status;
-}
-
-void WrpMidwApp::Start()
-{
+	WRPPRINT("%s\n", "WrpMidwApp::Start() Begin");
 	WrpSys::System::PrintChipInfo();
 	WrpSys::Storage::InitNVS(); // must 1st initialization
 	WrpSys::Network::InitWifiStation();
 
-	m_status = MIDWAPP_STATUS_STARTED;
-
-	WrpSys::System::WrpCreateThread(WrpMidwApp::ThreadWrpMidwApp, "WrpMidwApp", this);
+	m_threadid = WrpSys::System::WrpCreateThread(WrpMidwApp::ThreadWrpMidwApp, "WrpMidwApp", this);
+	if (!m_threadid)
+	{
+		WRPPRINT("%s\n", "WrpMidwApp::Start() ThreadWrpMidwApp Started Unsuccessfully!");
+		return false;
+	}
+	m_status = MIDWAPP_STATUS_START;
+	WRPPRINT("%s\n", "WrpMidwApp::Start() End");
+	return true;
 }
 
 void WrpMidwApp::Stop()
 {
-	m_status = MIDWAPP_STATUS_STOPPED;
+	m_status = MIDWAPP_STATUS_STOP;
 	usleep(2000*1000);
 }
 
 void WrpMidwApp::ThreadWrpMidwApp(void* param)
 {
 	WRPPRINT("%s\n", "WrpMidwApp::ThreadWrpMidwApp() Begin");
-	bool bEnableLoop = true;
+
 	static eWrpMidwAppStatus preStatus = MIDWAPP_STATUS_INIT;
 	char buf[255]={0};
 
@@ -115,43 +115,38 @@ void WrpMidwApp::ThreadWrpMidwApp(void* param)
 	usleep(5000*1000);
 
 #if LVGL_PC_SIMU
-	app->m_wsClient->Create("127.0.0.1", 8000);
+	app->m_pWsClient->Create("127.0.0.1", 8000);
 #elif LVGL_ESP32_ILI9341
-	app->m_wsClient->Create("172.20.10.5", 8000);
+	app->m_pWsClient->Create("172.20.10.5", 8000);
 #endif
 
-	while(bEnableLoop)
+	while(app->m_status != MIDWAPP_STATUS_STOP)
 	{
 		// MidwApp WebSocket client polling incoming data of web socket client in 100ms
-		int len = app->m_wsClient->Receive(buf, sizeof(buf));
+		int len = app->m_pWsClient->Receive(buf, sizeof(buf));
 		if (len > 0 )
 		{
-			m_status = MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED;
-			Notify(buf, len);
+			app->m_status = MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED;
+			app->Notify(buf, len);
 			usleep(100*1000);
 			WRPPRINT("%s\n", "WrpMidwApp::ThreadWrpMidwApp() MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED");
-			m_status = MIDWAPP_WSCLIENT_STATUS_DATA_CLEAR;
-			app->m_wsClient->ClearBuffer();
+			app->m_status = MIDWAPP_WSCLIENT_STATUS_DATA_CLEAR;
+			app->m_pWsClient->ClearBuffer();
 		}
 
 		// MidwApp Status
-		if (preStatus == m_status)
+		if (preStatus == app->m_status)
 		{
 			continue;
 		}
-		preStatus = m_status;
-		switch(m_status)
+		preStatus = app->m_status;
+		switch(app->m_status)
 		{
 			case MIDWAPP_STATUS_INIT:
-			case MIDWAPP_STATUS_STARTED:
+			case MIDWAPP_STATUS_START:
+			case MIDWAPP_STATUS_STOP:
 			{
-				Notify(NULL, 0);
-			}
-			break;
-			case MIDWAPP_STATUS_STOPPED:
-			{
-				Notify(NULL, 0);
-				bEnableLoop = false;
+				app->Notify(NULL, 0);
 			}
 			break;
 			default:

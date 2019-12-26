@@ -26,21 +26,21 @@ using namespace ::WrpSys::System;
  * CLASSES
  ********************************************************************************************************/
 
+class WrpMidwState;
+
 class WrpMidw
 {
 public:
 	WrpMidw();
 	~WrpMidw();
-
-	void buildDisplay();
-	void buildNetwork();
-	void buildStorage();
-	void buildSystem();
+	void SetState(WrpMidwState* state);
+	void ReadConfig();
 
 protected:
 
 private:
 	WrpWebSocketClient* m_pWsClient;
+	WrpMidwState* m_pCurrentState;
 };
 
 class WrpMidwBuilder
@@ -48,9 +48,10 @@ class WrpMidwBuilder
 public:
 	WrpMidwBuilder(){};
 	virtual ~WrpMidwBuilder(){};
+	virtual void InitStorage() = 0;
 	virtual void BuildDisplay() = 0;
 	virtual void BuildNetwork() = 0;
-	virtual void BuildStorage() = 0;
+
 	virtual void BuildSystem() = 0;
 	virtual WrpMidw* GetMidwApp() = 0;
 protected:
@@ -65,10 +66,9 @@ public:
 	WrpMidwESP32();
 	~WrpMidwESP32();
 
-	void BuildStorage();
+	void InitStorage();
 	void BuildDisplay();
 	void BuildNetwork();
-
 	void BuildSystem();
 	WrpMidw* GetMidwApp();
 
@@ -84,9 +84,9 @@ public:
 	WrpMidwSIM();
 	~WrpMidwSIM();
 
+	void InitStorage();
 	void BuildDisplay();
 	void BuildNetwork();
-	void BuildStorage();
 	void BuildSystem();
 	WrpMidw* GetMidwApp();
 

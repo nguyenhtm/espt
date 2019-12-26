@@ -19,17 +19,13 @@ namespace WrpGui {
  ********************************************************************************************************/
 
 WrpLabel::WrpLabel(WrpScreen* parent)
-: m_pParentScreen(parent)
+: WrpWidget(NULL)
 {
 	WRPPRINT("%s", "WrpLabel::WrpLabel() Begin\n");
+	m_pParentScreen = parent;
 	if (parent)
 	{
 		m_pHandler = lv_label_create(parent->m_pHandler, NULL);
-	}
-	else
-	{
-		// this label is a child of current loaded screen
-		m_pHandler = lv_label_create(lv_disp_get_scr_act(NULL), NULL);
 	}
 	lv_obj_set_size(m_pHandler, WRPLABEL_WIDTH, WRPLABEL_HEIGHT);
 	WRPPRINT("%s", "WrpLabel::WrpLabel() End\n");

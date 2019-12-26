@@ -16,6 +16,19 @@ WrpHmiApp* WrpHmiApp::m_pInstance = NULL;
 /********************************************************************************************************
  * FUNCTIONS
  ********************************************************************************************************/
+WrpHmiAppClient::WrpHmiAppClient()
+: m_pScreenHandle(NULL)
+, m_ScreenId(0)
+, m_status(HMIAPP_CLIENT_UNLOADED)
+{
+
+}
+
+WrpHmiAppClient::~WrpHmiAppClient()
+{
+
+}
+
 WrpHmiApp* WrpHmiApp::GetInstance()
 {
 	WRPPRINT("%s\n", "WrpHmiApp::GetInstance() Begin");
@@ -85,16 +98,60 @@ void WrpHmiApp::AddScreen(WrpGui::WrpScreen* handler, const uint16_t id)
 
 void WrpHmiApp::LoadScreen(const uint16_t id)
 {
-	std::vector<tWrpHmiScreen*>::iterator it;
-	for (it = m_listOfScreens.begin(); it != m_listOfScreens.end(); ++it)
+	WRPPRINT("%s\n", "WrpHmiApp::LoadScreen() Begin");
+
+	std::vector<WrpHmiAppClient*>::iterator it;
+
+	// destroy and hide the current screen
+	for (it = m_listOfObservers.begin(); it != m_listOfObservers.end(); ++it)
 	{
-		if ((*it)->_scrId == id)
+		if (((*it)->GetScreenStatus() == HMIAPP_CLIENT_LOADED) && ((*it)->GetClientId() != id))
 		{
 			break;
 		}
 	}
-	if (it != m_listOfScreens.end())
+	if (it != m_listOfObservers.end())
 	{
-		(*it)->_scrHandler->Load();
+		(*it)->HideAndDestroy();
+		(*it)->SetScreenStatus(HMIAPP_CLIENT_UNLOADED);
 	}
+
+	// then create and show the screen with id
+	for (it = m_listOfObservers.begin(); it != m_listOfObservers.end(); ++it)
+	{
+		if ((*it)->GetClientId() == id)
+		{
+			break;
+		}
+	}
+	if (it != m_listOfObservers.end())
+	{
+		(*it)->CreateAndShow();
+		(*it)->GetScreenHandle()->Load();
+		(*it)->SetScreenStatus(HMIAPP_CLIENT_LOADED);
+	}
+
+	WRPPRINT("%s\n", "WrpHmiApp::LoadScreen() End");
+}
+
+void WrpHmiApp::Attach(WrpHmiAppClient* client, const uint16_t id)
+{
+	WRPNULL_CHECK(client)
+	WRPPRINT("%s\n", "WrpHmiApp::Attach() Begin");
+	client->SetClientId(id);
+	m_listOfObservers.push_back(client);
+	WRPPRINT("%s\n", "WrpHmiApp::Attach() End");
+}
+
+void WrpHmiApp::Detach(WrpHmiAppClient* client)
+{
+	WRPNULL_CHECK(client)
+	WRPPRINT("%s\n", "WrpHmiApp::Detach() Begin");
+	std::vector<WrpHmiAppClient*>::iterator it;
+	it = std::find(m_listOfObservers.begin(), m_listOfObservers.end(), client);
+	if (it != m_listOfObservers.end())
+	{
+		m_listOfObservers.erase(it);
+	}
+	WRPPRINT("%s\n", "WrpHmiApp::Detach() End");
 }

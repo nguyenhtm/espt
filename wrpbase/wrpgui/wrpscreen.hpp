@@ -25,10 +25,11 @@ namespace WrpGui {
 
 // Forward Classes
 class WrpLabel;
+class WrpWidget;
 class WrpPopup;
 
 // Class WrpScreen
-class WrpScreen : public WrpGui, public WrpStyle
+class WrpScreen : public WrpStyle
 {
 public:
 	WrpScreen(const bool bMasterScreen=false);
@@ -43,6 +44,9 @@ protected:
 
 private:
 	// methods
+	wrpgui_handle_t* m_pHandler;
+	friend class WrpWidget;
+	friend class WrpLabel;
 
 	// members
 	bool      m_bMasterScreen;

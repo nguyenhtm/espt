@@ -8,6 +8,7 @@
 #include "wrpbase/wrphmi/wrphmiapp.hpp"
 #include "wrpbase/wrpmidw/wrpmidwapp.hpp"
 #include "homescreen.hpp"
+#include "loadingscreen.hpp"
 #include "settingscreen.hpp"
 
 /********************************************************************************************************
@@ -20,11 +21,13 @@
 
 void appsample()
 {
+	uint8_t retry = 0;
 	WrpMidwApp* midwApp = WrpMidwApp::GetInstance();
-	midwApp->Start();
-	if (midwApp->GetStatus() != eWrpMidwAppStatus::MIDWAPP_STATUS_STARTED)
+	while ((retry < 3) && (!midwApp->Start()))
 	{
-		usleep(1000*1000);
+		retry++;
+		usleep(300*1000);
+		WRPPRINT("%s%d\n", "AppSample() WrpMidwApp Start Retry ", retry);
 	}
 
 	WrpHmiApp* hmiApp = WrpHmiApp::GetInstance();
@@ -35,13 +38,17 @@ void appsample()
 	}
 
 	HomeScreen*    homeScreen    = new HomeScreen(hmiApp);
+	LoadingScreen* loadingScreen = new LoadingScreen(hmiApp);
 	SettingScreen* settingScreen = new SettingScreen(hmiApp);
-	hmiApp->AddScreen(homeScreen->m_pScrHandler, HOMESCREEN);
-	hmiApp->AddScreen(settingScreen->m_pScrHandler, SETTINGSCREEN);
-	hmiApp->LoadScreen(HOMESCREEN);
+	hmiApp->Attach(homeScreen, HOMESCREEN);
+	hmiApp->Attach(settingScreen, SETTINGSCREEN);
+	hmiApp->Attach(loadingScreen, LOADINGSCREEN);
+
+	hmiApp->LoadScreen(LOADINGSCREEN);
 
 	midwApp->Attach(homeScreen);
 	midwApp->Attach(settingScreen);
+	midwApp->Attach(loadingScreen);
 
     while(1)
     {
@@ -54,5 +61,6 @@ void appsample()
 	delete midwApp;
 	delete homeScreen;
 	delete settingScreen;
+	delete loadingScreen;
 	delete hmiApp;
 }

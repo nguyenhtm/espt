@@ -1,5 +1,5 @@
 Purpose:
-Create a tutorial sample app which can be run on ESP32 platform using PICO Kit and on Windows platform using SDL Simulator
+Create a tutorial sample app which can be run on ESP32 platform using ESP-WROVER-KIT V3 Kit and on Windows platform using SDL Simulator
 Video: https://www.youtube.com/watch?v=6uVoYXjuBhI
 
 Step1

@@ -18,12 +18,26 @@ namespace Storage {
 /********************************************************************************************************
  * DEFINES
  ********************************************************************************************************/
+#define STORAGE_STATUS_INIT       (0x00)
+#define STORAGE_STATUS_INITNVS    (0x01)
+#define STORAGE_STATUS_INITSPIFFS (0x02)
+#define STORAGE_STATUS_INITSDCARD (0x04)
 
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
+extern uint32_t m_uStorageStatus;
 
-void InitNVS();
+bool InitNVS();
+
+void DeInitNVS();
+
+bool InitSPIFFS();
+
+void DeInitSPIFFS();
+
+void InitSDCard();
+
 
 } /* Namespace Storage */
 } /* Namespace WrpSys */

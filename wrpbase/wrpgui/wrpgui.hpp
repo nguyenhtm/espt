@@ -48,30 +48,6 @@ typedef lv_coord_t   wrpgui_size_t;
  * CLASSES
  ********************************************************************************************************/
 
-class WrpGui
-{
-public:
-	WrpGui();
-	~WrpGui();
-	wrpgui_pos_t  GetX();
-	wrpgui_pos_t  GetY();
-	wrpgui_size_t GetW();
-	wrpgui_size_t GetH();
-	void SetX(const wrpgui_pos_t x);
-	void SetY(const wrpgui_pos_t y);
-	void SetW(const wrpgui_size_t w);
-	void SetH(const wrpgui_size_t h);
-	void SetPos(const wrpgui_pos_t x, const wrpgui_pos_t y);
-	void SetSize(const wrpgui_size_t w, const wrpgui_size_t h);
-
-	wrpgui_handle_t* m_pHandler;
-
-protected:
-
-private:
-
-};
-
 } /* Namespace WrpGui */
 
 #endif /* WRPGUI_WRPGUI_HPP_ */

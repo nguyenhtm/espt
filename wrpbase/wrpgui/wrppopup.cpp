@@ -19,12 +19,11 @@ namespace WrpGui {
 // WrpPopup Class Methods
 
 WrpPopup::WrpPopup(WrpScreen* parent)
-: m_pPopupText(NULL)
+: WrpWidget(parent)
 {
 	WRPPRINT("%s", "WrpPopup::WrpPopup() Begin\n");
 
-	m_pHandler = lv_obj_create(lv_scr_act(), NULL);
-	WrpStyle::SetStyle(m_pHandler, SCREEN_PRETTY_COLOR);
+	m_style.SetStyle(m_pHandler, BUTTON_TGL_RELEASE);
 	SetPos(80, -WRPPOPUP_HEIGHT);
 	SetSize(WRPPOPUP_WIDTH, WRPPOPUP_HEIGHT);
 
@@ -36,7 +35,7 @@ WrpPopup::WrpPopup(WrpScreen* parent)
 
 WrpPopup::~WrpPopup()
 {
-	lv_obj_del(m_pHandler);
+	//lv_obj_del(m_pHandler);
 }
 
 void WrpPopup::Show()

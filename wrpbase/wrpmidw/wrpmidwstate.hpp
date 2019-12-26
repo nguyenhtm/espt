@@ -31,7 +31,7 @@ class WrpMidwState
 {
 public:
 	WrpMidwState(){};
-	~WrpMidwState(){};
+	virtual ~WrpMidwState(){};
 	virtual void Handle() = 0;
 
 protected:

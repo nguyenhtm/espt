@@ -29,8 +29,12 @@
 #include "esp_wifi.h"
 #include "esp_event_loop.h"
 #include "nvs_flash.h"
+#include "esp_spiffs.h"
 #include "esp_websocket_client.h"
 #endif
+
+#define WRPESP_WIFI_SSID           "iPhone"
+#define WRPESP_WIFI_PASS           "123321123"
 
 /********************************************************************************************************
  * CLASSES

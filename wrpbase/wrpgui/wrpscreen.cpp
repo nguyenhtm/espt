@@ -42,7 +42,7 @@ WrpScreen::WrpScreen(const bool bMasterScreen)
 	m_pMenuTitle = new WrpLabel(this);
 	m_pMenuTitle->SetPos(WRPSCREEN_MENU_POSX, WRPSCREEN_MENU_POSY);
 
-    WrpStyle::SetStyle(m_pHandler, SCREEN_PRETTY_COLOR);
+    WrpStyle::SetStyle(m_pHandler, BUTTON_TGL_RELEASE);
     m_pTopPopup = new WrpPopup(this);
     WRPPRINT("WrpScreen::WrpScreen() bMaster=%d End\n", bMasterScreen);
 }

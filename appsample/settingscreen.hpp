@@ -13,6 +13,8 @@
 #include "wrpbase/wrpbase.hpp"
 #include "wrpbase/wrpgui/wrpscreen.hpp"
 #include "wrpbase/wrpgui/wrplabel.hpp"
+#include "wrpbase/wrpgui/wrpcoverflow.hpp"
+
 #include "wrpbase/wrphmi/wrphmiapp.hpp"
 #include "wrpbase/wrpmidw/wrpmidwapp.hpp"
 
@@ -24,17 +26,23 @@
  * CLASSES
  ********************************************************************************************************/
 
-// forward classes
-//class WrpGui::WrpScreen;
-//class WrpGui::WrpLabel;
-
-class SettingScreen : public WrpMidwAppClient
+class SettingScreen : public WrpHmiAppClient
+                    , public WrpMidwAppClient
 {
 public:
 	SettingScreen(WrpHmiApp* app);
 	~SettingScreen();
+	/*
+	 * Call back function called on a screen creation
+	 */
+	void CreateAndShow();
+	/*
+	 * Call back function called on a screen destroy
+	 */
+	void HideAndDestroy();
 	// data binding
-	WrpGui::WrpScreen* m_pScrHandler;
+
+	WrpGui::WrpWidget* m_pMenuItem[5];
 	void Update(eWrpMidwAppStatus, char* buffer, unsigned int length);
 
 protected:
@@ -42,6 +50,7 @@ protected:
 private:
 	WrpHmiApp* m_pHmiApp;
 	WrpGui::WrpLabel*  m_pLblBackItem;
+	WrpGui::WrpCoverFlow m_anim;
 };
 
 #endif /* APPSAMPLE_SETTINGSCREEN_HPP_ */

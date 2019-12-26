@@ -15,21 +15,21 @@
  * FUNCTIONS
  ********************************************************************************************************/
 HomeScreen::HomeScreen(WrpHmiApp* app)
-: m_pScrHandler(NULL)
-, m_pLblProgramStatus(NULL)
+: m_pLblProgramStatus(NULL)
+, m_pLblSettingItem(NULL)
 , m_pHmiApp(app)
 {
 	WRPPRINT("%s", "HomeScreen::HomeScreen() Begin\n");
 
 	// homescreen is a master screen
-	m_pScrHandler = new WrpGui::WrpScreen(true);
-	m_pScrHandler->SetTitle("Home");
+	m_pScreenHandle = new WrpGui::WrpScreen(true);
+	m_pScreenHandle->SetTitle("Home");
 	// homescreen has one label program status
-	m_pLblProgramStatus = new WrpGui::WrpLabel(m_pScrHandler);
+	m_pLblProgramStatus = new WrpGui::WrpLabel(m_pScreenHandle);
 	m_pLblProgramStatus->SetPos(80, 80);
 	m_pLblProgramStatus->SetText("");
 	// homescreen has one setting item
-	m_pLblSettingItem = new WrpGui::WrpLabel(m_pScrHandler);
+	m_pLblSettingItem = new WrpGui::WrpLabel(m_pScreenHandle);
 	m_pLblSettingItem->SetPos(260, 10);
 	m_pLblSettingItem->SetText("Setting");
 
@@ -38,7 +38,21 @@ HomeScreen::HomeScreen(WrpHmiApp* app)
 
 HomeScreen::~HomeScreen()
 {
-	delete m_pScrHandler;
+
+}
+
+void HomeScreen::CreateAndShow()
+{
+	WRPPRINT("%s", "HomeScreen::CreateAndShow() Begin\n");
+	// homescreen is a master screen, must create in constructor
+	WRPPRINT("%s", "HomeScreen::CreateAndShow() End\n");
+}
+
+void HomeScreen::HideAndDestroy()
+{
+	WRPPRINT("%s", "HomeScreen::HideAndDestroy() Begin\n");
+	// homescreen is a master screen, must not delete it
+	WRPPRINT("%s", "HomeScreen::HideAndDestroy() End\n");
 }
 
 void HomeScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int length)
@@ -58,35 +72,35 @@ void HomeScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int len
 			}
 			else if (!strcmp(buffer, "shutdown"))
 			{
-				m_pScrHandler->ShowPopup(true, "Shutting Down!");
+				m_pScreenHandle->ShowPopup(true, "Shutting Down!");
 			}
 			else if(!strcmp(buffer, "SCREEN_PLAIN_COLOR"))
 			{
-				m_pScrHandler->SetStyle(WrpGui::SCREEN_PLAIN_COLOR);
+				m_pScreenHandle->SetStyle(WrpGui::SCREEN_PLAIN_COLOR);
 			}
 			else if(!strcmp(buffer, "SCREEN_PRETTY"))
 			{
-				m_pScrHandler->SetStyle(WrpGui::SCREEN_PRETTY);
+				m_pScreenHandle->SetStyle(WrpGui::SCREEN_PRETTY);
 			}
 			else if(!strcmp(buffer, "SCREEN_PRETTY_COLOR"))
 			{
-				m_pScrHandler->SetStyle(WrpGui::SCREEN_PRETTY_COLOR);
+				m_pScreenHandle->SetStyle(WrpGui::SCREEN_PRETTY_COLOR);
 			}
 			else if(!strcmp(buffer, "BUTTON_PRESS"))
 			{
-				m_pScrHandler->SetStyle(WrpGui::BUTTON_PRESS);
+				m_pScreenHandle->SetStyle(WrpGui::BUTTON_PRESS);
 			}
 			else if(!strcmp(buffer, "BUTTON_RELEASE"))
 			{
-				m_pScrHandler->SetStyle(WrpGui::BUTTON_RELEASE);
+				m_pScreenHandle->SetStyle(WrpGui::BUTTON_RELEASE);
 			}
 			else if(!strcmp(buffer, "BUTTON_TGL_RELEASE"))
 			{
-				m_pScrHandler->SetStyle(WrpGui::BUTTON_TGL_RELEASE);
+				m_pScreenHandle->SetStyle(WrpGui::BUTTON_TGL_RELEASE);
 			}
 			else if(!strcmp(buffer, "BUTTON_TGL_PRESS"))
 			{
-				m_pScrHandler->SetStyle(WrpGui::BUTTON_TGL_PRESS);
+				m_pScreenHandle->SetStyle(WrpGui::BUTTON_TGL_PRESS);
 			}
 			else if (strcmp(buffer, "back"))
 			{

@@ -29,7 +29,7 @@ WrpMidwInit::~WrpMidwInit()
 
 void WrpMidwInit::Handle()
 {
-
+	m_context->ReadConfig();
 }
 
 WrpWifiConnectedState::WrpWifiConnectedState(WrpMidw* context)

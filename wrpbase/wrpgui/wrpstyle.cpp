@@ -23,7 +23,7 @@ WrpStyle::WrpStyle()
 	WRPPRINT("%s\n", "WrpStyle::WrpStyle() Begin");
 	lv_style_copy(&m_style, &lv_style_scr);
 	lv_style_copy(&m_default, &lv_style_scr);
-    WRPPRINT("%s\n", "WrpScreen::WrpScreen() End");
+    WRPPRINT("%s\n", "WrpStyle::WrpStyle() End");
 }
 
 WrpStyle::~WrpStyle()
