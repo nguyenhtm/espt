@@ -36,8 +36,9 @@ bool InitSPIFFS();
 
 void DeInitSPIFFS();
 
-void InitSDCard();
+bool InitSDCard();
 
+void DeInitSDCard();
 
 } /* Namespace Storage */
 } /* Namespace WrpSys */

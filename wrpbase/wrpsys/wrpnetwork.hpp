@@ -21,6 +21,11 @@ namespace Network {
  * DEFINES
  ********************************************************************************************************/
 
+#define NETWORK_STATUS_INIT          (0x00)
+#define NETWORK_STATUS_NOTCONNECTED  (0x01)
+#define NETWORK_STATUS_CONNECTING    (0x02)
+#define NETWORK_STATUS_CONNECTED     (0x03)
+
 enum eWrpWebSocketStatus
 {
 	WSCLIENT_STATUS_INIT = 0,
@@ -28,15 +33,18 @@ enum eWrpWebSocketStatus
 	WSCLIENT_STATUS_CONNECTED,
 	WSCLIENT_STATUS_CONNECTED_ERROR,
 	WSCLIENT_STATUS_POLLED,
-	WSCLIENT_STATUS_DATA_RECEIVED,
-	WSCLIENT_STATUS_CLOSED
+	WSCLIENT_STATUS_DATA_RECEIVED
 };
 
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
 
+extern uint32_t m_uNetworkStatus;
+
 void InitWifiStation();
+
+void DeInitWifiStation();
 
 class WrpWebSocketClient
 {
@@ -45,7 +53,7 @@ public:
 	virtual ~WrpWebSocketClient();
 	bool Create(const char *uri, const unsigned int port);
 	void Close();
-	int Receive(char* buf, int size);
+	uint32_t Receive(char* buf, int size);
 	void ClearBuffer();
 
 	static char  m_data[255];

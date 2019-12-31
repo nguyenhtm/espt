@@ -46,12 +46,13 @@ void wrpsystest(void)
 	{
 		usleep(1000*1000);
 	}
-
+/*
 	WrpMidwBuilder *midwAppBuilder = new WrpMidwESP32();
 	WrpMidwDirector *ctr = new WrpMidwDirector(midwAppBuilder);
 	ctr->BuildWrpMidwApp();
 	WrpMidw* p = ctr->GetMidwApp();
-	p->SetState(new WrpMidwInit(p));
+	p->SetState(new WrpMidwInitState(p));
+	*/
 }
 
 } /* Namespace WrpTest */

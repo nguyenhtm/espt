@@ -11,11 +11,11 @@
  * INCLUDES
  ********************************************************************************************************/
 #include "wrpbase/wrpbase.hpp"
-#include "wrpbase/wrpsys/wrpnetwork.hpp"
-#include "wrpbase/wrpsys/wrpsystem.hpp"
+//#include "wrpbase/wrpsys/wrpnetwork.hpp"
+//#include "wrpbase/wrpsys/wrpsystem.hpp"
 
-using namespace ::WrpSys::Network;
-using namespace ::WrpSys::System;
+//using namespace ::WrpSys::Network;
+//using namespace ::WrpSys::System;
 
 /********************************************************************************************************
  * DEFINES
@@ -26,34 +26,21 @@ using namespace ::WrpSys::System;
  * CLASSES
  ********************************************************************************************************/
 
-class WrpMidwState;
+// Forward class
+class WrpMidwApp;
 
-class WrpMidw
-{
-public:
-	WrpMidw();
-	~WrpMidw();
-	void SetState(WrpMidwState* state);
-	void ReadConfig();
-
-protected:
-
-private:
-	WrpWebSocketClient* m_pWsClient;
-	WrpMidwState* m_pCurrentState;
-};
-
+// WrpMidwBuilder Class
 class WrpMidwBuilder
 {
 public:
 	WrpMidwBuilder(){};
 	virtual ~WrpMidwBuilder(){};
-	virtual void InitStorage() = 0;
+	virtual void BuildStorage() = 0;
 	virtual void BuildDisplay() = 0;
 	virtual void BuildNetwork() = 0;
-
 	virtual void BuildSystem() = 0;
-	virtual WrpMidw* GetMidwApp() = 0;
+	virtual WrpMidwApp* GetMidwApp() = 0;
+
 protected:
 
 private:
@@ -66,16 +53,16 @@ public:
 	WrpMidwESP32();
 	~WrpMidwESP32();
 
-	void InitStorage();
+	void BuildStorage();
 	void BuildDisplay();
 	void BuildNetwork();
 	void BuildSystem();
-	WrpMidw* GetMidwApp();
+	WrpMidwApp* GetMidwApp();
 
 protected:
 
 private:
-	WrpMidw* m_pMidwApp;
+	WrpMidwApp* m_pMidwApp;
 };
 
 class WrpMidwSIM : public WrpMidwBuilder
@@ -84,16 +71,16 @@ public:
 	WrpMidwSIM();
 	~WrpMidwSIM();
 
-	void InitStorage();
+	void BuildStorage();
 	void BuildDisplay();
 	void BuildNetwork();
 	void BuildSystem();
-	WrpMidw* GetMidwApp();
+	WrpMidwApp* GetMidwApp();
 
 protected:
 
 private:
-	WrpMidw* m_pMidwApp;
+	WrpMidwApp* m_pMidwApp;
 };
 
 class WrpMidwDirector
@@ -102,7 +89,7 @@ public:
 	WrpMidwDirector(WrpMidwBuilder *builder);
 	~WrpMidwDirector();
 	void BuildWrpMidwApp();
-	WrpMidw* GetMidwApp();
+	WrpMidwApp* GetMidwApp();
 
 protected:
 

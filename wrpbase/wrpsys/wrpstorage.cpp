@@ -48,7 +48,7 @@ bool InitNVS()
     	}
     }
 #endif
-    m_uStorageStatus = STORAGE_STATUS_INITNVS;
+    m_uStorageStatus |= STORAGE_STATUS_INITNVS;
 	WRPPRINT("%s\n", "WrpSys::Storage::InitNVS() End");
 	return true;
 }
@@ -66,6 +66,7 @@ void DeInitNVS()
    		WRPPRINT("%s\n", "WrpSys::Storage::DeInitNVS() NVS partition was not initialized!");
     }
 #endif
+    m_uStorageStatus &= ~STORAGE_STATUS_INITNVS;
 	WRPPRINT("%s\n", "WrpSys::Storage::DeInitNVS() End");
 }
 
@@ -103,7 +104,7 @@ bool InitSPIFFS()
         return false;
     }
 #endif
-    m_uStorageStatus = STORAGE_STATUS_INITSPIFFS;
+    m_uStorageStatus |= STORAGE_STATUS_INITSPIFFS;
 	WRPPRINT("%s\n", "WrpSys::Storage::InitSPIFFS() End");
 	return true;
 }
@@ -120,13 +121,23 @@ void DeInitSPIFFS()
    		return;
     }
 #endif
+    m_uStorageStatus &= ~STORAGE_STATUS_INITSPIFFS;
 	WRPPRINT("%s\n", "WrpSys::Storage::DeInitSPIFFS() End");
 }
 
-void InitSDCard()
+bool InitSDCard()
 {
 	WRPPRINT("%s\n", "WrpSys::Storage::InitSDCard() Begin");
+    m_uStorageStatus |= STORAGE_STATUS_INITSDCARD;
 	WRPPRINT("%s\n", "WrpSys::Storage::InitSDCard() End");
+	return true;
+}
+
+void DeInitSDCard()
+{
+	WRPPRINT("%s\n", "WrpSys::Storage::DeInitSDCard() Begin");
+    m_uStorageStatus &= ~STORAGE_STATUS_INITSDCARD;
+	WRPPRINT("%s\n", "WrpSys::Storage::DeInitSDCard() End");
 }
 
 } /* Namespace Storage */

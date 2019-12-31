@@ -6,7 +6,10 @@
  ********************************************************************************************************/
 #include "wrpmidwstate.hpp"
 #include "wrpmidwbuilder.hpp"
+#include "wrpmidwapp.hpp"
 #include "wrpbase/wrpsys/wrpstorage.hpp"
+#include "wrpbase/wrpsys/wrpnetwork.hpp"
+#include "wrpbase/wrpsys/wrpsystem.hpp"
 
 /********************************************************************************************************
  * VARIABLES
@@ -14,52 +17,107 @@
 
 
 /********************************************************************************************************
- * FUNCTIONS
+ * FUNCTIONS - WrpMidwInitState
  ********************************************************************************************************/
-WrpMidwInit::WrpMidwInit(WrpMidw* context)
-: m_context(context)
+void WrpMidwInitState::Handle()
 {
-
-}
-
-WrpMidwInit::~WrpMidwInit()
-{
-
-}
-
-void WrpMidwInit::Handle()
-{
+	WRPPRINT("%s\n", "WrpMidwInitState::Handle() Begin");
 	m_context->ReadConfig();
+	m_context->m_pWsClient = new WrpWebSocketClient;
+#if LVGL_PC_SIMU
+	m_context->GetWSClient()->Create("127.0.0.1", 8000);
+#elif LVGL_ESP32_ILI9341
+	m_context->GetWSClient()->Create("172.20.10.5", 8000);
+#endif
+	m_context->m_status = MIDWAPP_STATUS_START;
+	m_context->m_threadid = WrpSys::System::WrpCreateThread(WrpMidwApp::ThreadWrpMidwApp, "WrpMidwApp", m_context);
+	if (!m_context->m_threadid)
+	{
+		WRPPRINT("%s\n", "WrpMidwInitState::Handle() WrpCreateThread Failed!");
+		m_context->m_status = MIDWAPP_STATUS_STOP;
+		return;
+	}
+	WRPPRINT("%s\n", "WrpMidwInitState::Handle() End");
+	m_context->SetState(new WrpMidwReadyState(m_context));
 }
 
-WrpWifiConnectedState::WrpWifiConnectedState(WrpMidw* context)
-: m_context(context)
+/********************************************************************************************************
+ * FUNCTIONS - WrpMidwDeInitState
+ ********************************************************************************************************/
+void WrpMidwDeInitState::Handle()
 {
-
+	WRPPRINT("%s\n", "WrpMidwDeInitState::Handle() Begin");
+	m_context->m_status = MIDWAPP_STATUS_STOP;
+	delete m_context->m_pWsClient;
+	WRPPRINT("%s\n", "WrpMidwDeInitState::Handle() End");
 }
 
-WrpWifiConnectedState::~WrpWifiConnectedState()
+/********************************************************************************************************
+ * FUNCTIONS - WrpMidwReadyState
+ ********************************************************************************************************/
+void WrpMidwReadyState::Handle()
 {
+	WRPPRINT("%s\n", "WrpMidwReadyState::Handle() Begin");
+    while(1)
+    {
+    	// for display
+        usleep(100*1000); // 100ms
+        lv_task_handler();
 
+        // for wifi connection
+    	if (WrpSys::Network::m_uNetworkStatus != NETWORK_STATUS_CONNECTED)
+    	{
+    		//TODO: display no wifi icon
+    	}
+
+    	// for ws server connection
+    	if (m_context->GetWSClient()->m_status == WSCLIENT_STATUS_CONNECTED_ERROR)
+    	{
+    		WRPPRINT("%s\n", "WrpMidwReadyState::Handle() AAAAAAAAAAAAAAAAAAAAAA");
+    		m_context->SetState(new WrpMidwWsNotConnectedState(m_context));
+
+    	}
+    }
+	WRPPRINT("%s\n", "WrpMidwReadyState::Handle() End");
 }
 
+/********************************************************************************************************
+ * FUNCTIONS - WrpWifiConnectedState
+ ********************************************************************************************************/
 void WrpWifiConnectedState::Handle()
 {
-	//m_context->m_pWsClient->Create()
+	WRPPRINT("%s\n", "WrpWifiConnectedState::Handle() Begin");
+
+
+	WRPPRINT("%s\n", "WrpWifiConnectedState::Handle() End");
 }
 
-WrpWifiDisConnectedState::WrpWifiDisConnectedState(WrpMidw* context)
-: m_context(context)
+/********************************************************************************************************
+ * FUNCTIONS - WrpWifiNotConnectedState
+ ********************************************************************************************************/
+void WrpWifiNotConnectedState::Handle()
 {
-
+	WRPPRINT("%s\n", "WrpWifiNOTConnectedState::Handle() Begin");
+	sleep(3);
+	WRPPRINT("%s\n", "WrpWifiNOTConnectedState::Handle() End");
+	m_context->SetState(new WrpMidwReadyState(m_context));
 }
 
-WrpWifiDisConnectedState::~WrpWifiDisConnectedState()
+/********************************************************************************************************
+ * FUNCTIONS - WrpMidwWsConnectedState
+ ********************************************************************************************************/
+void WrpMidwWsConnectedState::Handle()
 {
-
+	WRPPRINT("%s\n", "WrpMidwWsConnectedState::Handle() Begin");
+	WRPPRINT("%s\n", "WrpMidwWsConnectedState::Handle() End");
 }
 
-void WrpWifiDisConnectedState::Handle()
+/********************************************************************************************************
+ * FUNCTIONS - WrpMidwWsNotConnectedState
+ ********************************************************************************************************/
+void WrpMidwWsNotConnectedState::Handle()
 {
-	//m_context->m_pWsClient->Close();
+	WRPPRINT("%s\n", "WrpMidwWsNotConnectedState::Handle() Begin");
+	WRPPRINT("%s\n", "WrpMidwWsNotConnectedState::Handle() End");
 }
+

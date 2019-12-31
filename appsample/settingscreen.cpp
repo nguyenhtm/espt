@@ -67,13 +67,10 @@ void SettingScreen::HideAndDestroy()
 
 void SettingScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int length)
 {
+	WRPPRINT("%s", "SettingScreen::Update() Begin\n");
+
 	switch(status)
 	{
-		case MIDWAPP_STATUS_INIT:
-		case MIDWAPP_STATUS_START:
-		{
-		}
-		break;
 		case MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED:
 		{
 			if (!strcmp(buffer, "setting"))
@@ -96,4 +93,5 @@ void SettingScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int 
 		}
 		break;
 	}
+	WRPPRINT("%s", "SettingScreen::Update() End\n");
 }

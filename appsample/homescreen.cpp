@@ -57,13 +57,10 @@ void HomeScreen::HideAndDestroy()
 
 void HomeScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int length)
 {
+	WRPPRINT("%s", "HomeScreen::Update() Begin\n");
+
 	switch(status)
 	{
-		case MIDWAPP_STATUS_INIT:
-		{
-			m_pLblProgramStatus->SetText("Initialing...");
-		}
-		break;
 		case MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED:
 		{
 			if (!strcmp(buffer, "setting"))
@@ -104,7 +101,7 @@ void HomeScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int len
 			}
 			else if (strcmp(buffer, "back"))
 			{
-				m_pLblProgramStatus->SetText(buffer);
+				m_pLblProgramStatus->SetText("Welcome Home");
 			}
 
 		}
@@ -115,5 +112,6 @@ void HomeScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int len
 		}
 		break;
 	}
+	WRPPRINT("%s", "HomeScreen::Update() End\n");
 }
 

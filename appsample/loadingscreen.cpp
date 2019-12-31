@@ -54,14 +54,25 @@ void LoadingScreen::HideAndDestroy()
 void LoadingScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int length)
 {
 	WRPPRINT("%s", "LoadingScreen::Update() Begin\n");
-	for(int i = 1; i <= 10; i++)
+	switch(status)
 	{
-		char str[100] = {0};
-		sprintf(str, "Loading.......%d%%", i*10);
-		m_pLblLoadingStatus->SetText(str);
-		sleep(1);
+		case MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED:
+		{
+			//TODO
+			if (!strcmp(buffer, "go"))
+			{
+				for(int i = 1; i <= 10; i++)
+				{
+					char str[100] = {0};
+					sprintf(str, "Loading.......%d%%", i*10);
+					m_pLblLoadingStatus->SetText(str);
+					sleep(1);
+				}
+				m_pHmiApp->LoadScreen(HOMESCREEN);
+			}
+		}
+		break;
 	}
-	m_pHmiApp->LoadScreen(HOMESCREEN);
 
 	WRPPRINT("%s", "LoadingScreen::Update() End\n");
 }

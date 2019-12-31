@@ -64,7 +64,7 @@ void WrpHmiApp::Start()
 {
 	WRPPRINT("%s\n", "WrpHmiApp::Start() Begin");
 
-	WrpSys::InitLvglLib();
+	//WrpSys::InitLvglLib();
 
 	m_status = eWrpHmiAppStatus::HMIAPP_STATUS_STARTED;
 	WrpSys::System::WrpCreateThread(WrpHmiApp::ThreadWrpHmiApp, "WrpHmiApp", this);

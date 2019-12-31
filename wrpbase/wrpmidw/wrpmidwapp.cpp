@@ -10,39 +10,28 @@
 /********************************************************************************************************
  * VARIABLES
  ********************************************************************************************************/
-WrpMidwApp* WrpMidwApp::m_pInstance = NULL;
+
 
 /********************************************************************************************************
  * FUNCTIONS
  ********************************************************************************************************/
 
-WrpMidwApp* WrpMidwApp::GetInstance()
-{
-	WRPPRINT("%s\n", "WrpMidwApp::GetInstance() Begin");
-	if (!m_pInstance)
-	{
-		m_pInstance = new WrpMidwApp();
-	}
-	WRPPRINT("%s\n", "WrpMidwApp::GetInstance() End");
-	return m_pInstance;
-}
-
 WrpMidwApp::WrpMidwApp()
 : m_pWsClient(NULL)
-, m_status(MIDWAPP_STATUS_INIT)
 , m_threadid(NULL)
+, m_pCurrentState(NULL)
 {
 	WRPPRINT("%s\n", "WrpMidwApp::WrpMidwApp() Begin");
-	m_pWsClient = new WrpWebSocketClient;
 	m_listOfObservers.clear();
+	m_status = MIDWAPP_STATUS_STOP;
 	WRPPRINT("%s\n", "WrpMidwApp::WrpMidwApp() End");
 }
 
 WrpMidwApp::~WrpMidwApp()
 {
 	WRPPRINT("%s\n", "WrpMidwApp::~WrpMidwApp() Begin");
-	delete m_pWsClient;
 	m_listOfObservers.clear();
+	m_status = MIDWAPP_STATUS_STOP;
 	WRPPRINT("%s\n", "WrpMidwApp::~WrpMidwApp() End");
 }
 
@@ -78,22 +67,24 @@ void WrpMidwApp::Notify(char* buffer, unsigned int length)
 	WRPPRINT("%s\n", "WrpMidwApp::Notify() End");
 }
 
-bool WrpMidwApp::Start()
+void WrpMidwApp::SetState(WrpMidwState* state)
 {
-	WRPPRINT("%s\n", "WrpMidwApp::Start() Begin");
-	WrpSys::System::PrintChipInfo();
-	WrpSys::Storage::InitNVS(); // must 1st initialization
-	WrpSys::Network::InitWifiStation();
-
-	m_threadid = WrpSys::System::WrpCreateThread(WrpMidwApp::ThreadWrpMidwApp, "WrpMidwApp", this);
-	if (!m_threadid)
+	if(m_pCurrentState)
 	{
-		WRPPRINT("%s\n", "WrpMidwApp::Start() ThreadWrpMidwApp Started Unsuccessfully!");
-		return false;
+		delete m_pCurrentState;
 	}
-	m_status = MIDWAPP_STATUS_START;
-	WRPPRINT("%s\n", "WrpMidwApp::Start() End");
-	return true;
+	m_pCurrentState = state;
+	m_pCurrentState->Handle();
+}
+
+void WrpMidwApp::ReadConfig()
+{
+	WRPPRINT("%s\n", "WrpMidw::ReadConfig() Begin");
+	if (WrpSys::Storage::m_uStorageStatus && STORAGE_STATUS_INITSPIFFS)
+	{
+
+	}
+	WRPPRINT("%s\n", "WrpMidw::ReadConfig() End");
 }
 
 void WrpMidwApp::Stop()
@@ -106,54 +97,25 @@ void WrpMidwApp::ThreadWrpMidwApp(void* param)
 {
 	WRPPRINT("%s\n", "WrpMidwApp::ThreadWrpMidwApp() Begin");
 
-	static eWrpMidwAppStatus preStatus = MIDWAPP_STATUS_INIT;
 	char buf[255]={0};
+	uint32_t len=0;
 
 	WrpMidwApp* app = (WrpMidwApp*)param;
-
-	//TODO: check when wifi connection success then
-	usleep(5000*1000);
-
-#if LVGL_PC_SIMU
-	app->m_pWsClient->Create("127.0.0.1", 8000);
-#elif LVGL_ESP32_ILI9341
-	app->m_pWsClient->Create("172.20.10.5", 8000);
-#endif
 
 	while(app->m_status != MIDWAPP_STATUS_STOP)
 	{
 		// MidwApp WebSocket client polling incoming data of web socket client in 100ms
-		int len = app->m_pWsClient->Receive(buf, sizeof(buf));
+		len = app->m_pWsClient->Receive(buf, sizeof(buf));
 		if (len > 0 )
 		{
+			WRPPRINT("%s\n", "WrpMidwApp::ThreadWrpMidwApp() MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED");
 			app->m_status = MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED;
 			app->Notify(buf, len);
 			usleep(100*1000);
-			WRPPRINT("%s\n", "WrpMidwApp::ThreadWrpMidwApp() MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED");
 			app->m_status = MIDWAPP_WSCLIENT_STATUS_DATA_CLEAR;
 			app->m_pWsClient->ClearBuffer();
 		}
 
-		// MidwApp Status
-		if (preStatus == app->m_status)
-		{
-			continue;
-		}
-		preStatus = app->m_status;
-		switch(app->m_status)
-		{
-			case MIDWAPP_STATUS_INIT:
-			case MIDWAPP_STATUS_START:
-			case MIDWAPP_STATUS_STOP:
-			{
-				app->Notify(NULL, 0);
-			}
-			break;
-			default:
-			{
-			}
-			break;
-		}
 	}
 	WRPPRINT("%s\n", "WrpMidwApp::ThreadWrpMidwApp() End");
 }

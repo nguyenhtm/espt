@@ -12,6 +12,8 @@ namespace Network {
 /********************************************************************************************************
  * VARIABLES
  ********************************************************************************************************/
+uint32_t m_uNetworkStatus = NETWORK_STATUS_INIT;
+
 #if USE_ESP_IDF
 #define WRPESP_WIFI_CONNECTED_BIT  BIT0
 
@@ -33,12 +35,14 @@ esp_err_t LegacyEventHandler(void *ctx, system_event_t *event)
 		{
 			WRPPRINT("WrpBase:%s\n", "WrpSysNetwork::LegacyEventHandler() Wifi Connecting");
 			esp_wifi_connect();
+			m_uNetworkStatus = NETWORK_STATUS_CONNECTING;
 			break;
 		}
 		case SYSTEM_EVENT_STA_GOT_IP:
 		{
 			WRPPRINT("WrpBase:%s%s\n", "WrpSysNetwork::LegacyEventHandler() Got IP:", ip4addr_ntoa(&event->event_info.got_ip.ip_info.ip));
 			xEventGroupSetBits(g_EventGroup, WRPESP_WIFI_CONNECTED_BIT);
+			m_uNetworkStatus = NETWORK_STATUS_CONNECTED;
 			break;
 		}
 		case SYSTEM_EVENT_STA_DISCONNECTED:
@@ -46,6 +50,7 @@ esp_err_t LegacyEventHandler(void *ctx, system_event_t *event)
 			WRPPRINT("WrpBase:%s\n", "WrpSysNetwork::LegacyEventHandler() Disconnected!");
 			esp_wifi_connect();
 			xEventGroupClearBits(g_EventGroup, WRPESP_WIFI_CONNECTED_BIT);
+			m_uNetworkStatus = NETWORK_STATUS_NOTCONNECTED;
 			break;
 		}
 		default:
@@ -68,14 +73,26 @@ void InitWifiStation()
     wifi_config_t      cfgWifi = { .sta = { {.ssid = WRPESP_WIFI_SSID}, {.password = WRPESP_WIFI_PASS} }, };
 
     tcpip_adapter_init();
-    esp_wifi_init(&cfgInit);
 
+    esp_wifi_init(&cfgInit);
     esp_wifi_set_mode(WIFI_MODE_STA);
     esp_wifi_set_config(ESP_IF_WIFI_STA, &cfgWifi);
-
     esp_wifi_start();
+
+    m_uNetworkStatus = NETWORK_STATUS_INIT;
 #endif
 	WRPPRINT("%s\n", "WrpSys::Network::InitWifiStation() End");
+}
+
+void DeInitWifiStation()
+{
+	WRPPRINT("%s\n", "WrpSys::Network::DeInitWifiStation() Begin");
+#if USE_ESP_IDF
+	esp_wifi_stop();
+	esp_wifi_deinit();
+	m_uNetworkStatus = NETWORK_STATUS_INIT;
+#endif
+	WRPPRINT("%s\n", "WrpSys::Network::DeInitWifiStation() End");
 }
 
 eWrpWebSocketStatus WrpWebSocketClient::m_status = WSCLIENT_STATUS_INIT;
@@ -141,7 +158,7 @@ void WrpWebSocketClient::EventHandler(struct mg_connection *nc, int ev, void *ev
 			if (m_status == WSCLIENT_STATUS_CONNECTED)
 			{
 				WRPPRINT("%s\n", "WrpWebSocketClient::EventHandler() Closed");
-				m_status = WSCLIENT_STATUS_CLOSED;
+				m_status = WSCLIENT_STATUS_CONNECTED_ERROR;
 			}
 			break;
 		}
@@ -151,14 +168,14 @@ void WrpWebSocketClient::EventHandler(struct mg_connection *nc, int ev, void *ev
 WrpWebSocketClient::WrpWebSocketClient()
 {
 	WRPPRINT("%s\n", "WrpWebSocketClient::WrpWebSocketClient() Begin");
-
+	m_status = WSCLIENT_STATUS_INIT;
 	WRPPRINT("%s\n", "WrpWebSocketClient::WrpWebSocketClient() End");
 }
 
 WrpWebSocketClient::~WrpWebSocketClient()
 {
 	WRPPRINT("%s\n", "WrpWebSocketClient::~WrpWebSocketClient() Begin");
-
+	m_status = WSCLIENT_STATUS_INIT;
 	WRPPRINT("%s\n", "WrpWebSocketClient::~WrpWebSocketClient() End");
 }
 
@@ -194,10 +211,11 @@ void WrpWebSocketClient::Close()
 {
 	WRPPRINT("%s\n", "WrpWebSocketClient::Close() Begin\n");
 	mg_mgr_free(&WrpWebSocketClient::mgr);
+	m_status = WSCLIENT_STATUS_INIT;
 	WRPPRINT("%s\n", "WrpWebSocketClient::Close() End\n");
 }
 
-int WrpWebSocketClient::Receive(char* buf, int size)
+uint32_t WrpWebSocketClient::Receive(char* buf, int size)
 {
 	if (m_status != WSCLIENT_STATUS_INIT)
 	{
