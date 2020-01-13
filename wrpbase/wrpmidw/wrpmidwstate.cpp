@@ -38,7 +38,6 @@ void WrpMidwInitState::Handle()
 		return;
 	}
 	WRPPRINT("%s\n", "WrpMidwInitState::Handle() End");
-	m_context->SetState(new WrpMidwReadyState(m_context));
 }
 
 /********************************************************************************************************
@@ -58,26 +57,6 @@ void WrpMidwDeInitState::Handle()
 void WrpMidwReadyState::Handle()
 {
 	WRPPRINT("%s\n", "WrpMidwReadyState::Handle() Begin");
-    while(1)
-    {
-    	// for display
-        usleep(100*1000); // 100ms
-        lv_task_handler();
-
-        // for wifi connection
-    	if (WrpSys::Network::m_uNetworkStatus != NETWORK_STATUS_CONNECTED)
-    	{
-    		//TODO: display no wifi icon
-    	}
-
-    	// for ws server connection
-    	if (m_context->GetWSClient()->m_status == WSCLIENT_STATUS_CONNECTED_ERROR)
-    	{
-    		WRPPRINT("%s\n", "WrpMidwReadyState::Handle() AAAAAAAAAAAAAAAAAAAAAA");
-    		m_context->SetState(new WrpMidwWsNotConnectedState(m_context));
-
-    	}
-    }
 	WRPPRINT("%s\n", "WrpMidwReadyState::Handle() End");
 }
 
@@ -87,8 +66,6 @@ void WrpMidwReadyState::Handle()
 void WrpWifiConnectedState::Handle()
 {
 	WRPPRINT("%s\n", "WrpWifiConnectedState::Handle() Begin");
-
-
 	WRPPRINT("%s\n", "WrpWifiConnectedState::Handle() End");
 }
 
@@ -118,6 +95,16 @@ void WrpMidwWsConnectedState::Handle()
 void WrpMidwWsNotConnectedState::Handle()
 {
 	WRPPRINT("%s\n", "WrpMidwWsNotConnectedState::Handle() Begin");
+
+		delete m_context->m_pWsClient;
+		sleep(1000);
+		m_context->m_pWsClient = new WrpWebSocketClient;
+	#if LVGL_PC_SIMU
+		m_context->GetWSClient()->Create("127.0.0.1", 8000);
+	#elif LVGL_ESP32_ILI9341
+		m_context->GetWSClient()->Create("172.20.10.5", 8000);
+	#endif
+
 	WRPPRINT("%s\n", "WrpMidwWsNotConnectedState::Handle() End");
 }
 

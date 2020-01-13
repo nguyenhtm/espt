@@ -27,6 +27,7 @@ namespace WrpGui {
 class WrpLabel;
 class WrpWidget;
 class WrpPopup;
+class WrpImage;
 
 // Class WrpScreen
 class WrpScreen : public WrpStyle
@@ -47,11 +48,13 @@ private:
 	wrpgui_handle_t* m_pHandler;
 	friend class WrpWidget;
 	friend class WrpLabel;
+	friend class WrpImage;
 
 	// members
 	bool      m_bMasterScreen;
 	WrpLabel* m_pMenuTitle;
 	WrpPopup* m_pTopPopup;
+	WrpImage* m_pBackground;
 };
 
 } /* Namespace WrpGui */

@@ -87,35 +87,59 @@ void WrpMidwApp::ReadConfig()
 	WRPPRINT("%s\n", "WrpMidw::ReadConfig() End");
 }
 
-void WrpMidwApp::Stop()
-{
-	m_status = MIDWAPP_STATUS_STOP;
-	usleep(2000*1000);
-}
-
 void WrpMidwApp::ThreadWrpMidwApp(void* param)
 {
 	WRPPRINT("%s\n", "WrpMidwApp::ThreadWrpMidwApp() Begin");
+	usleep(100*1000);
 
 	char buf[255]={0};
 	uint32_t len=0;
 
-	WrpMidwApp* app = (WrpMidwApp*)param;
+	WrpMidwApp* midwApp = (WrpMidwApp*)param;
+	midwApp->SetState(new WrpMidwReadyState(midwApp));
 
-	while(app->m_status != MIDWAPP_STATUS_STOP)
+	while(midwApp->m_status != MIDWAPP_STATUS_STOP)
 	{
 		// MidwApp WebSocket client polling incoming data of web socket client in 100ms
-		len = app->m_pWsClient->Receive(buf, sizeof(buf));
+		len = midwApp->m_pWsClient->Receive(buf, sizeof(buf));
 		if (len > 0 )
 		{
 			WRPPRINT("%s\n", "WrpMidwApp::ThreadWrpMidwApp() MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED");
-			app->m_status = MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED;
-			app->Notify(buf, len);
+			midwApp->m_status = MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED;
+			midwApp->Notify(buf, len);
 			usleep(100*1000);
-			app->m_status = MIDWAPP_WSCLIENT_STATUS_DATA_CLEAR;
-			app->m_pWsClient->ClearBuffer();
+			midwApp->m_status = MIDWAPP_WSCLIENT_STATUS_DATA_CLEAR;
+			midwApp->m_pWsClient->ClearBuffer();
 		}
 
+		// MidwApp State Context handling state based on ws server, wifi,...status
+        // for wifi connection
+    	if (WrpSys::Network::m_uNetworkStatus != NETWORK_STATUS_CONNECTED)
+    	{
+    		//TODO: display no wifi icon
+    	}
+
+    	// for websocket server connection
+    	switch(midwApp->GetWSClient()->m_status)
+    	{
+			case WSCLIENT_STATUS_NOTCONNECTED:
+			{
+				midwApp->SetState(new WrpMidwWsNotConnectedState(midwApp));
+			}
+			break;
+			/*
+			case WSCLIENT_STATUS_CONNECTED:
+			{
+				midwApp->SetState(new WrpMidwReadyState(midwApp));
+			}
+			break;
+			*/
+			default:
+			{
+				// fall through
+			}
+			break;
+    	}
 	}
 	WRPPRINT("%s\n", "WrpMidwApp::ThreadWrpMidwApp() End");
 }

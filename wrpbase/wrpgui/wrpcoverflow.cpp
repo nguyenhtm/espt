@@ -24,8 +24,8 @@ WrpCoverFlow::WrpCoverFlow()
 	WRPPRINT("%s\n", "WrpCoverFlow::WrpCoverFlow() Begin");
 	m_x = 140;
 	m_y = 20;
-	m_w = 50;
-	m_h = 50;
+	m_w = 30;
+	m_h = 30;
 	m_xI = 140;
 	m_yI = 100;
 
@@ -38,19 +38,27 @@ WrpCoverFlow::~WrpCoverFlow()
 	WRPPRINT("%s\n", "WrpCoverFlow::~WrpCoverFlow() End");
 }
 
-void WrpCoverFlow::SetWidgets(WrpWidget* pListOfWidgets[])
+void WrpCoverFlow::SetWidgets(WrpWidget* pListOfWidgets[], uint16_t size)
 {
 	m_pListOfWidgets = pListOfWidgets;
+	m_NumOfWidgets = size;
 }
 
 void WrpCoverFlow::Select()
 {
 	WRPPRINT("%s\n", "WrpCoverFlow::Select() Begin");
 
+	m_x = 140;
+	m_y = 20;
+	m_w = 30;
+	m_h = 30;
+	m_xI = 140;
+	m_yI = 100;
+
 	m_pListOfWidgets[0]->SetPos(m_x, m_y);
 	m_pListOfWidgets[0]->SetSize(m_w, m_h);
 
-	for (int i = 1; i < 5; i++)
+	for (int i = 1; i < m_NumOfWidgets; i++)
 	{
 		float alpha = ((2 * 3.14159 * i)/5);
 		int32_t x = m_xI + (m_x - m_xI)*cos(alpha) - (m_y - m_yI)*sin(alpha);
@@ -59,9 +67,9 @@ void WrpCoverFlow::Select()
 		m_pListOfWidgets[i]->SetSize(m_w, m_h);
 
 	}
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < m_NumOfWidgets; i++)
 	{
-		if (i != 4)
+		if (i != m_NumOfWidgets-1)
 		{
 			EnableAnimation(m_pListOfWidgets[i], m_pListOfWidgets[i+1]);
 		}
@@ -75,9 +83,35 @@ void WrpCoverFlow::Select()
     WRPPRINT("%s\n", "WrpCoverFlow::Select() End");
 }
 
+void WrpCoverFlow::Select2()
+{
+	WRPPRINT("%s\n", "WrpCoverFlow::Select2() Begin");
+
+	m_x = 10;
+	m_y = 20;
+	m_w = 30;
+	m_h = 30;
+
+	m_pListOfWidgets[0]->SetPos(m_x, m_y);
+	m_pListOfWidgets[0]->SetSize(m_w, m_h);
+
+	for (int i = 1; i < m_NumOfWidgets; i++)
+	{
+		m_pListOfWidgets[i]->SetPos(m_x, m_pListOfWidgets[i-1]->GetY() + m_h + 10);
+		m_pListOfWidgets[i]->SetSize(m_w, m_h);
+	}
+
+	for (int i = 0; i < m_NumOfWidgets; i++)
+	{
+		EnableAnimation(m_pListOfWidgets[i],NULL);
+	}
+
+    WRPPRINT("%s\n", "WrpCoverFlow::Select2() End");
+}
 
 void WrpCoverFlow::EnableAnimation(WrpWidget* cur, WrpWidget* next)
 {
+#if 0
 	lv_anim_t a;
 
 	// object need to be animated
@@ -93,7 +127,7 @@ void WrpCoverFlow::EnableAnimation(WrpWidget* cur, WrpWidget* next)
     // make delay
     a.act_time = -600;
     // no play back
-    a.playback = 0;
+    a.playback = 1;
     a.playback_pause = 0;
     // no repeat
     a.repeat = 0;
@@ -103,6 +137,29 @@ void WrpCoverFlow::EnableAnimation(WrpWidget* cur, WrpWidget* next)
 	a.exec_cb = (lv_anim_exec_xcb_t)lv_obj_set_y;
 	a.start = cur->GetY();
 	a.end = next->GetY();
+    lv_anim_create(&a);
+#endif
+
+	lv_anim_t a;
+
+	// object need to be animated
+	a.var = cur->m_pHandler;
+	// func to execute anim y
+	a.exec_cb = (lv_anim_exec_xcb_t)lv_obj_set_x;
+	a.path_cb = lv_anim_path_linear;
+	a.ready_cb = NULL;
+	// set start/end value
+	a.start = cur->GetX();
+	a.end = cur->GetX()+10;
+    a.time = 400;
+    // make delay
+    a.act_time = -600;
+    // no play back
+    a.playback = 1;
+    a.playback_pause = 0;
+    // no repeat
+    a.repeat = 0;
+    a.repeat_pause = 0;
     lv_anim_create(&a);
 }
 

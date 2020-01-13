@@ -18,6 +18,8 @@ uint32_t m_uStorageStatus = STORAGE_STATUS_INIT;
  * FUNCTIONS
  ********************************************************************************************************/
 
+
+
 bool InitNVS()
 {
 	WRPPRINT("%s\n", "WrpSys::Storage::InitNVS() Begin");

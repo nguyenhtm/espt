@@ -11,11 +11,7 @@
  * INCLUDES
  ********************************************************************************************************/
 #include "wrpbase/wrpbase.hpp"
-//#include "wrpbase/wrpsys/wrpnetwork.hpp"
-//#include "wrpbase/wrpsys/wrpsystem.hpp"
 
-//using namespace ::WrpSys::Network;
-//using namespace ::WrpSys::System;
 
 /********************************************************************************************************
  * DEFINES

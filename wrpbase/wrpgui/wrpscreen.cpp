@@ -7,6 +7,7 @@
 #include "wrpscreen.hpp"
 #include "wrplabel.hpp"
 #include "wrppopup.hpp"
+#include "wrpimage.hpp"
 #include "wrpbase/wrpbase.hpp"
 
 namespace WrpGui {
@@ -38,12 +39,20 @@ WrpScreen::WrpScreen(const bool bMasterScreen)
     	m_pHandler = lv_obj_create(NULL, NULL);
     }
 
+	// screen background
+	m_pBackground = new WrpGui::WrpImage(this);
+	m_pBackground->SetSize(320, 240);
+	m_pBackground->LoadImageFromFile("background.bin");
+
 	// screen menu items creation
 	m_pMenuTitle = new WrpLabel(this);
 	m_pMenuTitle->SetPos(WRPSCREEN_MENU_POSX, WRPSCREEN_MENU_POSY);
 
-    WrpStyle::SetStyle(m_pHandler, BUTTON_TGL_RELEASE);
+	// screen popup
     m_pTopPopup = new WrpPopup(this);
+
+    // screen style
+    WrpStyle::SetStyle(m_pHandler, BUTTON_TGL_RELEASE);
     WRPPRINT("WrpScreen::WrpScreen() bMaster=%d End\n", bMasterScreen);
 }
 
@@ -53,6 +62,7 @@ WrpScreen::~WrpScreen()
 	lv_obj_del(m_pHandler);
 	delete m_pMenuTitle;
 	delete m_pTopPopup;
+	delete m_pBackground;
 }
 
 void WrpScreen::Load()

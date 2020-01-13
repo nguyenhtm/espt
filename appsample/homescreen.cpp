@@ -15,36 +15,40 @@
  * FUNCTIONS
  ********************************************************************************************************/
 HomeScreen::HomeScreen(WrpHmiApp* app)
-: m_pLblProgramStatus(NULL)
-, m_pLblSettingItem(NULL)
-, m_pHmiApp(app)
+: m_pHmiApp(app)
 {
 	WRPPRINT("%s", "HomeScreen::HomeScreen() Begin\n");
 
 	// homescreen is a master screen
 	m_pScreenHandle = new WrpGui::WrpScreen(true);
-	m_pScreenHandle->SetTitle("Home");
-	// homescreen has one label program status
-	m_pLblProgramStatus = new WrpGui::WrpLabel(m_pScreenHandle);
-	m_pLblProgramStatus->SetPos(80, 80);
-	m_pLblProgramStatus->SetText("");
-	// homescreen has one setting item
-	m_pLblSettingItem = new WrpGui::WrpLabel(m_pScreenHandle);
-	m_pLblSettingItem->SetPos(260, 10);
-	m_pLblSettingItem->SetText("Setting");
+	m_pScreenHandle->SetTitle("");
+	// homescreen has a menu items
+	char tmp[10] = {0};
+	for (int i = 0; i < 5; i++)
+	{
+		m_pMenuImage[i] = new WrpGui::WrpImage(m_pScreenHandle);
+		m_pMenuImage[i]->SetSize(30, 30);
+		sprintf(tmp, "%d.bin", i+1);
+		m_pMenuImage[i]->LoadImageFromFile(tmp);
+	}
+	m_anim.SetWidgets((WrpGui::WrpWidget**)m_pMenuImage, 5);
 
 	WRPPRINT("%s", "HomeScreen::HomeScreen() End\n");
 }
 
 HomeScreen::~HomeScreen()
 {
-
+	for (int i = 0; i < 5; i++)
+	{
+		delete m_pMenuImage[i];
+	}
 }
 
 void HomeScreen::CreateAndShow()
 {
 	WRPPRINT("%s", "HomeScreen::CreateAndShow() Begin\n");
 	// homescreen is a master screen, must create in constructor
+	m_anim.Select2();
 	WRPPRINT("%s", "HomeScreen::CreateAndShow() End\n");
 }
 
@@ -61,6 +65,9 @@ void HomeScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int len
 
 	switch(status)
 	{
+		case MIDWAPP_STATUS_START:
+		case MIDWAPP_STATUS_STOP:
+			break;
 		case MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED:
 		{
 			if (!strcmp(buffer, "setting"))
@@ -99,11 +106,10 @@ void HomeScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int len
 			{
 				m_pScreenHandle->SetStyle(WrpGui::BUTTON_TGL_PRESS);
 			}
-			else if (strcmp(buffer, "back"))
+			else if(!strcmp(buffer, "next"))
 			{
-				m_pLblProgramStatus->SetText("Welcome Home");
+				m_anim.Select();
 			}
-
 		}
 		break;
 		default:

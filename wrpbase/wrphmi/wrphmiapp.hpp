@@ -11,24 +11,22 @@
  * INCLUDES
  ********************************************************************************************************/
 #include "wrpbase/wrpbase.hpp"
+#include "wrpbase/wrpsys/wrpsystem.hpp"
 #include "wrpbase/wrpgui/wrpscreen.hpp"
+
+using namespace WrpSys::System;
 
 /********************************************************************************************************
  * DEFINES
  ********************************************************************************************************/
 enum eWrpHmiAppStatus
 {
-	HMIAPP_STATUS_INIT=0, HMIAPP_STATUS_STARTED, HMIAPP_STATUS_STOPPED
+	HMIAPP_STATUS_STOP=0, HMIAPP_STATUS_START
 };
 
 enum eWrpHmiAppClientStatus
 {
 	HMIAPP_CLIENT_UNLOADED=0, HMIAPP_CLIENT_LOADED
-};
-struct tWrpHmiScreen
-{
-	WrpGui::WrpScreen* _scrHandler;
-	uint16_t _scrId;
 };
 
 /********************************************************************************************************
@@ -49,8 +47,8 @@ public:
 
 protected:
 	WrpGui::WrpScreen*     m_pScreenHandle;
-private:
 
+private:
 	uint16_t               m_ScreenId;
 	eWrpHmiAppClientStatus m_status;
 };
@@ -61,9 +59,8 @@ public:
 	~WrpHmiApp();
 	static WrpHmiApp* GetInstance();
 	eWrpHmiAppStatus GetStatus();
-	void Start();
+	bool Start();
 	void Stop();
-	void AddScreen(WrpGui::WrpScreen* handler, const uint16_t id);
 	void LoadScreen(const uint16_t id);
 	void Attach(WrpHmiAppClient* client, const uint16_t id);
 	void Detach(WrpHmiAppClient* client);
@@ -76,9 +73,9 @@ private:
 	static void ThreadWrpHmiApp(void* param);
 
 	// members
-	static WrpHmiApp*           m_pInstance;
-	eWrpHmiAppStatus            m_status;
-	std::vector<tWrpHmiScreen*> m_listOfScreens;
+	static WrpHmiApp* m_pInstance;
+	eWrpHmiAppStatus  m_status;
+	wrpthread_t       m_threadid;
 	std::vector<WrpHmiAppClient*> m_listOfObservers;
 };
 

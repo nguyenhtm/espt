@@ -12,6 +12,7 @@
  ********************************************************************************************************/
 #include "wrpgui.hpp"
 #include "wrpwidget.hpp"
+#include "wrpimage.hpp"
 #include "wrpstyle.hpp"
 #include <vector>
 
@@ -30,8 +31,9 @@ class WrpCoverFlow : public WrpStyle
 public:
 	WrpCoverFlow();
 	~WrpCoverFlow();
-	void SetWidgets(WrpWidget* pListOfWidgets[]);
+	void SetWidgets(WrpWidget* pListOfWidgets[], uint16_t size);
 	void Select();
+	void Select2();
 
 protected:
 
@@ -41,6 +43,7 @@ private:
 
 	// members
 	WrpWidget** m_pListOfWidgets;
+	uint16_t    m_NumOfWidgets;
 	int32_t m_x;
 	int32_t m_y;
 	int32_t m_w;

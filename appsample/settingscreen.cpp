@@ -37,18 +37,9 @@ void SettingScreen::CreateAndShow()
 	WRPPRINT("%s", "SettingScreen::CreateAndShow() Begin\n");
 	m_pScreenHandle = new WrpGui::WrpScreen(false);
 	m_pScreenHandle->SetTitle("Setting");
-	// settingscreen has one back item
 	m_pLblBackItem = new WrpGui::WrpLabel(m_pScreenHandle);
 	m_pLblBackItem->SetPos(260, 10);
 	m_pLblBackItem->SetText("Back");
-
-	// settingscreen has 4 menu items
-	for (int i = 0; i < 5; i++)
-	{
-		m_pMenuItem[i] = new WrpGui::WrpWidget(m_pScreenHandle);
-	}
-
-	m_anim.SetWidgets(m_pMenuItem);
 	WRPPRINT("%s", "SettingScreen::CreateAndShow() End\n");
 }
 
@@ -58,10 +49,6 @@ void SettingScreen::HideAndDestroy()
 	WRPNULL_CHECK(m_pScreenHandle)
 	delete m_pScreenHandle;
 	delete m_pLblBackItem;
-	for (int i = 0; i < 5; i++)
-	{
-		//delete m_pMenuItem[i];
-	}
 	WRPPRINT("%s", "SettingScreen::HideAndDestroy() End\n");
 }
 
@@ -73,15 +60,7 @@ void SettingScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int 
 	{
 		case MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED:
 		{
-			if (!strcmp(buffer, "setting"))
-			{
-				m_anim.Select();
-			}
-			else if (!strcmp(buffer, "next"))
-			{
-				m_anim.Select();
-			}
-			else if (!strcmp(buffer, "back"))
+			if (!strcmp(buffer, "back"))
 			{
 				m_pHmiApp->LoadScreen(HOMESCREEN);
 			}

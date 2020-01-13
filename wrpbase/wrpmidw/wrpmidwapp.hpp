@@ -26,7 +26,6 @@ enum eWrpMidwAppStatus
 {
 	MIDWAPP_STATUS_STOP = 0,
 	MIDWAPP_STATUS_START,
-	MIDWAPP_STATUS_SHUTDOWN,
 	MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED,
 	MIDWAPP_WSCLIENT_STATUS_DATA_CLEAR
 };
@@ -50,10 +49,10 @@ public:
 	void Attach(WrpMidwAppClient* client);
 	void Detach(WrpMidwAppClient* client);
 
-	void Stop();
 	void SetState(WrpMidwState* state);
 	void ReadConfig();
 	WrpWebSocketClient* GetWSClient() { return m_pWsClient; }
+	eWrpMidwAppStatus GetStatus() { return m_status; }
 
 protected:
 
@@ -64,11 +63,12 @@ private:
 
 	// members
 	WrpWebSocketClient* m_pWsClient;
-
 	eWrpMidwAppStatus   m_status;
 	wrpthread_t         m_threadid;
+
 	friend class WrpMidwInitState;
 	friend class WrpMidwDeInitState;
+	friend class WrpMidwWsNotConnectedState;
 	WrpMidwState* m_pCurrentState;
 	std::vector<WrpMidwAppClient*> m_listOfObservers;
 };

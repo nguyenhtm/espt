@@ -11,9 +11,6 @@
  * INCLUDES
  ********************************************************************************************************/
 #include "wrpbase/wrpbase.hpp"
-#include "wrpbase/wrpgui/wrpscreen.hpp"
-#include "wrpbase/wrpgui/wrpcoverflow.hpp"
-#include "wrpbase/wrpgui/wrpwidget.hpp"
 #include "wrpbase/wrphmi/wrphmiapp.hpp"
 #include "wrpbase/wrpmidw/wrpmidwapp.hpp"
 
@@ -24,7 +21,6 @@
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
-
 class LoadingScreen : public WrpHmiAppClient
                     , public WrpMidwAppClient
 {

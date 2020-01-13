@@ -16,6 +16,12 @@ namespace WrpSys {
  * FUNCTIONS
  ********************************************************************************************************/
 
+static lv_fs_res_t pcfs_open(lv_fs_drv_t * drv, void * file_p, const char * fn, lv_fs_mode_t mode);
+static lv_fs_res_t pcfs_close(lv_fs_drv_t * drv, void * file_p);
+static lv_fs_res_t pcfs_read(lv_fs_drv_t * drv, void * file_p, void * buf, uint32_t btr, uint32_t * br);
+static lv_fs_res_t pcfs_seek(lv_fs_drv_t * drv, void * file_p, uint32_t pos);
+static lv_fs_res_t pcfs_tell(lv_fs_drv_t * drv, void * file_p, uint32_t * pos_p);
+
 #if LVGL_PC_SIMU
 static int lv_tick_task(void*);
 #elif LVGL_ESP32_ILI9341
@@ -24,7 +30,6 @@ static void IRAM_ATTR lv_tick_task(void);
 
 void InitLvglLib()
 {
-
 	static lv_disp_buf_t m_dispBuffer;                // lvgl display buffer
 	static lv_color_t    m_buf[LV_HOR_RES_MAX * 40];  // lvgl display buffer for 10 lines
 	static lv_color_t    m_buf2[LV_HOR_RES_MAX * 40]; // lvgl display buffer for 10 lines
@@ -91,6 +96,97 @@ void IRAM_ATTR lv_tick_task(void)
 	lv_tick_inc(portTICK_RATE_MS);
 }
 #endif
+
+
+bool InitLvglFileSystem()
+{
+	WRPPRINT("%s\n", "WrpSys::WrpDisplay::InitLVGLFileSystem() Begin");
+
+	static lv_fs_drv_t pcfs_drv;
+
+	memset(&pcfs_drv, 0, sizeof(lv_fs_drv_t));
+#if LVGL_PC_SIMU
+    pcfs_drv.letter = 'D';
+#elif LVGL_ESP32_ILI9341
+    pcfs_drv.letter = 'S';
+#endif
+    pcfs_drv.file_size = sizeof(pc_file_t);       /*Set up fields...*/
+    pcfs_drv.open_cb = pcfs_open;
+    pcfs_drv.close_cb = pcfs_close;
+    pcfs_drv.read_cb = pcfs_read;
+    pcfs_drv.seek_cb = pcfs_seek;
+    pcfs_drv.tell_cb = pcfs_tell;
+    lv_fs_drv_register(&pcfs_drv);
+    //usleep(500*1000); //importance
+
+	WRPPRINT("%s\n", "WrpSys::WrpDisplay::InitLVGLFileSystem() End");
+	return true;
+}
+
+lv_fs_res_t pcfs_open(lv_fs_drv_t * drv, void * file_p, const char * fn, lv_fs_mode_t mode)
+{
+    (void) drv; /*Unused*/
+
+    errno = 0;
+
+    const char * flags = "";
+
+    if(mode == LV_FS_MODE_WR) flags = "wb";
+    else if(mode == LV_FS_MODE_RD) flags = "rb";
+    else if(mode == (LV_FS_MODE_WR | LV_FS_MODE_RD)) flags = "a+";
+
+    /*Make the path relative to the current directory (the projects root folder)*/
+    char buf[256];
+    sprintf(buf, "%c:/%s", drv->letter, fn);
+
+    pc_file_t f = fopen(buf, flags);
+    if((long int)f <= 0) return LV_FS_RES_UNKNOWN;
+    else {
+        fseek(f, 0, SEEK_SET);
+
+        /* 'file_p' is pointer to a file descriptor and
+         * we need to store our file descriptor here*/
+        pc_file_t * fp = (pc_file_t*) file_p;        /*Just avoid the confusing casings*/
+        *fp = f;
+    }
+
+    return LV_FS_RES_OK;
+}
+
+lv_fs_res_t pcfs_close(lv_fs_drv_t * drv, void * file_p)
+{
+    (void) drv; /*Unused*/
+
+    pc_file_t * fp = (pc_file_t*) file_p;        /*Just avoid the confusing casings*/
+    fclose(*fp);
+    return LV_FS_RES_OK;
+}
+
+lv_fs_res_t pcfs_read(lv_fs_drv_t * drv, void * file_p, void * buf, uint32_t btr, uint32_t * br)
+{
+    (void) drv; /*Unused*/
+
+    pc_file_t * fp = (pc_file_t*) file_p;        /*Just avoid the confusing casings*/
+    *br = fread(buf, 1, btr, *fp);
+    return LV_FS_RES_OK;
+}
+
+lv_fs_res_t pcfs_seek(lv_fs_drv_t * drv, void * file_p, uint32_t pos)
+{
+    (void) drv; /*Unused*/
+
+    pc_file_t * fp = (pc_file_t*) file_p;        /*Just avoid the confusing casings*/
+    fseek(*fp, pos, SEEK_SET);
+    return LV_FS_RES_OK;
+}
+
+lv_fs_res_t pcfs_tell(lv_fs_drv_t * drv, void * file_p, uint32_t * pos_p)
+{
+    (void) drv; /*Unused*/
+    pc_file_t * fp = (pc_file_t*) file_p;        /*Just avoid the confusing casings*/
+    *pos_p = ftell(*fp);
+    return LV_FS_RES_OK;
+}
 
 } /* Namespace WrpSys */
 

@@ -13,7 +13,6 @@
 #include "wrpbase/wrpgui/wrpgui.hpp"
 #include "wrpbase/wrpsys/wrpsys.hpp"
 
-
 // c/c++ standard lib INCLUDES
 #include <stdio.h>
 #include <unistd.h>

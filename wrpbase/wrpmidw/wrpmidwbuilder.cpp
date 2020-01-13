@@ -42,6 +42,7 @@ void WrpMidwESP32::BuildDisplay()
 {
 	WRPPRINT("%s\n", "WrpMidwESP32::BuildDisplay() Begin");
 	WrpSys::InitLvglLib();
+	WrpSys::InitLvglFileSystem();
 	WRPPRINT("%s\n", "WrpMidwESP32::BuildDisplay() End");
 }
 
@@ -89,6 +90,7 @@ WrpMidwSIM::~WrpMidwSIM()
 void WrpMidwSIM::BuildStorage()
 {
 	WRPPRINT("%s\n", "WrpMidwSIM::BuildStorage() Begin");
+
 	WRPPRINT("%s\n", "WrpMidwSIM::BuildStorage() End");
 }
 
@@ -96,6 +98,7 @@ void WrpMidwSIM::BuildDisplay()
 {
 	WRPPRINT("%s\n", "WrpMidwSIM::BuildDisplay() Begin");
 	WrpSys::InitLvglLib();
+	WrpSys::InitLvglFileSystem();
 	WRPPRINT("%s\n", "WrpMidwSIM::BuildDisplay() End");
 }
 

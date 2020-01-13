@@ -95,7 +95,7 @@ void DeInitWifiStation()
 	WRPPRINT("%s\n", "WrpSys::Network::DeInitWifiStation() End");
 }
 
-eWrpWebSocketStatus WrpWebSocketClient::m_status = WSCLIENT_STATUS_INIT;
+eWrpWebSocketStatus WrpWebSocketClient::m_status = WSCLIENT_STATUS_NOTCONNECTED;
 struct mg_mgr WrpWebSocketClient::mgr;
 struct mg_connection *WrpWebSocketClient::nc;
 
@@ -116,7 +116,7 @@ void WrpWebSocketClient::EventHandler(struct mg_connection *nc, int ev, void *ev
 			if (status != 0)
 			{
 				WRPPRINT("%s\n", "WrpWebSocketClient::EventHandler() Connected Failed!");
-				m_status = WSCLIENT_STATUS_CONNECTED_ERROR;
+				m_status = WSCLIENT_STATUS_NOTCONNECTED;
 			}
 			break;
 		}
@@ -132,7 +132,7 @@ void WrpWebSocketClient::EventHandler(struct mg_connection *nc, int ev, void *ev
 			else
 			{
 				WRPPRINT("%s%d\n", "WrpWebSocketClient::EventHandler() Connected Failed! HTTP Code:", hm->resp_code);
-				m_status = WSCLIENT_STATUS_CONNECTED_ERROR;
+				m_status = WSCLIENT_STATUS_NOTCONNECTED;
 			}
 			break;
 		}
@@ -147,7 +147,6 @@ void WrpWebSocketClient::EventHandler(struct mg_connection *nc, int ev, void *ev
 			WrpWebSocketClient::m_datalength = (uint16_t)wm->size;
 			if (wm->size)
 			{
-				m_status = WSCLIENT_STATUS_DATA_RECEIVED;
 				snprintf(WrpWebSocketClient::m_data, sizeof(WrpWebSocketClient::m_data), "%.*s", wm->size, wm->data);
 				WRPPRINT("%s%s%d\n", "WrpWebSocketClient::EventHandler() Received Data:", WrpWebSocketClient::m_data, wm->size);
 			}
@@ -158,7 +157,7 @@ void WrpWebSocketClient::EventHandler(struct mg_connection *nc, int ev, void *ev
 			if (m_status == WSCLIENT_STATUS_CONNECTED)
 			{
 				WRPPRINT("%s\n", "WrpWebSocketClient::EventHandler() Closed");
-				m_status = WSCLIENT_STATUS_CONNECTED_ERROR;
+				m_status = WSCLIENT_STATUS_NOTCONNECTED;
 			}
 			break;
 		}
@@ -168,14 +167,14 @@ void WrpWebSocketClient::EventHandler(struct mg_connection *nc, int ev, void *ev
 WrpWebSocketClient::WrpWebSocketClient()
 {
 	WRPPRINT("%s\n", "WrpWebSocketClient::WrpWebSocketClient() Begin");
-	m_status = WSCLIENT_STATUS_INIT;
+	m_status = WSCLIENT_STATUS_NOTCREATED;
 	WRPPRINT("%s\n", "WrpWebSocketClient::WrpWebSocketClient() End");
 }
 
 WrpWebSocketClient::~WrpWebSocketClient()
 {
 	WRPPRINT("%s\n", "WrpWebSocketClient::~WrpWebSocketClient() Begin");
-	m_status = WSCLIENT_STATUS_INIT;
+	m_status = WSCLIENT_STATUS_NOTCREATED;
 	WRPPRINT("%s\n", "WrpWebSocketClient::~WrpWebSocketClient() End");
 }
 
@@ -211,13 +210,13 @@ void WrpWebSocketClient::Close()
 {
 	WRPPRINT("%s\n", "WrpWebSocketClient::Close() Begin\n");
 	mg_mgr_free(&WrpWebSocketClient::mgr);
-	m_status = WSCLIENT_STATUS_INIT;
+	m_status = WSCLIENT_STATUS_NOTCREATED;
 	WRPPRINT("%s\n", "WrpWebSocketClient::Close() End\n");
 }
 
 uint32_t WrpWebSocketClient::Receive(char* buf, int size)
 {
-	if (m_status != WSCLIENT_STATUS_INIT)
+	if (m_status != WSCLIENT_STATUS_NOTCONNECTED)
 	{
 		mg_mgr_poll(&WrpWebSocketClient::mgr, 100);
 		if (WrpWebSocketClient::m_datalength > 0)

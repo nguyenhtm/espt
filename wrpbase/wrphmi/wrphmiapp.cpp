@@ -41,17 +41,19 @@ WrpHmiApp* WrpHmiApp::GetInstance()
 }
 
 WrpHmiApp::WrpHmiApp()
-: m_status(eWrpHmiAppStatus::HMIAPP_STATUS_INIT)
+: m_threadid(NULL)
 {
 	WRPPRINT("%s\n", "WrpHmiApp::WrpHmiApp() Begin");
-	m_listOfScreens.clear();
+	m_listOfObservers.clear();
+	m_status = HMIAPP_STATUS_STOP;
 	WRPPRINT("%s\n", "WrpHmiApp::WrpHmiApp() End");
 }
 
 WrpHmiApp::~WrpHmiApp()
 {
 	WRPPRINT("%s\n", "WrpHmiApp::~WrpHmiApp() Begin");
-	m_listOfScreens.clear();
+	m_listOfObservers.clear();
+	m_status = HMIAPP_STATUS_STOP;
 	WRPPRINT("%s\n", "WrpHmiApp::~WrpHmiApp() End");
 }
 
@@ -60,19 +62,24 @@ eWrpHmiAppStatus WrpHmiApp::GetStatus()
 	return m_status;
 }
 
-void WrpHmiApp::Start()
+bool WrpHmiApp::Start()
 {
 	WRPPRINT("%s\n", "WrpHmiApp::Start() Begin");
-
-	//WrpSys::InitLvglLib();
-
-	m_status = eWrpHmiAppStatus::HMIAPP_STATUS_STARTED;
-	WrpSys::System::WrpCreateThread(WrpHmiApp::ThreadWrpHmiApp, "WrpHmiApp", this);
+	m_status = eWrpHmiAppStatus::HMIAPP_STATUS_START;
+	m_threadid = WrpSys::System::WrpCreateThread(WrpHmiApp::ThreadWrpHmiApp, "WrpHmiApp", this);
+	if (!m_threadid)
+	{
+		WRPPRINT("%s\n", "WrpHmiApp::Start() WrpCreateThread Failed!");
+		m_status = HMIAPP_STATUS_STOP;
+		return false;
+	}
+	WRPPRINT("%s\n", "WrpHmiApp::Start() End");
+	return true;
 }
 
 void WrpHmiApp::Stop()
 {
-	m_status = eWrpHmiAppStatus::HMIAPP_STATUS_STOPPED;
+	m_status = HMIAPP_STATUS_STOP;
 }
 
 void WrpHmiApp::ThreadWrpHmiApp(void* param)
@@ -80,20 +87,14 @@ void WrpHmiApp::ThreadWrpHmiApp(void* param)
 	WRPPRINT("%s\n", "WrpHmiApp::ThreadWrpHmiApp() Begin");
 
 	WrpHmiApp* app = (WrpHmiApp*)param;
-	while(app->m_status == eWrpHmiAppStatus::HMIAPP_STATUS_STARTED)
+	while(app->m_status == HMIAPP_STATUS_START)
 	{
-		usleep(100*1000);
+    	// for display
+        usleep(100*1000); // 100ms
+        lv_task_handler();
 	}
 
 	WRPPRINT("%s\n", "WrpHmiApp::ThreadWrpHmiApp() End");
-}
-
-void WrpHmiApp::AddScreen(WrpGui::WrpScreen* handler, const uint16_t id)
-{
-	tWrpHmiScreen *tmp = new tWrpHmiScreen;
-	tmp->_scrHandler = handler;
-	tmp->_scrId = id;
-	m_listOfScreens.push_back(tmp);
 }
 
 void WrpHmiApp::LoadScreen(const uint16_t id)
