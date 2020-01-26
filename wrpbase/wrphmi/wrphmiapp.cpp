@@ -14,7 +14,7 @@
 WrpHmiApp* WrpHmiApp::m_pInstance = NULL;
 
 /********************************************************************************************************
- * FUNCTIONS
+ * FUNCTIONS - WrpHmiAppClient
  ********************************************************************************************************/
 WrpHmiAppClient::WrpHmiAppClient()
 : m_pScreenHandle(NULL)
@@ -29,6 +29,9 @@ WrpHmiAppClient::~WrpHmiAppClient()
 
 }
 
+/********************************************************************************************************
+ * FUNCTIONS - WrpHmiApp
+ ********************************************************************************************************/
 WrpHmiApp* WrpHmiApp::GetInstance()
 {
 	WRPPRINT("%s\n", "WrpHmiApp::GetInstance() Begin");
@@ -89,9 +92,7 @@ void WrpHmiApp::ThreadWrpHmiApp(void* param)
 	WrpHmiApp* app = (WrpHmiApp*)param;
 	while(app->m_status == HMIAPP_STATUS_START)
 	{
-    	// for display
         usleep(100*1000); // 100ms
-        lv_task_handler();
 	}
 
 	WRPPRINT("%s\n", "WrpHmiApp::ThreadWrpHmiApp() End");

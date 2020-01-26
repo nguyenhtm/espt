@@ -38,11 +38,13 @@ WrpScreen::WrpScreen(const bool bMasterScreen)
     	// create a new screen
     	m_pHandler = lv_obj_create(NULL, NULL);
     }
+    // screen style before bg
+    WrpStyle::SetStyle(m_pHandler, BUTTON_TGL_RELEASE);
 
-	// screen background
-	m_pBackground = new WrpGui::WrpImage(this);
-	m_pBackground->SetSize(320, 240);
-	m_pBackground->LoadImageFromFile("background.bin");
+	// set screen background
+	//m_pBackground = new WrpGui::WrpImage(this);
+	//m_pBackground->SetSize(320, 240);
+	//m_pBackground->SetImage(0);
 
 	// screen menu items creation
 	m_pMenuTitle = new WrpLabel(this);
@@ -51,8 +53,6 @@ WrpScreen::WrpScreen(const bool bMasterScreen)
 	// screen popup
     m_pTopPopup = new WrpPopup(this);
 
-    // screen style
-    WrpStyle::SetStyle(m_pHandler, BUTTON_TGL_RELEASE);
     WRPPRINT("WrpScreen::WrpScreen() bMaster=%d End\n", bMasterScreen);
 }
 
@@ -62,7 +62,7 @@ WrpScreen::~WrpScreen()
 	lv_obj_del(m_pHandler);
 	delete m_pMenuTitle;
 	delete m_pTopPopup;
-	delete m_pBackground;
+	//delete m_pBackground;
 }
 
 void WrpScreen::Load()

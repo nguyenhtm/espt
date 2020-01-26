@@ -105,6 +105,7 @@ struct mg_connection *WrpWebSocketClient::nc;
 
 char WrpWebSocketClient::m_data[255] = {0};
 unsigned int WrpWebSocketClient::m_datalength = 0;
+std::string WrpWebSocketClient::m_addr = "";
 
 void WrpWebSocketClient::EventHandler(struct mg_connection *nc, int ev, void *ev_data)
 {
@@ -117,10 +118,11 @@ void WrpWebSocketClient::EventHandler(struct mg_connection *nc, int ev, void *ev
 			{
 				WRPPRINT("%s\n", "WrpWebSocketClient::EventHandler() Connected Failed!");
 				m_status = WSCLIENT_STATUS_NOTCONNECTED;
+				WrpWebSocketClient::nc = mg_connect_ws(&WrpWebSocketClient::mgr, WrpWebSocketClient::EventHandler, WrpWebSocketClient::m_addr.c_str(), "ws_chat", NULL);
+				mg_set_timer(WrpWebSocketClient::nc, mg_time() + 3);
 			}
 			break;
 		}
-
 		case MG_EV_WEBSOCKET_HANDSHAKE_DONE:
 		{
 			struct http_message *hm = (struct http_message *) ev_data;
@@ -191,15 +193,13 @@ bool WrpWebSocketClient::Create(const char *uri, const unsigned int port)
 	{
 		snprintf(addr, sizeof(addr), "%s:%d", uri, port);
 	}
+	m_addr = addr;
+	m_port = port;
 
 	mg_mgr_init(&WrpWebSocketClient::mgr, NULL);
+
 	WrpWebSocketClient::nc = mg_connect_ws(&WrpWebSocketClient::mgr, WrpWebSocketClient::EventHandler, addr, "ws_chat", NULL);
-	if (WrpWebSocketClient::nc == NULL)
-	{
-		WRPPRINT("%s\n", "WrpWebSocketClient::Create() Connection Failed!");
-		mg_mgr_free(&WrpWebSocketClient::mgr);
-		return false;
-	}
+
 	m_status = WSCLIENT_STATUS_CREATED;
 
 	WRPPRINT("%s\n", "WrpWebSocketClient::Create() End");
@@ -208,17 +208,17 @@ bool WrpWebSocketClient::Create(const char *uri, const unsigned int port)
 
 void WrpWebSocketClient::Close()
 {
-	WRPPRINT("%s\n", "WrpWebSocketClient::Close() Begin\n");
+	WRPPRINT("%s\n", "WrpWebSocketClient::Close() Begin");
 	mg_mgr_free(&WrpWebSocketClient::mgr);
 	m_status = WSCLIENT_STATUS_NOTCREATED;
-	WRPPRINT("%s\n", "WrpWebSocketClient::Close() End\n");
+	WRPPRINT("%s\n", "WrpWebSocketClient::Close() End");
 }
 
 uint32_t WrpWebSocketClient::Receive(char* buf, int size)
 {
-	if (m_status != WSCLIENT_STATUS_NOTCONNECTED)
+	//if (m_status != WSCLIENT_STATUS_NOTCONNECTED)
 	{
-		mg_mgr_poll(&WrpWebSocketClient::mgr, 100);
+		mg_mgr_poll(&WrpWebSocketClient::mgr, 300);
 		if (WrpWebSocketClient::m_datalength > 0)
 		{
 			snprintf(buf, size, "%s",  WrpWebSocketClient::m_data);

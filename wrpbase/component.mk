@@ -6,6 +6,7 @@ COMPONENT_SRCDIRS := . \
     wrphmi             \
     wrpmidw            \
     wrptest            \
+    wrpres             \
     ../packages/mongoose_lib
 
 COMPONENT_ADD_INCLUDEDIRS := $(COMPONENT_SRCDIRS) ..

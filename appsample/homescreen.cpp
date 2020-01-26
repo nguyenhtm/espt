@@ -23,16 +23,19 @@ HomeScreen::HomeScreen(WrpHmiApp* app)
 	m_pScreenHandle = new WrpGui::WrpScreen(true);
 	m_pScreenHandle->SetTitle("");
 	// homescreen has a menu items
-	char tmp[10] = {0};
-	for (int i = 0; i < 5; i++)
-	{
-		m_pMenuImage[i] = new WrpGui::WrpImage(m_pScreenHandle);
-		m_pMenuImage[i]->SetSize(30, 30);
-		sprintf(tmp, "%d.bin", i+1);
-		m_pMenuImage[i]->LoadImageFromFile(tmp);
-	}
-	m_anim.SetWidgets((WrpGui::WrpWidget**)m_pMenuImage, 5);
-
+	m_pMenuImage[0] = new WrpGui::WrpImage(m_pScreenHandle);
+	m_pMenuImage[0]->SetImage(WRPRESIMG_HOME);
+	m_pMenuImage[0]->SetSize(30, 30);
+	m_pMenuImage[1] = new WrpGui::WrpImage(m_pScreenHandle);
+	m_pMenuImage[1]->SetImage(WRPRESIMG_APP);
+	m_pMenuImage[1]->SetSize(30, 30);
+	m_pMenuImage[2] = new WrpGui::WrpImage(m_pScreenHandle);
+	m_pMenuImage[2]->SetImage(WRPRESIMG_SETTING);
+	m_pMenuImage[2]->SetSize(30, 30);
+	m_pMenuImage[3] = new WrpGui::WrpImage(m_pScreenHandle);
+	m_pMenuImage[3]->SetImage(WRPRESIMG_DIAGNOSIS);
+	m_pMenuImage[3]->SetSize(30, 30);
+	m_anim.SetWidgets((WrpGui::WrpWidget**)m_pMenuImage, 4);
 	WRPPRINT("%s", "HomeScreen::HomeScreen() End\n");
 }
 
@@ -108,7 +111,7 @@ void HomeScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int len
 			}
 			else if(!strcmp(buffer, "next"))
 			{
-				m_anim.Select();
+				m_anim.Select2();
 			}
 		}
 		break;

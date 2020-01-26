@@ -19,7 +19,14 @@ namespace WrpGui {
 /********************************************************************************************************
  * DEFINES
  ********************************************************************************************************/
-
+#define WRPRESIMG_BACKGROUND  0x00 //def01background
+#define WRPRESIMG_HOME        0x01 //def01home
+#define WRPRESIMG_APP         0x02 //def01app
+#define WRPRESIMG_SETTING     0x03 //def01setting
+#define WRPRESIMG_DIAGNOSIS   0x04 //def01diagnosis
+#define WRPRESIMG_WIFI0       0x10 //def01wifi0
+#define WRPRESIMG_WIFI1       0x11 //def01wifi1
+#define WRPRESIMG_WIFI2       0x12 //def01wifi2
 
 /********************************************************************************************************
  * CLASSES
@@ -35,6 +42,7 @@ public:
 	WrpImage(WrpScreen* parent=NULL);
 	~WrpImage();
 	bool LoadImageFromFile(const char* path);
+	bool SetImage(const uint16_t imgid);
 
 protected:
 

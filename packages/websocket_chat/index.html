@@ -76,11 +76,28 @@
     document.getElementById('style7').onclick = function(ev) {
       ws.send('BUTTON_TGL_PRESS');
     };
+    document.getElementById('setting').onclick = function(ev) {
+      ws.send('setting');
+    };
+    document.getElementById('back').onclick = function(ev) {
+      ws.send('back');
+    };
+	    document.getElementById('shutdown').onclick = function(ev) {
+      ws.send('shutdown');
+    };
   };
 </script>
 </head>
 <body>
   <div class="content">
+	<table width="320" height="240" background="./bg2.png">
+		<tr><td><img id="shutdown" src="./1.png" width="30" height="30" onlick="function()"></td></tr>
+		<tr><td><img src="./2.png" width="30" height="30" onlick="function()"></td></tr>
+		<tr><td><img src="./3.png" width="30" height="30" onlick="function()"></td></tr>
+		<tr><td><img src="./4.png" width="30" height="30" onlick="function()"></td></tr>
+		<tr><td><img id="setting" src="./5.png" width="30" height="30" onlick="function()"></td></tr>
+		<tr><td><img id="back" src="./back.png" width="30" height="30" onlick="function()"></td></tr>
+	</table>
 	<table style="width:100%">
 		<tr>
 		<th align="left"><h1>CLI</h1></th>

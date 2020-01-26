@@ -77,6 +77,11 @@ void WrpMidwApp::SetState(WrpMidwState* state)
 	m_pCurrentState->Handle();
 }
 
+void WrpMidwApp::Start()
+{
+	SetState(new WrpMidwInitState(this));
+}
+
 void WrpMidwApp::ReadConfig()
 {
 	WRPPRINT("%s\n", "WrpMidw::ReadConfig() Begin");
@@ -95,7 +100,8 @@ void WrpMidwApp::ThreadWrpMidwApp(void* param)
 	char buf[255]={0};
 	uint32_t len=0;
 
-	WrpMidwApp* midwApp = (WrpMidwApp*)param;
+	eWrpWebSocketStatus wsPreStatus = WSCLIENT_STATUS_NOTCREATED;
+	WrpMidwApp*         midwApp = (WrpMidwApp*)param;
 	midwApp->SetState(new WrpMidwReadyState(midwApp));
 
 	while(midwApp->m_status != MIDWAPP_STATUS_STOP)
@@ -120,20 +126,23 @@ void WrpMidwApp::ThreadWrpMidwApp(void* param)
     	}
 
     	// for websocket server connection
-    	switch(midwApp->GetWSClient()->m_status)
+    	if (wsPreStatus == midwApp->GetWSClient()->m_status)
+    	{
+    		continue;
+    	}
+    	wsPreStatus = midwApp->GetWSClient()->m_status;
+		switch(midwApp->GetWSClient()->m_status)
     	{
 			case WSCLIENT_STATUS_NOTCONNECTED:
 			{
 				midwApp->SetState(new WrpMidwWsNotConnectedState(midwApp));
 			}
 			break;
-			/*
 			case WSCLIENT_STATUS_CONNECTED:
 			{
 				midwApp->SetState(new WrpMidwReadyState(midwApp));
 			}
 			break;
-			*/
 			default:
 			{
 				// fall through

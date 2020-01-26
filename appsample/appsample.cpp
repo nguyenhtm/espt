@@ -35,8 +35,8 @@ void appsample()
 	WrpHmiApp* hmiApp = WrpHmiApp::GetInstance();
 	hmiApp->Start();
 
-	HomeScreen*    homeScreen    = new HomeScreen(hmiApp);
 	LoadingScreen* loadingScreen = new LoadingScreen(hmiApp);
+	HomeScreen*    homeScreen    = new HomeScreen(hmiApp);
 	SettingScreen* settingScreen = new SettingScreen(hmiApp);
 	hmiApp->Attach(homeScreen, HOMESCREEN);
 	hmiApp->Attach(settingScreen, SETTINGSCREEN);
@@ -48,6 +48,14 @@ void appsample()
 	midwApp->Attach(settingScreen);
 	midwApp->Attach(loadingScreen);
 
-	midwApp->SetState(new WrpMidwInitState(midwApp));
-	while(1){}
+
+	midwApp->Start();
+
+	while(1)
+	{
+    	// for display
+        usleep(5*1000); // 100ms
+        lv_task_handler();
+	}
+
 }

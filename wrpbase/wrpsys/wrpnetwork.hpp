@@ -31,8 +31,7 @@ enum eWrpWebSocketStatus
 	WSCLIENT_STATUS_NOTCREATED = 0,
 	WSCLIENT_STATUS_CREATED,
 	WSCLIENT_STATUS_NOTCONNECTED,
-	WSCLIENT_STATUS_CONNECTED,
-	WSCLIENT_STATUS_DATA_RECEIVED
+	WSCLIENT_STATUS_CONNECTED
 };
 
 /********************************************************************************************************
@@ -65,6 +64,8 @@ private:
 	static void EventHandler(struct mg_connection *nc, int event, void *data);
 	static struct mg_mgr mgr;
 	static struct mg_connection *nc;
+	static std::string m_addr;
+	uint16_t    m_port;
 };
 
 } /* Namespace WrpSysNetwork */

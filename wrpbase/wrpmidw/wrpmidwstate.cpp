@@ -75,7 +75,7 @@ void WrpWifiConnectedState::Handle()
 void WrpWifiNotConnectedState::Handle()
 {
 	WRPPRINT("%s\n", "WrpWifiNOTConnectedState::Handle() Begin");
-	sleep(3);
+	sleep(1);
 	WRPPRINT("%s\n", "WrpWifiNOTConnectedState::Handle() End");
 	m_context->SetState(new WrpMidwReadyState(m_context));
 }
@@ -86,6 +86,7 @@ void WrpWifiNotConnectedState::Handle()
 void WrpMidwWsConnectedState::Handle()
 {
 	WRPPRINT("%s\n", "WrpMidwWsConnectedState::Handle() Begin");
+
 	WRPPRINT("%s\n", "WrpMidwWsConnectedState::Handle() End");
 }
 
@@ -95,16 +96,7 @@ void WrpMidwWsConnectedState::Handle()
 void WrpMidwWsNotConnectedState::Handle()
 {
 	WRPPRINT("%s\n", "WrpMidwWsNotConnectedState::Handle() Begin");
-
-		delete m_context->m_pWsClient;
-		sleep(1000);
-		m_context->m_pWsClient = new WrpWebSocketClient;
-	#if LVGL_PC_SIMU
-		m_context->GetWSClient()->Create("127.0.0.1", 8000);
-	#elif LVGL_ESP32_ILI9341
-		m_context->GetWSClient()->Create("172.20.10.5", 8000);
-	#endif
-
+	//TODO: display icon
 	WRPPRINT("%s\n", "WrpMidwWsNotConnectedState::Handle() End");
 }
 

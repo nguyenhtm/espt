@@ -46,9 +46,9 @@ void SettingScreen::CreateAndShow()
 void SettingScreen::HideAndDestroy()
 {
 	WRPPRINT("%s", "SettingScreen::HideAndDestroy() Begin\n");
-	WRPNULL_CHECK(m_pScreenHandle)
-	delete m_pScreenHandle;
-	delete m_pLblBackItem;
+	//WRPNULL_CHECK(m_pScreenHandle)
+	//delete m_pScreenHandle;
+	//delete m_pLblBackItem;
 	WRPPRINT("%s", "SettingScreen::HideAndDestroy() End\n");
 }
 

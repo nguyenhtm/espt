@@ -48,7 +48,7 @@ public:
 	~WrpMidwApp();
 	void Attach(WrpMidwAppClient* client);
 	void Detach(WrpMidwAppClient* client);
-
+	void Start(); //state controlled inside this class
 	void SetState(WrpMidwState* state);
 	void ReadConfig();
 	WrpWebSocketClient* GetWSClient() { return m_pWsClient; }

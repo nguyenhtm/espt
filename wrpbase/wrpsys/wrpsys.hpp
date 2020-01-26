@@ -31,9 +31,19 @@
 #include "nvs_flash.h"
 #include "esp_spiffs.h"
 #include "esp_websocket_client.h"
+#include "esp_vfs_fat.h"
+#include "driver/sdmmc_host.h"
+#include "driver/sdspi_host.h"
+#include "sdmmc_cmd.h"
 #endif
 
+#include <stdio.h>
+#include <string.h>
+#include <sys/unistd.h>
+#include <sys/stat.h>
+
 #define WRPESP_WIFI_SSID           "iPhone"
+//#define WRPESP_WIFI_PASS           "08505046"
 #define WRPESP_WIFI_PASS           "123321123"
 
 /********************************************************************************************************

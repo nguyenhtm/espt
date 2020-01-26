@@ -46,9 +46,9 @@ void LoadingScreen::CreateAndShow()
 void LoadingScreen::HideAndDestroy()
 {
 	WRPPRINT("%s", "LoadingScreen::HideAndDestroy() Begin\n");
-	WRPNULL_CHECK(m_pScreenHandle)
-	delete m_pScreenHandle;
-	delete m_pLblLoadingStatus;
+	//WRPNULL_CHECK(m_pScreenHandle)
+	//delete m_pScreenHandle;
+	//delete m_pLblLoadingStatus;
 	WRPPRINT("%s", "LoadingScreen::HideAndDestroy() End\n");
 }
 
