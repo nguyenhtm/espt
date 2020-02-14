@@ -34,13 +34,16 @@ public:
 	void SetWidgets(WrpWidget* pListOfWidgets[], uint16_t size);
 	void Select();
 	void Select2();
+	void FadeInOut(WrpWidget* widget);
+	void Eclipse();
 
 protected:
 
 private:
 	// methods
 	void EnableAnimation(WrpWidget* cur, WrpWidget* next);
-
+	void EnableAnimation2(WrpWidget* cur, WrpWidget* next);
+	void EnableAnimation3(WrpWidget* cur);
 	// members
 	WrpWidget** m_pListOfWidgets;
 	uint16_t    m_NumOfWidgets;

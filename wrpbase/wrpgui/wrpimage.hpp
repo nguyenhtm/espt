@@ -24,9 +24,15 @@ namespace WrpGui {
 #define WRPRESIMG_APP         0x02 //def01app
 #define WRPRESIMG_SETTING     0x03 //def01setting
 #define WRPRESIMG_DIAGNOSIS   0x04 //def01diagnosis
+#define WRPRESIMG_AUTOTEST    0x05 //def01autotest
 #define WRPRESIMG_WIFI0       0x10 //def01wifi0
 #define WRPRESIMG_WIFI1       0x11 //def01wifi1
 #define WRPRESIMG_WIFI2       0x12 //def01wifi2
+#define WRPRESIMG_LOGO        0x13 //def01logo
+#define WRPRESIMG_CFLOWITEM1  0x14 //menuitem1
+#define WRPRESIMG_CFLOWITEM2  0x15 //menuitem2
+#define WRPRESIMG_CFLOWITEM3  0x16 //menuitem3
+#define WRPRESIMG_CFLOWITEM4  0x17 //menuitem4
 
 /********************************************************************************************************
  * CLASSES
@@ -47,7 +53,6 @@ public:
 protected:
 
 private:
-
 };
 
 } /* Namespace WrpGui */

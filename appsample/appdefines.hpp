@@ -17,6 +17,8 @@
 #define HOMESCREEN      0x01
 #define LOADINGSCREEN   0x02
 #define SETTINGSCREEN   0x03
+#define CFLOWSCREEN     0x04
+
 
 /********************************************************************************************************
  * FUNCTIONS

@@ -56,7 +56,7 @@ void WrpPopup::SetText(const char* text)
 {
 	char tmp[255];
 	sprintf(tmp, "%s%s", "  ", text);
-	lv_label_set_text(m_pPopupText, tmp);
+	lv_label_set_text(m_pPopupText, LV_SYMBOL_POWER "hello");
 }
 
 void WrpPopup::EnableAnimation()

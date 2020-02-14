@@ -10,6 +10,7 @@
 #include "homescreen.hpp"
 #include "loadingscreen.hpp"
 #include "settingscreen.hpp"
+#include "cflowscreen.hpp"
 #include "wrpbase/wrpmidw/wrpmidwbuilder.hpp"
 #include "wrpbase/wrpmidw/wrpmidwstate.hpp"
 
@@ -38,16 +39,18 @@ void appsample()
 	LoadingScreen* loadingScreen = new LoadingScreen(hmiApp);
 	HomeScreen*    homeScreen    = new HomeScreen(hmiApp);
 	SettingScreen* settingScreen = new SettingScreen(hmiApp);
+	CFlowScreen*   cflowScreen   = new CFlowScreen(hmiApp);
 	hmiApp->Attach(homeScreen, HOMESCREEN);
 	hmiApp->Attach(settingScreen, SETTINGSCREEN);
 	hmiApp->Attach(loadingScreen, LOADINGSCREEN);
+	hmiApp->Attach(cflowScreen, CFLOWSCREEN);
 
-	hmiApp->LoadScreen(LOADINGSCREEN);
+	hmiApp->LoadScreen(HOMESCREEN);
 
 	midwApp->Attach(homeScreen);
 	midwApp->Attach(settingScreen);
 	midwApp->Attach(loadingScreen);
-
+	midwApp->Attach(cflowScreen);
 
 	midwApp->Start();
 

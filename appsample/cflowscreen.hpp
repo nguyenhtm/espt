@@ -1,11 +1,11 @@
 /********************************************************************************************************
- * @File  : homescreen.hpp
- * @Date  : 2019-10-06
+ * @File  : cflowscreen.hpp
+ * @Date  : 2020-02-08
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef APPSAMPLE_HOMESCREEN_HPP_
-#define APPSAMPLE_HOMESCREEN_HPP_
+#ifndef APPSAMPLE_CFLOWSCREEN_HPP_
+#define APPSAMPLE_CFLOWSCREEN_HPP_
 
 /********************************************************************************************************
  * INCLUDES
@@ -26,18 +26,18 @@
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
-class HomeScreen : public WrpHmiAppClient
-                 , public WrpMidwAppClient
+class CFlowScreen : public WrpHmiAppClient
+                  , public WrpMidwAppClient
 {
 public:
 	/*
 	 * Constructor
 	 */
-	HomeScreen(WrpHmiApp* app);
+	CFlowScreen(WrpHmiApp* app);
 	/*
 	 * Destructor
 	 */
-	~HomeScreen();
+	~CFlowScreen();
 	/*
 	 * Call back function called on a screen creation
 	 */
@@ -56,8 +56,8 @@ protected:
 private:
 	WrpHmiApp* m_pHmiApp;
 	WrpGui::WrpCoverFlow m_anim;
-	WrpGui::WrpImage* m_pMenuItem[3];
-	WrpGui::WrpImage* m_pLogo;
+	WrpGui::WrpImage* m_pMenuItem[4];
+	WrpGui::WrpImage* m_pAnimItem[6];
 };
 
 #endif /* APPSAMPLE_HOMESCREEN_HPP_ */

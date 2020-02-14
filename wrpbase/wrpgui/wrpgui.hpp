@@ -32,12 +32,14 @@ namespace WrpGui {
 /********************************************************************************************************
  * DEFINES
  ********************************************************************************************************/
+#define WRPSCREEN_WIDTH      320
+#define WRPSCREEN_HEIGHT     240
 #define WRPLABEL_WIDTH       100
 #define WRPLABEL_HEIGHT      66
 #define WRPPOPUP_WIDTH       150
 #define WRPPOPUP_HEIGHT      60
-#define WRPSCREEN_MENU_POSX  10
-#define WRPSCREEN_MENU_POSY  10
+#define WRPSCREEN_MENU_POSX  0
+#define WRPSCREEN_MENU_POSY  0
 
 typedef lv_obj_t     wrpgui_handle_t;
 typedef lv_style_t   wrpgui_style_t;

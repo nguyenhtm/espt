@@ -38,8 +38,8 @@ WrpScreen::WrpScreen(const bool bMasterScreen)
     	// create a new screen
     	m_pHandler = lv_obj_create(NULL, NULL);
     }
-    // screen style before bg
-    WrpStyle::SetStyle(m_pHandler, BUTTON_TGL_RELEASE);
+    // set screen style before background usage
+    //WrpStyle::SetStyle(m_pHandler, BUTTON_TGL_RELEASE);
 
 	// set screen background
 	//m_pBackground = new WrpGui::WrpImage(this);

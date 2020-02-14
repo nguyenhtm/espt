@@ -40,6 +40,7 @@ public:
 	void SetTitle(const char* text);
 	void SetStyle(const WrpStyleType style);
 	void ShowPopup(const bool bShowHide, const char *text);
+	wrpgui_handle_t* GetHandle() { return m_pHandler; }
 
 protected:
 

@@ -27,7 +27,7 @@ void WrpMidwInitState::Handle()
 #if LVGL_PC_SIMU
 	m_context->GetWSClient()->Create("127.0.0.1", 8000);
 #elif LVGL_ESP32_ILI9341
-	m_context->GetWSClient()->Create("172.20.10.5", 8000);
+	m_context->GetWSClient()->Create("192.168.1.7", 8000);
 #endif
 	m_context->m_status = MIDWAPP_STATUS_START;
 	m_context->m_threadid = WrpSys::System::WrpCreateThread(WrpMidwApp::ThreadWrpMidwApp, "WrpMidwApp", m_context);
