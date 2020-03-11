@@ -5,14 +5,16 @@
  *
  ********************************************************************************************************/
 #include "appdefines.hpp"
+#include "sampleapp.hpp"
 #include "wrpbase/wrphmi/wrphmiapp.hpp"
+
 #include "wrpbase/wrpmidw/wrpmidwapp.hpp"
 #include "homescreen.hpp"
 #include "loadingscreen.hpp"
-#include "settingscreen.hpp"
+#include "diagscreen.hpp"
 #include "cflowscreen.hpp"
-#include "wrpbase/wrpmidw/wrpmidwbuilder.hpp"
-#include "wrpbase/wrpmidw/wrpmidwstate.hpp"
+#include "wrpbase/wrphmi/wrphmiscreen.hpp"
+#include "wrpbase/wrpmidw/wrpmidwappfsm.hpp"
 
 /********************************************************************************************************
  * VARIABLES
@@ -24,40 +26,40 @@
 
 void appsample()
 {
-#if USE_ESP_IDF
-	WrpMidwBuilder *midwAppBuilder = new WrpMidwESP32;
-#else
-	WrpMidwBuilder *midwAppBuilder = new WrpMidwSIM;
-#endif
-	WrpMidwDirector *ctr = new WrpMidwDirector(midwAppBuilder);
-	ctr->BuildWrpMidwApp();
-	WrpMidwApp* midwApp = ctr->GetMidwApp();
+	// Receivers
+	WrpServiceManager* pServiceManager = new WrpServiceManager;
+	WrpScreenManager*  pScreenManager  = new WrpScreenManager;
+	// Commands
+	SampleAppCommand* pServiceManagerStartCmd = new ServiceManagerOnCommand(pServiceManager);
+	SampleAppCommand* pScreenManagerStartCmd  = new ScreenManagerOnCommand(pScreenManager);
+	// Invoker
+	SampleAppInvoker* pSampleApp = new SampleAppInvoker;
+	pSampleApp->ExecuteCommand(pServiceManagerStartCmd);
+	pSampleApp->ExecuteCommand(pScreenManagerStartCmd);
 
-	WrpHmiApp* hmiApp = WrpHmiApp::GetInstance();
-	hmiApp->Start();
+	WrpHmiApp*  hmiApp  = pScreenManager->GetWrpHmiAppInstance();
+	WrpMidwApp* midwApp = pServiceManager->GetWrpMidwAppInstance();
 
 	LoadingScreen* loadingScreen = new LoadingScreen(hmiApp);
 	HomeScreen*    homeScreen    = new HomeScreen(hmiApp);
-	SettingScreen* settingScreen = new SettingScreen(hmiApp);
+	DiagScreen*    diagScreen    = new DiagScreen(hmiApp);
 	CFlowScreen*   cflowScreen   = new CFlowScreen(hmiApp);
 	hmiApp->Attach(homeScreen, HOMESCREEN);
-	hmiApp->Attach(settingScreen, SETTINGSCREEN);
+	hmiApp->Attach(diagScreen, SETTINGSCREEN);
 	hmiApp->Attach(loadingScreen, LOADINGSCREEN);
 	hmiApp->Attach(cflowScreen, CFLOWSCREEN);
 
 	hmiApp->LoadScreen(HOMESCREEN);
 
 	midwApp->Attach(homeScreen);
-	midwApp->Attach(settingScreen);
+	midwApp->Attach(diagScreen);
 	midwApp->Attach(loadingScreen);
 	midwApp->Attach(cflowScreen);
-
-	midwApp->Start();
 
 	while(1)
 	{
     	// for display
-        usleep(5*1000); // 100ms
+        usleep(5*1000);
         lv_task_handler();
 	}
 

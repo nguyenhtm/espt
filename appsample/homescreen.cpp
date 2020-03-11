@@ -25,9 +25,9 @@ HomeScreen::HomeScreen(WrpHmiApp* app)
 	m_pScreenHandle->SetStyle(WrpGui::BUTTON_TGL_RELEASE);
 
 	// homescreen has a main menu
-	m_pMenuItem[0] = new WrpGui::WrpImage(m_pScreenHandle);
-	m_pMenuItem[0]->SetImage(WRPRESIMG_HOME);
-	m_pMenuItem[0]->SetPos(WRPSCREEN_MENU_POSX, WRPSCREEN_MENU_POSY);
+	//m_pMenuItem[0] = new WrpGui::WrpImage(m_pScreenHandle);
+	//m_pMenuItem[0]->SetImage(WRPRESIMG_HOME);
+	//m_pMenuItem[0]->SetPos(WRPSCREEN_MENU_POSX, WRPSCREEN_MENU_POSY);
 	m_pMenuItem[1] = new WrpGui::WrpImage(m_pScreenHandle);
 	m_pMenuItem[1]->SetImage(WRPRESIMG_AUTOTEST);
 	m_pMenuItem[1]->SetPos(WRPSCREEN_WIDTH-30, WRPSCREEN_MENU_POSY);
@@ -38,9 +38,8 @@ HomeScreen::HomeScreen(WrpHmiApp* app)
 	// homescreen has a logo
 	m_pLogo = new WrpGui::WrpImage(m_pScreenHandle);
 	m_pLogo->SetImage(WRPRESIMG_LOGO);
-	m_pLogo->SetPos(WRPSCREEN_MENU_POSX+110, WRPSCREEN_MENU_POSY+80);
+	m_pLogo->SetPos(WRPSCREEN_MENU_POSX+120, WRPSCREEN_MENU_POSY+80);
 
-	m_anim.FadeInOut((WrpGui::WrpWidget*)m_pLogo);
 	WRPPRINT("%s", "HomeScreen::HomeScreen() End\n");
 }
 
@@ -53,7 +52,7 @@ void HomeScreen::CreateAndShow()
 {
 	WRPPRINT("%s", "HomeScreen::CreateAndShow() Begin\n");
 	// homescreen is a master screen, must create in constructor
-	m_anim.FadeInOut((WrpGui::WrpWidget*)m_pLogo);
+	m_anim.FadeIn((WrpGui::WrpWidget*)m_pLogo, 2000);
 	WRPPRINT("%s", "HomeScreen::CreateAndShow() End\n");
 }
 
@@ -64,7 +63,7 @@ void HomeScreen::HideAndDestroy()
 	WRPPRINT("%s", "HomeScreen::HideAndDestroy() End\n");
 }
 
-void HomeScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int length)
+void HomeScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length)
 {
 	WRPPRINT("%s", "HomeScreen::Update() Begin\n");
 

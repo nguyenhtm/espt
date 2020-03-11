@@ -52,7 +52,7 @@ void LoadingScreen::HideAndDestroy()
 	WRPPRINT("%s", "LoadingScreen::HideAndDestroy() End\n");
 }
 
-void LoadingScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int length)
+void LoadingScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length)
 {
 	WRPPRINT("%s", "LoadingScreen::Update() Begin\n");
 	switch(status)

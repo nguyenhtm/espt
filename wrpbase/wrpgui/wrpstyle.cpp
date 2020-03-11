@@ -78,8 +78,8 @@ void WrpStyle::SetStyle(wrpgui_handle_t* handler, WrpStyleType style)
 			m_style.body.main_color = LV_COLOR_BLACK;
 			m_style.body.grad_color = LV_COLOR_BLACK;
 			m_style.body.radius = 0;
-			m_style.body.border.color = LV_COLOR_WHITE;
-			m_style.body.border.width = 1;
+			//m_style.body.border.color = LV_COLOR_WHITE;
+			//m_style.body.border.width = 1;
 			//m_style.text.font = &lv_font_roboto_22;
 			m_style.text.color = LV_COLOR_GREEN; //lv_color_hex3(0x0F0);
 		}

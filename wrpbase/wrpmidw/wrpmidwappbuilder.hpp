@@ -1,23 +1,16 @@
 /********************************************************************************************************
- * @File  : settingscreen.hpp
+ * @File  : wrpmidwappbuilder.hpp
  * @Date  : 2019-10-06
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef APPSAMPLE_SETTINGSCREEN_HPP_
-#define APPSAMPLE_SETTINGSCREEN_HPP_
+#ifndef WRPMIDW_WRPMIDWAPPBUILDER_HPP
+#define WRPMIDW_WRPMIDWAPPBUILDER_HPP
 
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
 #include "wrpbase/wrpbase.hpp"
-#include "wrpbase/wrpgui/wrpscreen.hpp"
-#include "wrpbase/wrpgui/wrplabel.hpp"
-#include "wrpbase/wrpgui/wrpimage.hpp"
-#include "wrpbase/wrpgui/wrpcoverflow.hpp"
-
-#include "wrpbase/wrphmi/wrphmiapp.hpp"
-#include "wrpbase/wrpmidw/wrpmidwapp.hpp"
 
 /********************************************************************************************************
  * DEFINES
@@ -27,30 +20,51 @@
  * CLASSES
  ********************************************************************************************************/
 
-class SettingScreen : public WrpHmiAppClient
-                    , public WrpMidwAppClient
+// Forward class
+class WrpMidwApp;
+
+class WrpMidwAppBuilder
 {
 public:
-	SettingScreen(WrpHmiApp* app);
-	~SettingScreen();
-	/*
-	 * Call back function called on a screen creation
-	 */
-	void CreateAndShow();
-	/*
-	 * Call back function called on a screen destroy
-	 */
-	void HideAndDestroy();
-	/*
-	 * Call back function called on midw events update
-	 */
-	void Update(eWrpMidwAppStatus, char* buffer, unsigned int length);
-
-protected:
-
-private:
-	WrpHmiApp* m_pHmiApp;
-	WrpGui::WrpLabel*  m_pLblBackItem;
+	WrpMidwAppBuilder();
+	virtual ~WrpMidwAppBuilder();
+	virtual void BuildStorage() = 0;
+	virtual void BuildDisplay() = 0;
+	virtual void BuildNetwork() = 0;
+	virtual void BuildSystem() = 0;
+	virtual WrpMidwApp* GetWrpMidwApp() = 0;
 };
 
-#endif /* APPSAMPLE_SETTINGSCREEN_HPP_ */
+class WrpMidwAppESP32 : public WrpMidwAppBuilder
+{
+public:
+	WrpMidwAppESP32();
+	~WrpMidwAppESP32();
+	void BuildStorage();
+	void BuildDisplay();
+	void BuildNetwork();
+	void BuildSystem();
+	WrpMidwApp* GetWrpMidwApp();
+
+private:
+	WrpMidwApp* m_pMidwApp;
+};
+
+class WrpMidwAppSIM : public WrpMidwAppBuilder
+{
+public:
+	WrpMidwAppSIM();
+	~WrpMidwAppSIM();
+	void BuildStorage();
+	void BuildDisplay();
+	void BuildNetwork();
+	void BuildSystem();
+	WrpMidwApp* GetWrpMidwApp();
+
+private:
+	WrpMidwApp* m_pMidwApp;
+};
+
+
+
+#endif /* WRPMIDW_WRPMIDWAPPBUILDER_HPP */

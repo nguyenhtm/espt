@@ -1,22 +1,17 @@
 /********************************************************************************************************
- * @File  : wrpcoverflow.hpp
- * @Date  : 2019-12-03
+ * @File  : wrphmiscreen.hpp
+ * @Date  : 2020-03-06
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef WRPGUI_WRPCOVERFLOW_HPP_
-#define WRPGUI_WRPCOVERFLOW_HPP_
+#ifndef WRPHMI_WRPHMISCREEN_HPP
+#define WRPHMI_WRPHMISCREEN_HPP
 
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
-#include "wrpgui.hpp"
-#include "wrpwidget.hpp"
-#include "wrpimage.hpp"
-#include "wrpstyle.hpp"
-#include <vector>
-
-namespace WrpGui {
+#include "wrpbase/wrpbase.hpp"
+#include "wrpbase/wrphmi/wrphmiapp.hpp"
 
 /********************************************************************************************************
  * DEFINES
@@ -25,36 +20,32 @@ namespace WrpGui {
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
-
-class WrpCoverFlow : public WrpStyle
+class WrpHmiScreen
 {
 public:
-	WrpCoverFlow();
-	~WrpCoverFlow();
-	void SetWidgets(WrpWidget* pListOfWidgets[], uint16_t size);
-	void Select();
-	void Select2();
-	void FadeInOut(WrpWidget* widget);
-	void Eclipse();
-
-protected:
-
-private:
-	// methods
-	void EnableAnimation(WrpWidget* cur, WrpWidget* next);
-	void EnableAnimation2(WrpWidget* cur, WrpWidget* next);
-	void EnableAnimation3(WrpWidget* cur);
-	// members
-	WrpWidget** m_pListOfWidgets;
-	uint16_t    m_NumOfWidgets;
-	int32_t m_x;
-	int32_t m_y;
-	int32_t m_w;
-	int32_t m_h;
-	int32_t m_xI;
-	int32_t m_yI;
+	WrpHmiScreen();
+	virtual ~WrpHmiScreen();
+	virtual void LoadConfig() = 0;
+	virtual void Add(WrpHmiScreen* pHmiScreen) = 0;
+	virtual void Remove(WrpHmiScreen* pHmiScreen) = 0;
+	virtual WrpHmiScreen* GetChild(uint8_t id) = 0;
 };
 
-} /* Namespace WrpGui */
+class WrpScreenManager : public WrpHmiScreen
+{
+public:
+	WrpScreenManager();
+	~WrpScreenManager();
+	void LoadConfig();
+	void Add(WrpHmiScreen* pHmiScreen);
+	void Remove(WrpHmiScreen* pHmiScreen);
+	WrpHmiScreen* GetChild(uint8_t id);
+	void CreateWrpHmiApp();
+	WrpHmiApp* GetWrpHmiAppInstance();
 
-#endif /* WRPGUI_WRPCOVERFLOW_HPP_ */
+private:
+	std::vector<WrpHmiScreen*> m_listOfScreens;
+	WrpHmiApp* m_pHmiApp;
+};
+
+#endif /* WRPHMI_WRPHMISCREEN_HPP */

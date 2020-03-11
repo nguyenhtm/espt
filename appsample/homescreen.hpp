@@ -15,7 +15,7 @@
 #include "wrpbase/wrpgui/wrplabel.hpp"
 #include "wrpbase/wrpgui/wrpimage.hpp"
 #include "wrpbase/wrpgui/wrpstyle.hpp"
-#include "wrpbase/wrpgui/wrpcoverflow.hpp"
+#include "wrpbase/wrpgui/wrpanim.hpp"
 #include "wrpbase/wrphmi/wrphmiapp.hpp"
 #include "wrpbase/wrpmidw/wrpmidwapp.hpp"
 
@@ -49,13 +49,13 @@ public:
 	/*
 	 * Call back function called on midw events update
 	 */
-	void Update(eWrpMidwAppStatus status, char* buffer, unsigned int length);
+	void MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length);
 
 protected:
 
 private:
 	WrpHmiApp* m_pHmiApp;
-	WrpGui::WrpCoverFlow m_anim;
+	WrpGui::WrpAnim m_anim;
 	WrpGui::WrpImage* m_pMenuItem[3];
 	WrpGui::WrpImage* m_pLogo;
 };

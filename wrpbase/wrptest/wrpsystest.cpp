@@ -7,8 +7,8 @@
 #include "wrpbase/wrpsys/wrpstorage.hpp"
 #include "wrpbase/wrpsys/wrpnetwork.hpp"
 #include "wrpbase/wrpsys/wrpsystem.hpp"
-#include "wrpbase/wrpmidw/wrpmidwbuilder.hpp"
-#include "wrpbase/wrpmidw/wrpmidwstate.hpp"
+#include "wrpbase/wrpmidw/wrpmidwappbuilder.hpp"
+#include "wrpbase/wrpmidw/wrpmidwappfsm.hpp"
 #include "wrptest.hpp"
 
 namespace WrpTest {

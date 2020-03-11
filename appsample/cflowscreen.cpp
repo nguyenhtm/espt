@@ -53,12 +53,6 @@ CFlowScreen::CFlowScreen(WrpHmiApp* app)
 	m_pAnimItem[5]->SetImage(WRPRESIMG_HOME);
 	m_anim.SetWidgets((WrpGui::WrpWidget**)m_pAnimItem, 6);
 
-	// Do animation
-	m_anim.FadeInOut((WrpGui::WrpWidget*)m_pMenuItem[0]);
-	m_anim.FadeInOut((WrpGui::WrpWidget*)m_pMenuItem[1]);
-	m_anim.FadeInOut((WrpGui::WrpWidget*)m_pMenuItem[2]);
-	m_anim.FadeInOut((WrpGui::WrpWidget*)m_pMenuItem[3]);
-
 	WRPPRINT("%s", "CFlowScreen::CFlowScreen() End\n");
 }
 
@@ -70,11 +64,11 @@ CFlowScreen::~CFlowScreen()
 void CFlowScreen::CreateAndShow()
 {
 	WRPPRINT("%s", "CFlowScreen::CreateAndShow() Begin\n");
-	m_anim.FadeInOut((WrpGui::WrpWidget*)m_pMenuItem[0]);
-	m_anim.FadeInOut((WrpGui::WrpWidget*)m_pMenuItem[1]);
-	m_anim.FadeInOut((WrpGui::WrpWidget*)m_pMenuItem[2]);
-	m_anim.FadeInOut((WrpGui::WrpWidget*)m_pMenuItem[3]);
-	m_anim.Select2();
+	m_anim.FadeIn((WrpGui::WrpWidget*)m_pMenuItem[0], 2000);
+	m_anim.FadeIn((WrpGui::WrpWidget*)m_pMenuItem[1], 2000);
+	m_anim.FadeIn((WrpGui::WrpWidget*)m_pMenuItem[2], 2000);
+	m_anim.FadeIn((WrpGui::WrpWidget*)m_pMenuItem[3], 2000);
+	m_anim.Liverpool();
 	WRPPRINT("%s", "CFlowScreen::CreateAndShow() End\n");
 }
 
@@ -85,7 +79,7 @@ void CFlowScreen::HideAndDestroy()
 	WRPPRINT("%s", "CFlowScreen::HideAndDestroy() End\n");
 }
 
-void CFlowScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int length)
+void CFlowScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length)
 {
 	WRPPRINT("%s", "CFlowScreen::Update() Begin\n");
 	switch(status)
@@ -100,19 +94,31 @@ void CFlowScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int le
 			{
 				m_pAnimItem[5]->SetPos(0,0); // unhide it
 				m_anim.SetWidgets((WrpGui::WrpWidget**)m_pAnimItem, 6);
-				m_anim.Select2();
+				m_anim.Liverpool();
 			}
 			else if (!strcmp(buffer, "cflow2"))
 			{
 				m_pAnimItem[5]->SetPos(0,-30); // hide it
 				m_anim.SetWidgets((WrpGui::WrpWidget**)m_pAnimItem, 5);
-				m_anim.Select();
+				m_anim.Barcelona();
 			}
 			else if (!strcmp(buffer, "cflow3"))
 			{
-				m_pAnimItem[5]->SetPos(0,0); // unhide it
+				m_pAnimItem[5]->SetPos(0,0);  // unhide it
 				m_anim.SetWidgets((WrpGui::WrpWidget**)m_pAnimItem, 6);
-				m_anim.Eclipse();
+				m_anim.RealMadrid();
+			}
+			else if (!strcmp(buffer, "cflow4"))
+			{
+				m_pAnimItem[5]->SetPos(0,0);  // unhide it
+				m_anim.SetWidgets((WrpGui::WrpWidget**)m_pAnimItem, 6);
+				m_anim.Chealse();
+			}
+			else if (!strcmp(buffer, "cflow5"))
+			{
+				m_pAnimItem[5]->SetPos(0,0);  // unhide it
+				m_anim.SetWidgets((WrpGui::WrpWidget**)m_pAnimItem, 6);
+				m_anim.Messi();
 			}
 			break;
 		}

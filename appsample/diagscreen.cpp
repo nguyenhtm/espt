@@ -1,13 +1,11 @@
 /********************************************************************************************************
- * @File  : settingscreen.cpp
+ * @File  : diagscreen.cpp
  * @Date  : 2019-10-06
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
 #include "appdefines.hpp"
-#include "settingscreen.hpp"
-#include "wrpbase/wrpgui/wrpscreen.hpp"
-#include "wrpbase/wrpgui/wrplabel.hpp"
+#include "diagscreen.hpp"
 
 /********************************************************************************************************
  * VARIABLES
@@ -16,45 +14,45 @@
 /********************************************************************************************************
  * FUNCTIONS
  ********************************************************************************************************/
-SettingScreen::SettingScreen(WrpHmiApp* app)
+DiagScreen::DiagScreen(WrpHmiApp* app)
 : m_pHmiApp(app)
 , m_pLblBackItem(NULL)
 {
-	WRPPRINT("%s", "SettingScreen::SettingScreen() Begin\n");
+	WRPPRINT("%s", "DiagScreen::DiagScreen() Begin\n");
 
-	WRPPRINT("%s", "SettingScreen::SettingScreen() End\n");
+	WRPPRINT("%s", "DiagScreen::DiagScreen() End\n");
 }
 
-SettingScreen::~SettingScreen()
+DiagScreen::~DiagScreen()
 {
-	WRPPRINT("%s", "SettingScreen::~SettingScreen() Begin\n");
+	WRPPRINT("%s", "DiagScreen::~DiagScreen() Begin\n");
 
-	WRPPRINT("%s", "SettingScreen::~SettingScreen() End\n");
+	WRPPRINT("%s", "DiagScreen::~DiagScreen() End\n");
 }
 
-void SettingScreen::CreateAndShow()
+void DiagScreen::CreateAndShow()
 {
-	WRPPRINT("%s", "SettingScreen::CreateAndShow() Begin\n");
+	WRPPRINT("%s", "DiagScreen::CreateAndShow() Begin\n");
 	m_pScreenHandle = new WrpGui::WrpScreen(false);
 	m_pScreenHandle->SetTitle("Setting");
 	m_pLblBackItem = new WrpGui::WrpLabel(m_pScreenHandle);
 	m_pLblBackItem->SetPos(260, 10);
 	m_pLblBackItem->SetText("Back");
-	WRPPRINT("%s", "SettingScreen::CreateAndShow() End\n");
+	WRPPRINT("%s", "DiagScreen::CreateAndShow() End\n");
 }
 
-void SettingScreen::HideAndDestroy()
+void DiagScreen::HideAndDestroy()
 {
-	WRPPRINT("%s", "SettingScreen::HideAndDestroy() Begin\n");
+	WRPPRINT("%s", "DiagScreen::HideAndDestroy() Begin\n");
 	//WRPNULL_CHECK(m_pScreenHandle)
 	//delete m_pScreenHandle;
 	//delete m_pLblBackItem;
-	WRPPRINT("%s", "SettingScreen::HideAndDestroy() End\n");
+	WRPPRINT("%s", "DiagScreen::HideAndDestroy() End\n");
 }
 
-void SettingScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int length)
+void DiagScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length)
 {
-	WRPPRINT("%s", "SettingScreen::Update() Begin\n");
+	WRPPRINT("%s", "DiagScreen::Update() Begin\n");
 
 	switch(status)
 	{
@@ -72,5 +70,5 @@ void SettingScreen::Update(eWrpMidwAppStatus status, char* buffer, unsigned int 
 		}
 		break;
 	}
-	WRPPRINT("%s", "SettingScreen::Update() End\n");
+	WRPPRINT("%s", "DiagScreen::Update() End\n");
 }

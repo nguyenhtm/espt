@@ -4,8 +4,8 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef APPSAMPLE_APPDEFINES_HPP_
-#define APPSAMPLE_APPDEFINES_HPP_
+#ifndef APPSAMPLE_APPDEFINES_HPP
+#define APPSAMPLE_APPDEFINES_HPP
 
 /********************************************************************************************************
  * INCLUDES
@@ -19,11 +19,10 @@
 #define SETTINGSCREEN   0x03
 #define CFLOWSCREEN     0x04
 
-
 /********************************************************************************************************
  * FUNCTIONS
  ********************************************************************************************************/
 
 extern void appsample();
 
-#endif /* APPSAMPLE_APPDEFINES_HPP_ */
+#endif /* APPSAMPLE_APPDEFINES_HPP */

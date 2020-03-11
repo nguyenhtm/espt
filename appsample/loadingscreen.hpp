@@ -44,7 +44,7 @@ public:
 	/*
 	 * Call back function called on midw events update
 	 */
-	void Update(eWrpMidwAppStatus status, char* buffer, unsigned int length);
+	void MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length);
 
 protected:
 

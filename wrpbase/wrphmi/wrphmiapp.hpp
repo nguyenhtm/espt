@@ -4,8 +4,8 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef WRPHMI_WRPHMIAPP_H_
-#define WRPHMI_WRPHMIAPP_H_
+#ifndef WRPHMI_WRPHMIAPP_HPP
+#define WRPHMI_WRPHMIAPP_HPP
 
 /********************************************************************************************************
  * INCLUDES
@@ -79,4 +79,4 @@ private:
 	std::vector<WrpHmiAppClient*> m_listOfObservers;
 };
 
-#endif /* WRPHMI_WRPHMIAPP_H_ */
+#endif /* WRPHMI_WRPHMIAPP_HPP */
