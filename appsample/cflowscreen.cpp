@@ -121,7 +121,7 @@ void CFlowScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned
       default:
          break;
    }
-   WRPPRINT("%s", "CFlowScreen::Update() End\n");
+   WRPPRINT("%s", "CFlowScreen::MidwAppUpdate() End\n");
 }
 
 CFlowScreen::CFlowScreen(const CFlowScreen& cp)

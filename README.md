@@ -1,6 +1,6 @@
 Purpose:
 Create a tutorial sample app which can be run on ESP32 platform using ESP-WROVER-KIT V3 Kit and on Windows platform using SDL Simulator
-Video: https://www.youtube.com/watch?v=6uVoYXjuBhI
+Video: https://www.youtube.com/watch?v=e4u56qCMuuE
 
 Step1
 + Create a folder to contain the sample app like D:\iotprj
