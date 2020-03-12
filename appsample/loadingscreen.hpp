@@ -4,14 +4,15 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef APPSAMPLE_LOADINGSCREEN_HPP_
-#define APPSAMPLE_LOADINGSCREEN_HPP_
+#ifndef APPSAMPLE_LOADINGSCREEN_HPP
+#define APPSAMPLE_LOADINGSCREEN_HPP
 
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
 #include "wrpbase/wrpbase.hpp"
 #include "wrpbase/wrphmi/wrphmiapp.hpp"
+#include "wrpbase/wrphmi/wrphmiscreen.hpp"
 #include "wrpbase/wrpmidw/wrpmidwapp.hpp"
 
 /********************************************************************************************************
@@ -23,34 +24,35 @@
  ********************************************************************************************************/
 class LoadingScreen : public WrpHmiAppClient
                     , public WrpMidwAppClient
+                    , public WrpHmiScreen
 {
 public:
-	/*
-	 * Constructor
-	 */
-	LoadingScreen(WrpHmiApp* app);
-	/*
-	 * Destructor
-	 */
-	~LoadingScreen();
-	/*
-	 * Call back function called on a screen creation
-	 */
-	void CreateAndShow();
-	/*
-	 * Call back function called on a screen destroy
-	 */
-	void HideAndDestroy();
-	/*
-	 * Call back function called on midw events update
-	 */
-	void MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length);
-
-protected:
+   LoadingScreen(WrpHmiApp* app);
+   ~LoadingScreen();
+   /*
+    * Call back function called on a WrpHmiClient screen creation
+    */
+   void CreateAndShow();
+   /*
+    * Call back function called on a WrpHmiClient screen destroy
+    */
+   void HideAndDestroy();
+   /*
+    * Call back function called on a WrpMidwAppClient events update
+    */
+   void MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length);
+   /*
+    * Call back function called on a WrpHmiScreen config loading
+    */
+   void          LoadConfig(){};
+   void          Add(WrpHmiScreen* pHmiScreen){};
+   void          Remove(WrpHmiScreen* pHmiScreen){};
+   WrpHmiScreen* GetChild(const uint8_t id) const { return NULL; };
 
 private:
-	WrpHmiApp* m_pHmiApp;
-	WrpGui::WrpLabel* m_pLblLoadingStatus;
+   LoadingScreen(const LoadingScreen& cp);
+   WrpHmiApp*        mpHmiApp;
+   WrpGui::WrpLabel* mpLblLoadingStatus;
 };
 
-#endif /* APPSAMPLE_LOADINGSCREEN_HPP_ */
+#endif /* APPSAMPLE_LOADINGSCREEN_HPP */

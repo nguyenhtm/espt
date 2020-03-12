@@ -4,8 +4,8 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef WRPMIDW_WRPMIDWAPP_H_
-#define WRPMIDW_WRPMIDWAPP_H_
+#ifndef WRPMIDW_WRPMIDWAPP_HPP
+#define WRPMIDW_WRPMIDWAPP_HPP
 
 /********************************************************************************************************
  * INCLUDES
@@ -13,6 +13,7 @@
 #include "wrpbase/wrpbase.hpp"
 #include "wrpbase/wrpsys/wrpnetwork.hpp"
 #include "wrpbase/wrpsys/wrpsystem.hpp"
+#include "wrpbase/wrpsys/wrpstorage.hpp"
 #include "wrpmidwappbuilder.hpp"
 #include "wrpmidwappfsm.hpp"
 
@@ -78,12 +79,12 @@ private:
    eWrpMidwAppStatus   mMidwAppStatus;
    WrpWebSocketClient* mpWsClientHandle;
    WrpMidwAppState*    mpCurrentState;
-   wrpthread_t         mThreadid;
+   wrpthread_t         mThreadId;
 
    friend class WrpMidwAppInitState;
    friend class WrpMidwAppDeInitState;
    friend class WrpWsClientNotConnectedState;
 
-   std::vector<WrpMidwAppClient*> m_listOfObservers;
+   std::vector<WrpMidwAppClient*> mListOfObservers;
 };
-#endif /* WRPMIDW_WRPMIDWAPP_H_ */
+#endif /* WRPMIDW_WRPMIDWAPP_HPP */

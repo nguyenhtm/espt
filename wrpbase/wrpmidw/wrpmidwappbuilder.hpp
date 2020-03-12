@@ -26,45 +26,50 @@ class WrpMidwApp;
 class WrpMidwAppBuilder
 {
 public:
-	WrpMidwAppBuilder();
-	virtual ~WrpMidwAppBuilder();
-	virtual void BuildStorage() = 0;
-	virtual void BuildDisplay() = 0;
-	virtual void BuildNetwork() = 0;
-	virtual void BuildSystem() = 0;
-	virtual WrpMidwApp* GetWrpMidwApp() = 0;
+   WrpMidwAppBuilder();
+   virtual ~WrpMidwAppBuilder();
+   virtual void BuildStorage() const = 0;
+   virtual void BuildDisplay() const = 0;
+   virtual void BuildNetwork() const = 0;
+   virtual void BuildSystem() const = 0;
+   virtual WrpMidwApp* GetWrpMidwApp() const = 0;
+
+private:
+   WrpMidwAppBuilder(const WrpMidwAppBuilder& cp);
 };
 
 class WrpMidwAppESP32 : public WrpMidwAppBuilder
 {
 public:
-	WrpMidwAppESP32();
-	~WrpMidwAppESP32();
-	void BuildStorage();
-	void BuildDisplay();
-	void BuildNetwork();
-	void BuildSystem();
-	WrpMidwApp* GetWrpMidwApp();
+   WrpMidwAppESP32();
+   ~WrpMidwAppESP32();
+   void BuildStorage() const;
+   void BuildDisplay() const;
+   void BuildNetwork() const;
+   void BuildSystem() const;
+   WrpMidwApp* GetWrpMidwApp() const;
 
 private:
-	WrpMidwApp* m_pMidwApp;
+   WrpMidwAppESP32(const WrpMidwAppESP32& cp);
+   // members
+   WrpMidwApp* mpMidwApp;
 };
 
 class WrpMidwAppSIM : public WrpMidwAppBuilder
 {
 public:
-	WrpMidwAppSIM();
-	~WrpMidwAppSIM();
-	void BuildStorage();
-	void BuildDisplay();
-	void BuildNetwork();
-	void BuildSystem();
-	WrpMidwApp* GetWrpMidwApp();
+   WrpMidwAppSIM();
+   ~WrpMidwAppSIM();
+   void BuildStorage() const;
+   void BuildDisplay() const;
+   void BuildNetwork() const;
+   void BuildSystem() const;
+   WrpMidwApp* GetWrpMidwApp() const;
 
 private:
-	WrpMidwApp* m_pMidwApp;
+   WrpMidwAppSIM(const WrpMidwAppSIM& cp);
+   // members
+   WrpMidwApp* mpMidwApp;
 };
-
-
 
 #endif /* WRPMIDW_WRPMIDWAPPBUILDER_HPP */

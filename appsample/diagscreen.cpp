@@ -15,60 +15,61 @@
  * FUNCTIONS
  ********************************************************************************************************/
 DiagScreen::DiagScreen(WrpHmiApp* app)
-: m_pHmiApp(app)
-, m_pLblBackItem(NULL)
+: mpHmiApp(app)
+, mpLblBackItem(NULL)
 {
-	WRPPRINT("%s", "DiagScreen::DiagScreen() Begin\n");
-
-	WRPPRINT("%s", "DiagScreen::DiagScreen() End\n");
+   WRPPRINT("%s\n", "DiagScreen::DiagScreen() Begin");
+   mpHmiAppClientHandle = new WrpGui::WrpScreen(false);
+   mpHmiAppClientHandle->SetTitle("Setting");
+   mpLblBackItem = new WrpGui::WrpLabel(mpHmiAppClientHandle);
+   mpLblBackItem->SetPos(260, WRPSCREEN_MENU_POSY);
+   mpLblBackItem->SetText("Back");
+   WRPPRINT("%s\n", "DiagScreen::DiagScreen() End");
 }
 
 DiagScreen::~DiagScreen()
 {
-	WRPPRINT("%s", "DiagScreen::~DiagScreen() Begin\n");
-
-	WRPPRINT("%s", "DiagScreen::~DiagScreen() End\n");
+   WRPPRINT("%s\n", "DiagScreen::~DiagScreen() Begin");
+   WRPPRINT("%s\n", "DiagScreen::~DiagScreen() End");
 }
 
 void DiagScreen::CreateAndShow()
 {
-	WRPPRINT("%s", "DiagScreen::CreateAndShow() Begin\n");
-	m_pScreenHandle = new WrpGui::WrpScreen(false);
-	m_pScreenHandle->SetTitle("Setting");
-	m_pLblBackItem = new WrpGui::WrpLabel(m_pScreenHandle);
-	m_pLblBackItem->SetPos(260, 10);
-	m_pLblBackItem->SetText("Back");
-	WRPPRINT("%s", "DiagScreen::CreateAndShow() End\n");
+   WRPPRINT("%s\n", "DiagScreen::CreateAndShow() Begin");
+   WRPPRINT("%s\n", "DiagScreen::CreateAndShow() End");
 }
 
 void DiagScreen::HideAndDestroy()
 {
-	WRPPRINT("%s", "DiagScreen::HideAndDestroy() Begin\n");
-	//WRPNULL_CHECK(m_pScreenHandle)
-	//delete m_pScreenHandle;
-	//delete m_pLblBackItem;
-	WRPPRINT("%s", "DiagScreen::HideAndDestroy() End\n");
+   WRPPRINT("%s", "DiagScreen::HideAndDestroy() Begin");
+   //WRPNULL_CHECK(m_pScreenHandle)
+   //delete m_pScreenHandle;
+   //delete m_pLblBackItem;
+   WRPPRINT("%s", "DiagScreen::HideAndDestroy() End");
 }
 
 void DiagScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length)
 {
-	WRPPRINT("%s", "DiagScreen::Update() Begin\n");
+   WRPPRINT("%s\n", "DiagScreen::MidwAppUpdate() Begin");
+   switch(status)
+   {
+      case MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED:
+         {
+            if (!strcmp(buffer, "back"))
+            {
+               mpHmiApp->LoadScreen(HOMESCREEN);
+            }
+         }
+         break;
+      default:
+         {
+            //do nothing
+         }
+         break;
+   }
+   WRPPRINT("%s\n", "DiagScreen::MidwAppUpdate() End");
+}
 
-	switch(status)
-	{
-		case MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED:
-		{
-			if (!strcmp(buffer, "back"))
-			{
-				m_pHmiApp->LoadScreen(HOMESCREEN);
-			}
-		}
-		break;
-		default:
-		{
-			//do nothing
-		}
-		break;
-	}
-	WRPPRINT("%s", "DiagScreen::Update() End\n");
+DiagScreen::DiagScreen(const DiagScreen& cp)
+{
 }

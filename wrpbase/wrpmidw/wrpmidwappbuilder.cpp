@@ -25,62 +25,75 @@ WrpMidwAppBuilder::~WrpMidwAppBuilder()
 {
 }
 
+WrpMidwAppBuilder::WrpMidwAppBuilder(const WrpMidwAppBuilder& cp)
+{
+}
+
 /********************************************************************************************************
  * FUNCTIONS - WrpMidwAppESP32
  ********************************************************************************************************/
 WrpMidwAppESP32::WrpMidwAppESP32()
 {
-	m_pMidwApp = new WrpMidwApp;
+   WRPPRINT("%s\n", "WrpMidwAppESP32::WrpMidwAppESP32() Begin");
+   mpMidwApp = new WrpMidwApp;
+   WRPPRINT("%s\n", "WrpMidwAppESP32::WrpMidwAppESP32() End");
 }
 
 WrpMidwAppESP32::~WrpMidwAppESP32()
 {
-	delete m_pMidwApp;
+   WRPPRINT("%s\n", "WrpMidwAppESP32::~WrpMidwAppESP32() Begin");
+   delete mpMidwApp;
+   WRPPRINT("%s\n", "WrpMidwAppESP32::~WrpMidwAppESP32() End");
 }
 
-void WrpMidwAppESP32::BuildStorage()
+void WrpMidwAppESP32::BuildStorage() const
 {
-	WRPPRINT("%s\n", "WrpMidwAppESP32::BuildStorage() Begin");
-	WrpSys::Storage::InitNVS();
-	WrpSys::Storage::InitSPIFFS();
-	WrpSys::Storage::InitSDCard();
-	WRPPRINT("%s\n", "WrpMidwAppESP32::BuildStorage() End");
+   WRPPRINT("%s\n", "WrpMidwAppESP32::BuildStorage() Begin");
+   WrpSys::Storage::InitNVS();
+   WrpSys::Storage::InitSPIFFS();
+   WrpSys::Storage::InitSDCard();
+   WRPPRINT("%s\n", "WrpMidwAppESP32::BuildStorage() End");
 }
 
-void WrpMidwAppESP32::BuildDisplay()
+void WrpMidwAppESP32::BuildDisplay() const
 {
-	WRPPRINT("%s\n", "WrpMidwAppESP32::BuildDisplay() Begin");
-	WrpSys::InitLvglLib();
-	WrpSys::InitLvglFileSystem();
-	WRPPRINT("%s\n", "WrpMidwAppESP32::BuildDisplay() End");
+   WRPPRINT("%s\n", "WrpMidwAppESP32::BuildDisplay() Begin");
+   WrpSys::InitLvglLib();
+   WrpSys::InitLvglFileSystem();
+   WRPPRINT("%s\n", "WrpMidwAppESP32::BuildDisplay() End");
 }
 
-void WrpMidwAppESP32::BuildNetwork()
+void WrpMidwAppESP32::BuildNetwork() const
 {
-	WRPPRINT("%s\n", "WrpMidwAppESP32::BuildNetwork() Begin");
-	uint8_t nRetry = 0;
-	const uint8_t nMaxTimeOut = 1; //seconds
+   WRPPRINT("%s\n", "WrpMidwAppESP32::BuildNetwork() Begin");
+   uint8_t nRetry = 0;
+   const uint8_t nMaxTimeOut = 1; //seconds
+   const uint8_t nMaxRetry = 10;  //times
 
-	WrpSys::Network::InitWifiStation();
-	while ((nRetry < 10) && (WrpSys::Network::m_uNetworkStatus != NETWORK_STATUS_CONNECTED))
-	{
-		nRetry++;
-		sleep(nMaxTimeOut);
-		WRPPRINT("%s%d\n", "WrpMidwAppESP32::BuildNetwork() Retry ", nRetry);
-	}
-	WRPPRINT("%s\n", "WrpMidwAppESP32::BuildNetwork() End");
+   WrpSys::Network::InitWifiStation();
+   while ((nRetry < nMaxRetry) && (WrpSys::Network::m_uNetworkStatus != NETWORK_STATUS_CONNECTED))
+   {
+      nRetry++;
+      sleep(nMaxTimeOut);
+      WRPPRINT("%s%d\n", "WrpMidwAppESP32::BuildNetwork() Retry ", nRetry);
+   }
+   WRPPRINT("%s\n", "WrpMidwAppESP32::BuildNetwork() End");
 }
 
-void WrpMidwAppESP32::BuildSystem()
+void WrpMidwAppESP32::BuildSystem() const
 {
-	WRPPRINT("%s\n", "WrpMidwAppESP32::BuildSystem() Begin");
-	WrpSys::System::PrintChipInfo();
-	WRPPRINT("%s\n", "WrpMidwAppESP32::BuildSystem() End");
+   WRPPRINT("%s\n", "WrpMidwAppESP32::BuildSystem() Begin");
+   WrpSys::System::PrintChipInfo();
+   WRPPRINT("%s\n", "WrpMidwAppESP32::BuildSystem() End");
 }
 
-WrpMidwApp* WrpMidwAppESP32::GetWrpMidwApp()
+WrpMidwApp* WrpMidwAppESP32::GetWrpMidwApp() const
 {
-	return m_pMidwApp;
+   return mpMidwApp;
+}
+
+WrpMidwAppESP32::WrpMidwAppESP32(const WrpMidwAppESP32& cp)
+{
 }
 
 /********************************************************************************************************
@@ -88,43 +101,50 @@ WrpMidwApp* WrpMidwAppESP32::GetWrpMidwApp()
  ********************************************************************************************************/
 WrpMidwAppSIM::WrpMidwAppSIM()
 {
-	m_pMidwApp = new WrpMidwApp;
+   WRPPRINT("%s\n", "WrpMidwAppSIM::WrpMidwAppSIM() Begin");
+   mpMidwApp = new WrpMidwApp;
+   WRPPRINT("%s\n", "WrpMidwAppSIM::WrpMidwAppSIM() End");
 }
 
 WrpMidwAppSIM::~WrpMidwAppSIM()
 {
-	delete m_pMidwApp;
+   WRPPRINT("%s\n", "WrpMidwAppSIM::~WrpMidwAppSIM() Begin");
+   delete mpMidwApp;
+   WRPPRINT("%s\n", "WrpMidwAppSIM::~WrpMidwAppSIM() End");
 }
 
-void WrpMidwAppSIM::BuildStorage()
+void WrpMidwAppSIM::BuildStorage() const
 {
-	WRPPRINT("%s\n", "WrpMidwAppSIM::BuildStorage() Begin");
-
-	WRPPRINT("%s\n", "WrpMidwAppSIM::BuildStorage() End");
+   WRPPRINT("%s\n", "WrpMidwAppSIM::BuildStorage() Begin");
+   WRPPRINT("%s\n", "WrpMidwAppSIM::BuildStorage() End");
 }
 
-void WrpMidwAppSIM::BuildDisplay()
+void WrpMidwAppSIM::BuildDisplay() const
 {
-	WRPPRINT("%s\n", "WrpMidwAppSIM::BuildDisplay() Begin");
-	WrpSys::InitLvglLib();
-	WrpSys::InitLvglFileSystem();
-	WRPPRINT("%s\n", "WrpMidwAppSIM::BuildDisplay() End");
+   WRPPRINT("%s\n", "WrpMidwAppSIM::BuildDisplay() Begin");
+   WrpSys::InitLvglLib();
+   WrpSys::InitLvglFileSystem();
+   WRPPRINT("%s\n", "WrpMidwAppSIM::BuildDisplay() End");
 }
 
-void WrpMidwAppSIM::BuildNetwork()
+void WrpMidwAppSIM::BuildNetwork() const
 {
-	WRPPRINT("%s\n", "WrpMidwAppSIM::BuildNetwork() Begin");
-	WrpSys::Network::m_uNetworkStatus = NETWORK_STATUS_CONNECTED;
-	WRPPRINT("%s\n", "WrpMidwAppSIM::BuildNetwork() End");
+   WRPPRINT("%s\n", "WrpMidwAppSIM::BuildNetwork() Begin");
+   WrpSys::Network::m_uNetworkStatus = NETWORK_STATUS_CONNECTED;
+   WRPPRINT("%s\n", "WrpMidwAppSIM::BuildNetwork() End");
 }
 
-void WrpMidwAppSIM::BuildSystem()
+void WrpMidwAppSIM::BuildSystem() const
 {
-	WRPPRINT("%s\n", "WrpMidwAppSIM::BuildSystem() Begin");
-	WRPPRINT("%s\n", "WrpMidwAppSIM::BuildSystem() End");
+   WRPPRINT("%s\n", "WrpMidwAppSIM::BuildSystem() Begin");
+   WRPPRINT("%s\n", "WrpMidwAppSIM::BuildSystem() End");
 }
 
-WrpMidwApp* WrpMidwAppSIM::GetWrpMidwApp()
+WrpMidwApp* WrpMidwAppSIM::GetWrpMidwApp() const
 {
-	return m_pMidwApp;
+   return mpMidwApp;
+}
+
+WrpMidwAppSIM::WrpMidwAppSIM(const WrpMidwAppSIM& cp)
+{
 }

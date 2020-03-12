@@ -59,8 +59,8 @@ void WrpMidwAppInitState::Handle()
    mpContext->mpWsClientHandle->Create("127.0.0.1", 8000);
 #endif
    mpContext->mMidwAppStatus = MIDWAPP_STATUS_START;
-   mpContext->mThreadid = WrpSys::System::WrpCreateThread(WrpMidwApp::ThreadWrpMidwApp, "WrpMidwApp", mpContext);
-   if (!mpContext->mThreadid)
+   mpContext->mThreadId = WrpSys::System::WrpCreateThread(WrpMidwApp::ThreadWrpMidwApp, "WrpMidwApp", mpContext);
+   if (!mpContext->mThreadId)
    {
       WRPPRINT("%s\n", "WrpMidwAppInitState::Handle() WrpCreateThread Failed!");
       mpContext->mMidwAppStatus = MIDWAPP_STATUS_STOP;

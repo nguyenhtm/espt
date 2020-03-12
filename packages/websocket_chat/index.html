@@ -79,6 +79,9 @@
     document.getElementById('setting').onclick = function(ev) {
       ws.send('setting');
     };
+    document.getElementById('autotest').onclick = function(ev) {
+      ws.send('cflow');
+    };
     document.getElementById('back').onclick = function(ev) {
       ws.send('back');
     };
@@ -94,8 +97,8 @@
 		<tr><td><img id="shutdown" src="./def01home.png" width="30" height="30" onlick="function()"></td></tr>
 		<tr><td><img src="./def01app.png" width="30" height="30" onlick="function()"></td></tr>
 		<tr><td><img id="setting" src="./def01setting.png" width="30" height="30" onlick="function()"></td></tr>
-		<tr><td><img src="./def01diagnosis.png" width="30" height="30" onlick="function()"></td></tr>
-		<tr><td><img src="./def01autotest.png" width="30" height="30" onlick="function()"></td></tr>
+		<tr><td><img id="diagnosis" src="./def01diagnosis.png" width="30" height="30" onlick="function()"></td></tr>
+		<tr><td><img id="autotest" src="./def01autotest.png" width="30" height="30" onlick="function()"></td></tr>
 		<tr><td><img id="back" src="./back.png" width="30" height="30" onlick="function()"></td></tr>
 	</table>
 	<table style="width:100%">

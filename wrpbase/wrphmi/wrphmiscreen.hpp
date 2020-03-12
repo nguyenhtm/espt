@@ -23,29 +23,34 @@
 class WrpHmiScreen
 {
 public:
-	WrpHmiScreen();
-	virtual ~WrpHmiScreen();
-	virtual void LoadConfig() = 0;
-	virtual void Add(WrpHmiScreen* pHmiScreen) = 0;
-	virtual void Remove(WrpHmiScreen* pHmiScreen) = 0;
-	virtual WrpHmiScreen* GetChild(uint8_t id) = 0;
+   WrpHmiScreen();
+   virtual ~WrpHmiScreen();
+   virtual void          LoadConfig() = 0;
+   virtual void          Add(WrpHmiScreen* pHmiScreen) = 0;
+   virtual void          Remove(WrpHmiScreen* pHmiScreen) = 0;
+   virtual WrpHmiScreen* GetChild(const uint8_t id) const = 0;
+
+private:
+   WrpHmiScreen(const WrpHmiScreen& cp);
 };
 
 class WrpScreenManager : public WrpHmiScreen
 {
 public:
-	WrpScreenManager();
-	~WrpScreenManager();
-	void LoadConfig();
-	void Add(WrpHmiScreen* pHmiScreen);
-	void Remove(WrpHmiScreen* pHmiScreen);
-	WrpHmiScreen* GetChild(uint8_t id);
-	void CreateWrpHmiApp();
-	WrpHmiApp* GetWrpHmiAppInstance();
+   WrpScreenManager();
+   ~WrpScreenManager();
+   void          LoadConfig();
+   void          Add(WrpHmiScreen* pHmiScreen);
+   void          Remove(WrpHmiScreen* pHmiScreen);
+   WrpHmiScreen* GetChild(uint8_t id) const;
+   void          CreateWrpHmiApp();
+   WrpHmiApp*    GetWrpHmiAppInstance();
 
 private:
-	std::vector<WrpHmiScreen*> m_listOfScreens;
-	WrpHmiApp* m_pHmiApp;
+   WrpScreenManager(const WrpScreenManager& cp);
+   // members
+   std::vector<WrpHmiScreen*> m_listOfScreens;
+   WrpHmiApp*                 mpHmiApp;
 };
 
 #endif /* WRPHMI_WRPHMISCREEN_HPP */

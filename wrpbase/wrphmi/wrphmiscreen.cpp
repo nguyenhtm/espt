@@ -17,10 +17,13 @@
  ********************************************************************************************************/
 WrpHmiScreen::WrpHmiScreen()
 {
-
 }
 
 WrpHmiScreen::~WrpHmiScreen()
+{
+}
+
+WrpHmiScreen::WrpHmiScreen(const WrpHmiScreen& cp)
 {
 }
 
@@ -28,28 +31,27 @@ WrpHmiScreen::~WrpHmiScreen()
  * FUNCTIONS - WrpScreenManager
  ********************************************************************************************************/
 WrpScreenManager::WrpScreenManager()
-: m_pHmiApp(NULL)
+: mpHmiApp(NULL)
 {
-	WRPPRINT("%s\n", "WrpScreenManager::WrpScreenManager() Begin");
-
-	WRPPRINT("%s\n", "WrpScreenManager::WrpScreenManager() End");
+   WRPPRINT("%s\n", "WrpScreenManager::WrpScreenManager() Begin");
+   WRPPRINT("%s\n", "WrpScreenManager::WrpScreenManager() End");
 }
 
 WrpScreenManager::~WrpScreenManager()
 {
-	WRPPRINT("%s\n", "WrpScreenManager::~WrpScreenManager() Begin");
-
-	WRPPRINT("%s\n", "WrpScreenManager::~WrpScreenManager() End");
+   WRPPRINT("%s\n", "WrpScreenManager::~WrpScreenManager() Begin");
+   WRPPRINT("%s\n", "WrpScreenManager::~WrpScreenManager() End");
 }
 
 void WrpScreenManager::LoadConfig()
 {
-
+   WRPPRINT("%s\n", "WrpScreenManager::LoadConfig() Begin");
+   WRPPRINT("%s\n", "WrpScreenManager::LoadConfig() End");
 }
 
 void WrpScreenManager::Add(WrpHmiScreen* pHmiScreen)
 {
-	m_listOfScreens.push_back(pHmiScreen);
+   m_listOfScreens.push_back(pHmiScreen);
 }
 
 void WrpScreenManager::Remove(WrpHmiScreen* pHmiScreen)
@@ -57,18 +59,18 @@ void WrpScreenManager::Remove(WrpHmiScreen* pHmiScreen)
 
 }
 
-WrpHmiScreen* WrpScreenManager::GetChild(uint8_t id)
+WrpHmiScreen* WrpScreenManager::GetChild(uint8_t id) const
 {
-return NULL;
+   return NULL;
 }
 
 void WrpScreenManager::CreateWrpHmiApp()
 {
-	m_pHmiApp = WrpHmiApp::GetInstance();
-	m_pHmiApp->Start();
+   mpHmiApp = WrpHmiApp::GetInstance();
+   mpHmiApp->Start();
 }
 
 WrpHmiApp* WrpScreenManager::GetWrpHmiAppInstance()
 {
-	return m_pHmiApp;
+   return mpHmiApp;
 }

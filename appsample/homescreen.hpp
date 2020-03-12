@@ -4,20 +4,18 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef APPSAMPLE_HOMESCREEN_HPP_
-#define APPSAMPLE_HOMESCREEN_HPP_
+#ifndef APPSAMPLE_HOMESCREEN_HPP
+#define APPSAMPLE_HOMESCREEN_HPP
 
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
 #include "wrpbase/wrpbase.hpp"
-#include "wrpbase/wrpgui/wrpscreen.hpp"
-#include "wrpbase/wrpgui/wrplabel.hpp"
-#include "wrpbase/wrpgui/wrpimage.hpp"
-#include "wrpbase/wrpgui/wrpstyle.hpp"
-#include "wrpbase/wrpgui/wrpanim.hpp"
 #include "wrpbase/wrphmi/wrphmiapp.hpp"
+#include "wrpbase/wrphmi/wrphmiscreen.hpp"
 #include "wrpbase/wrpmidw/wrpmidwapp.hpp"
+#include "wrpbase/wrpgui/wrpimage.hpp"
+#include "wrpbase/wrpgui/wrpanim.hpp"
 
 /********************************************************************************************************
  * DEFINES
@@ -28,36 +26,37 @@
  ********************************************************************************************************/
 class HomeScreen : public WrpHmiAppClient
                  , public WrpMidwAppClient
+                 , public WrpHmiScreen
 {
 public:
-	/*
-	 * Constructor
-	 */
-	HomeScreen(WrpHmiApp* app);
-	/*
-	 * Destructor
-	 */
-	~HomeScreen();
-	/*
-	 * Call back function called on a screen creation
-	 */
-	void CreateAndShow();
-	/*
-	 * Call back function called on a screen destroy
-	 */
-	void HideAndDestroy();
-	/*
-	 * Call back function called on midw events update
-	 */
-	void MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length);
-
-protected:
+   HomeScreen(WrpHmiApp* app);
+   ~HomeScreen();
+   /*
+    * Call back function called on a WrpHmiClient screen creation
+    */
+   void CreateAndShow();
+   /*
+    * Call back function called on a WrpHmiClient screen destroy
+    */
+   void HideAndDestroy();
+   /*
+    * Call back function called on a WrpMidwAppClient events update
+    */
+   void MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length);
+   /*
+    * Call back function called on a WrpHmiScreen config loading
+    */
+   void          LoadConfig(){};
+   void          Add(WrpHmiScreen* pHmiScreen){};
+   void          Remove(WrpHmiScreen* pHmiScreen){};
+   WrpHmiScreen* GetChild(const uint8_t id) const { return NULL; };
 
 private:
-	WrpHmiApp* m_pHmiApp;
-	WrpGui::WrpAnim m_anim;
-	WrpGui::WrpImage* m_pMenuItem[3];
-	WrpGui::WrpImage* m_pLogo;
+   HomeScreen(const HomeScreen& cp);
+   WrpHmiApp*        mpHmiApp;
+   WrpGui::WrpAnim   mAnim;
+   WrpGui::WrpImage* mpMenuItem[3];
+   WrpGui::WrpImage* mpLogo;
 };
 
-#endif /* APPSAMPLE_HOMESCREEN_HPP_ */
+#endif /* APPSAMPLE_HOMESCREEN_HPP */

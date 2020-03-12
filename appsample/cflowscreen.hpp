@@ -4,8 +4,8 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef APPSAMPLE_CFLOWSCREEN_HPP_
-#define APPSAMPLE_CFLOWSCREEN_HPP_
+#ifndef APPSAMPLE_CFLOWSCREEN_HPP
+#define APPSAMPLE_CFLOWSCREEN_HPP
 
 /********************************************************************************************************
  * INCLUDES
@@ -14,6 +14,7 @@
 #include "wrpbase/wrpgui/wrpimage.hpp"
 #include "wrpbase/wrpgui/wrpanim.hpp"
 #include "wrpbase/wrphmi/wrphmiapp.hpp"
+#include "wrpbase/wrphmi/wrphmiscreen.hpp"
 #include "wrpbase/wrpmidw/wrpmidwapp.hpp"
 
 /********************************************************************************************************
@@ -25,41 +26,38 @@
  ********************************************************************************************************/
 class CFlowScreen : public WrpHmiAppClient
                   , public WrpMidwAppClient
+                  , public WrpHmiScreen
 {
 public:
-	/**
-	 * Constructor for the class
-	 */
-	CFlowScreen(WrpHmiApp* app);
-	/**
-	 * Destructor for the class
-	 */
-	~CFlowScreen();
-	/*
-	 * Description: call back function called on a screen creation
-	 * @param[in] : none
-	 * @param[out]: none
-	 */
-	void CreateAndShow();
-	/*
-	 * DESCRIPTION: call back function called on a screen destroy
-	 * @param[in] : none
-	 * @param[out]: none
-	 */
-	void HideAndDestroy();
-	/*
-	 * Call back function called on midw events update
-	 */
-	void MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length);
-
-protected:
+   CFlowScreen(WrpHmiApp* app);
+   ~CFlowScreen();
+   /*
+    * Call back function called on a WrpHmiClient screen creation
+    */
+   void CreateAndShow();
+   /*
+    * Call back function called on a WrpHmiClient screen destroy
+    */
+   void HideAndDestroy();
+   /*
+    * Call back function called on a WrpMidwAppClient events update
+    */
+   void MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length);
+   /*
+    * Call back function called on a WrpHmiScreen config loading
+    */
+   void          LoadConfig(){};
+   void          Add(WrpHmiScreen* pHmiScreen){};
+   void          Remove(WrpHmiScreen* pHmiScreen){};
+   WrpHmiScreen* GetChild(const uint8_t id) const { return NULL; };
 
 private:
-	/** Holds the handle of */
-	WrpHmiApp* m_pHmiApp;
-	WrpGui::WrpAnim m_anim;
-	WrpGui::WrpImage* m_pMenuItem[4];
-	WrpGui::WrpImage* m_pAnimItem[6];
+   CFlowScreen(const CFlowScreen& cp);
+   /** Holds the handle of */
+   WrpHmiApp*        mpHmiApp;
+   WrpGui::WrpAnim   mAnim;
+   WrpGui::WrpImage* mpMenuItem[4];
+   WrpGui::WrpImage* mpAnimItem[6];
 };
 
-#endif /* APPSAMPLE_HOMESCREEN_HPP_ */
+#endif /* APPSAMPLE_CFLOWSCREEN_HPP */

@@ -5,7 +5,6 @@
  *
  ********************************************************************************************************/
 #include "wrpmidwapp.hpp"
-#include "wrpbase/wrpsys/wrpstorage.hpp"
 
 /********************************************************************************************************
  * VARIABLES
@@ -80,10 +79,10 @@ WrpMidwApp::WrpMidwApp()
 : mMidwAppStatus(MIDWAPP_STATUS_STOP)
 , mpWsClientHandle(NULL)
 , mpCurrentState(NULL)
-, mThreadid(0)
+, mThreadId(0)
 {
    WRPPRINT("%s\n", "WrpMidwApp::WrpMidwApp() Begin");
-   m_listOfObservers.clear();
+   mListOfObservers.clear();
    WRPPRINT("%s\n", "WrpMidwApp::WrpMidwApp() End");
 }
 
@@ -91,7 +90,7 @@ WrpMidwApp::~WrpMidwApp()
 {
    WRPPRINT("%s\n", "WrpMidwApp::~WrpMidwApp() Begin");
    mMidwAppStatus = MIDWAPP_STATUS_STOP;
-   m_listOfObservers.clear();
+   mListOfObservers.clear();
    WRPPRINT("%s\n", "WrpMidwApp::~WrpMidwApp() End");
 }
 
@@ -99,7 +98,7 @@ void WrpMidwApp::Attach(WrpMidwAppClient* client)
 {
    WRPNULL_CHECK(client)
    WRPPRINT("%s\n", "WrpMidwApp::Attach() Begin");
-   m_listOfObservers.push_back(client);
+   mListOfObservers.push_back(client);
    WRPPRINT("%s\n", "WrpMidwApp::Attach() End");
 }
 
@@ -108,10 +107,10 @@ void WrpMidwApp::Detach(WrpMidwAppClient* client)
    WRPNULL_CHECK(client)
    WRPPRINT("%s\n", "WrpMidwApp::Detach() Begin");
    std::vector<WrpMidwAppClient*>::iterator it;
-   it = std::find(m_listOfObservers.begin(), m_listOfObservers.end(), client);
-   if (it != m_listOfObservers.end())
+   it = std::find(mListOfObservers.begin(), mListOfObservers.end(), client);
+   if (it != mListOfObservers.end())
    {
-      m_listOfObservers.erase(it);
+	   mListOfObservers.erase(it);
    }
    WRPPRINT("%s\n", "WrpMidwApp::Detach() End");
 }
@@ -151,17 +150,17 @@ WrpMidwApp::WrpMidwApp(const WrpMidwApp& cp)
 : mMidwAppStatus(MIDWAPP_STATUS_STOP)
 , mpWsClientHandle(NULL)
 , mpCurrentState(NULL)
-, mThreadid(0)
+, mThreadId(0)
 {
 }
 
 void WrpMidwApp::Notify(char* buffer, unsigned int length)
 {
    WRPPRINT("%s\n", "WrpMidwApp::Notify() Begin");
-   size_t numOfElements = m_listOfObservers.size();
+   size_t numOfElements = mListOfObservers.size();
    for (size_t i = 0; i < numOfElements; i++)
    {
-      m_listOfObservers[i]->MidwAppUpdate(mMidwAppStatus, buffer, length);
+	   mListOfObservers[i]->MidwAppUpdate(mMidwAppStatus, buffer, length);
    }
    WRPPRINT("%s\n", "WrpMidwApp::Notify() End");
 }
