@@ -42,9 +42,11 @@
 #include <sys/unistd.h>
 #include <sys/stat.h>
 
-#define WRPESP_WIFI_SSID           "iPhone"
-//#define WRPESP_WIFI_PASS           "08505046"
-#define WRPESP_WIFI_PASS           "123321123"
+//#define WRPESP_WIFI_SSID           "iPhone"
+//#define WRPESP_WIFI_PASS           "123321123"
+#define WRPESP_WIFI_SSID           "Nguyen"
+#define WRPESP_WIFI_PASS           "08505046"
+
 
 /********************************************************************************************************
  * CLASSES

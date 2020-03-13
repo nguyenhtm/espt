@@ -5,7 +5,7 @@
  *
  ********************************************************************************************************/
 #include "wrphmiscreen.hpp"
-#include "wrpbase/wrpsys/wrpdisplay.hpp"
+#include "wrpbase/wrpgui/wrpdisplay.hpp"
 #include "wrpbase/wrpsys/wrpsystem.hpp"
 
 /********************************************************************************************************

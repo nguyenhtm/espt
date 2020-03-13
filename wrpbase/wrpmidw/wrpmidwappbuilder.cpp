@@ -8,7 +8,7 @@
 #include "wrpmidwappfsm.hpp"
 #include "wrpmidwapp.hpp"
 #include "wrpbase/wrpsys/wrpstorage.hpp"
-#include "wrpbase/wrpsys/wrpdisplay.hpp"
+#include "wrpbase/wrpgui/wrpdisplay.hpp"
 
 /********************************************************************************************************
  * VARIABLES

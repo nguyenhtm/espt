@@ -4,8 +4,8 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef WRPBASE_WRPSYS_WRPSYSTEM_HPP_
-#define WRPBASE_WRPSYS_WRPSYSTEM_HPP_
+#ifndef WRPBASE_WRPSYS_WRPSYSTEM_HPP
+#define WRPBASE_WRPSYS_WRPSYSTEM_HPP
 
 /********************************************************************************************************
  * INCLUDES
@@ -21,9 +21,9 @@ namespace System {
 
 // Thread Handling
 #if LVGL_PC_SIMU
-typedef SDL_Thread*    wrpthread_t;
-#elif LVGL_ESP32_ILI9341
-typedef TaskHandle_t   wrpthread_t;
+typedef SDL_Thread*  wrpthread_t;
+#elif USE_ESP_IDF
+typedef TaskHandle_t wrpthread_t;
 #endif
 typedef void (*wrpthread_handler_t)(void *param);
 
@@ -49,4 +49,4 @@ void PrintChipInfo();
 } /* Namespace System */
 } /* Namespace WrpSys */
 
-#endif /* WRPBASE_WRPSYS_WRPSYSTEM_HPP_ */
+#endif /* WRPBASE_WRPSYS_WRPSYSTEM_HPP */

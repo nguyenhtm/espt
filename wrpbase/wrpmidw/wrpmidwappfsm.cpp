@@ -54,7 +54,7 @@ void WrpMidwAppInitState::Handle()
    mpContext->ReadConfig();
    mpContext->mpWsClientHandle = new WrpWebSocketClient;
 #if USE_ESP_IDF
-   mpContext->mpWsClientHandle->Create("192.168.1.9", 8000);
+   mpContext->mpWsClientHandle->Create("192.168.1.8", 8000);
 #else
    mpContext->mpWsClientHandle->Create("127.0.0.1", 8000);
 #endif

@@ -10,6 +10,8 @@
 
 namespace WrpGui {
 
+#if (LVGL_ESP32_ILI9341 && USE_ESP_IDF) || (LVGL_PC_SIMU)
+
 /********************************************************************************************************
  * VARIABLES
  ********************************************************************************************************/
@@ -92,5 +94,7 @@ void WrpWidget::SetSize(const wrpgui_size_t w, const wrpgui_size_t h)
 	WRPNULL_CHECK(m_pHandler)
 	lv_obj_set_size(m_pHandler, w, h);
 }
+
+#endif // (LVGL_ESP32_ILI9341 && USE_ESP_IDF) || (LVGL_PC_SIMU)
 
 } /* WrpGui Namespace */

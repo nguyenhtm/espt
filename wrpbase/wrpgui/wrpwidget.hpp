@@ -4,8 +4,8 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef WRPGUI_WRPWIDGET_HPP_
-#define WRPGUI_WRPWIDGET_HPP_
+#ifndef WRPGUI_WRPWIDGET_HPP
+#define WRPGUI_WRPWIDGET_HPP
 
 /********************************************************************************************************
  * INCLUDES

@@ -19,13 +19,14 @@
 #include "lv_drivers/indev/mouse.h"
 #include "lv_drivers/indev/mousewheel.h"
 #include "lv_drivers/indev/keyboard.h"
-#elif LVGL_ESP32_ILI9341                    // LVGL for ESP32 Wrover Kit
+#include "lvgl/lvgl.h"
+#elif LVGL_ESP32_ILI9341 && USE_ESP_IDF     // LVGL for ESP32 Wrover Kit
 #include "drv/disp_spi.h"
 #include "drv/ili9341.h"
 #include "drv/tp_spi.h"
 #include "drv/xpt2046.h"
-#endif
 #include "lvgl/lvgl.h"
+#endif
 
 namespace WrpGui {
 
@@ -41,10 +42,12 @@ namespace WrpGui {
 #define WRPSCREEN_MENU_POSX  0
 #define WRPSCREEN_MENU_POSY  0
 
+#if (LVGL_ESP32_ILI9341 && USE_ESP_IDF) || (LVGL_PC_SIMU)
 typedef lv_obj_t     wrpgui_handle_t;
 typedef lv_style_t   wrpgui_style_t;
 typedef lv_coord_t   wrpgui_pos_t;
 typedef lv_coord_t   wrpgui_size_t;
+#endif
 
 /********************************************************************************************************
  * CLASSES
