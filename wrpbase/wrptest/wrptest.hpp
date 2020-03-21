@@ -20,8 +20,8 @@ namespace WrpTest {
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
+extern void WrpSysTest(void);
 
-extern void wrpsystest(void);
 extern void wrpguitest(void);
 
 } /* Namespace WrpTest */

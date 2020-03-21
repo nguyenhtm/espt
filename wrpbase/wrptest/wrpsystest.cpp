@@ -24,11 +24,23 @@ namespace WrpTest {
 /********************************************************************************************************
  * FUNCTIONS
  ********************************************************************************************************/
-
-void wrpsystest(void)
+void WrpSystemTest()
 {
 	WrpSys::System::PrintChipInfo();
+}
+
+void WrpStorageTest()
+{
 	WrpSys::Storage::InitNVS(); // must 1st initialization
+}
+
+void WrpSysTest(void)
+{
+	WrpStorageTest();
+
+	WrpSystemTest();
+
+
 	WrpSys::Network::InitWifiStation();
 
 	//websocket test

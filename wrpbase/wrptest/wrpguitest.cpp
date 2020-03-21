@@ -7,7 +7,7 @@
 #include "wrptest.hpp"
 #include "wrpbase/wrpgui/wrpscreen.hpp"
 #include "wrpbase/wrpgui/wrplabel.hpp"
-#include "wrpbase/wrpsys/wrpdisplay.hpp"
+#include "wrpbase/wrpgui/wrpdisplay.hpp"
 #include "wrpbase/wrpsys/wrpstorage.hpp"
 #include "wrpbase/wrpsys/wrpnetwork.hpp"
 #include "wrpbase/wrpsys/wrpsystem.hpp"
