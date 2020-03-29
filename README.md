@@ -9,7 +9,7 @@ Step1
 Step2
 Enter to D:\iotprj\buildtools
 + D:\iotprj\buildtools\mingw-w64: download mingw-w64-install.exe at  http://mingw-w64.org/doku.php/download
-+ D:\iotprj\buildtools\msys32: download esp32_win32_msys2_environment_and_toolchain-20181001.zip at https://docs.espressif.com/projects/esp-idf/en/stable/get-started/windows-setup.html
++ D:\iotprj\buildtools\msys32: download esp32_win32_msys2_environment_and_toolchain-20181001.zip at https://docs.espressif.com/projects/esp-idf/en/v3.3/get-started/windows-setup.html
 + D:\iotprj\buildtools\eclipse: download eclipse-cpp-2019-03-R-win32-x86_64.zip at https://www.eclipse.org/downloads/packages/file/55067
 
 Step3
