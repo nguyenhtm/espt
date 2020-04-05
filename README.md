@@ -21,3 +21,5 @@ Enter to D:\iotprj\packages
 + D:\iotprj\packages\SDL2-2.0.5: download the SDL2-devel-2.0.5-mingw.tar.gz file at https://www.libsdl.org/release
 + D:\iotprj\packages\mongoose: git clone https://github.com/cesanta/mongoose
 + Create D:\iotprj\packages\mongoose_lib and copy 2 D:\iotprj\packages\mongoose\mongoose.c and mongoose.h files to it
+
+Refer to setup.pdf file for more details
