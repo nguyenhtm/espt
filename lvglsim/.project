@@ -31,6 +31,11 @@
 			<location>D:/iotprj/appsample</location>
 		</link>
 		<link>
+			<name>lv_drivers</name>
+			<type>2</type>
+			<location>D:/iotprj/packages/pc_simulator_sdl_eclipse/lv_drivers</location>
+		</link>
+		<link>
 			<name>lvgl</name>
 			<type>2</type>
 			<location>D:/iotprj/packages/lvgl</location>

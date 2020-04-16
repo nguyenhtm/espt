@@ -14,11 +14,10 @@
 /********************************************************************************************************
  * FUNCTIONS
  ********************************************************************************************************/
-int main(int argc, char ** argv)
+int main(int argc, char** argv)
 {
-	//WrpTest::wrpsystest();
-	//WrpTest::wrpguitest();
+	//WrpTest::WrpSysTest();
+	//WrpTest::WrpGuiTest();
 	appsample();
-
 	return 0;
 }
