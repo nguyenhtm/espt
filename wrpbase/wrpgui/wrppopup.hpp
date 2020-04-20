@@ -4,22 +4,20 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef WRPGUI_WRPPOPUP_HPP_
-#define WRPGUI_WRPPOPUP_HPP_
+#ifndef WRPGUI_WRPPOPUP_HPP
+#define WRPGUI_WRPPOPUP_HPP
 
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
 #include "wrpgui.hpp"
 #include "wrpwidget.hpp"
-#include "wrpstyle.hpp"
 
 namespace WrpGui {
 
 /********************************************************************************************************
  * DEFINES
  ********************************************************************************************************/
-
 
 /********************************************************************************************************
  * CLASSES
@@ -32,20 +30,21 @@ class WrpScreen;
 class WrpPopup : public WrpWidget
 {
 public:
-	WrpPopup(WrpScreen* parent);
-	~WrpPopup();
-
-	void Show();
-	void Hide();
-	void SetText(const char* text);
-
-protected:
+   WrpPopup(WrpScreen* parent);
+   ~WrpPopup();
+   void Show();
+   void Hide();
+   void SetText(const char* text);
 
 private:
-	wrpgui_handle_t *m_pPopupText;
-	void EnableAnimation();
+   WrpPopup();
+   WrpPopup(const WrpPopup& cp);
+   //methods
+   void EnableAnimation();
+   //members
+   wrpgui_handle_t *mpPopupText;
 };
 
 } /* Namespace WrpGui */
 
-#endif /* WRPGUI_WRPPOPUP_HPP_ */
+#endif /* WRPGUI_WRPPOPUP_HPP */

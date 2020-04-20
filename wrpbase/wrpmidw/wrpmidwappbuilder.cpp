@@ -71,7 +71,7 @@ void WrpMidwAppESP32::BuildNetwork() const
    const uint8_t nMaxRetry = 10;  //times
 
    WrpSys::Network::InitWifiStation();
-   while ((nRetry < nMaxRetry) && (WrpSys::Network::m_uNetworkStatus != NETWORK_STATUS_CONNECTED))
+   while ((nRetry < nMaxRetry) && (WrpSys::Network::gNetworkStatus != NETWORK_STATUS_CONNECTED))
    {
       nRetry++;
       sleep(nMaxTimeOut);
@@ -130,7 +130,7 @@ void WrpMidwAppSIM::BuildDisplay() const
 void WrpMidwAppSIM::BuildNetwork() const
 {
    WRPPRINT("%s\n", "WrpMidwAppSIM::BuildNetwork() Begin");
-   WrpSys::Network::m_uNetworkStatus = NETWORK_STATUS_CONNECTED;
+   WrpSys::Network::gNetworkStatus = NETWORK_STATUS_CONNECTED;
    WRPPRINT("%s\n", "WrpMidwAppSIM::BuildNetwork() End");
 }
 

@@ -46,7 +46,8 @@
 //#define WRPESP_WIFI_PASS           "123321123"
 #define WRPESP_WIFI_SSID           "Nguyen"
 #define WRPESP_WIFI_PASS           "08505046"
-
+#define WRPWS_SERVER_ADDRESS       "192.168.1.10"
+#define WRPWS_SERVER_PORT          8000
 
 /********************************************************************************************************
  * CLASSES

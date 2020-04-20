@@ -10,6 +10,7 @@
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
+#include "wrpgui.hpp"
 #include "wrpwidget.hpp"
 
 namespace WrpGui {
@@ -29,15 +30,13 @@ class WrpScreen;
 class WrpLabel : public WrpWidget
 {
 public:
-	WrpLabel(WrpScreen* parent=NULL);
-	~WrpLabel();
-
-	void SetText(const char* text);
-
-protected:
+   WrpLabel(WrpScreen* parent);
+   ~WrpLabel();
+   void SetText(const char* text);
 
 private:
-
+   WrpLabel();
+   WrpLabel(const WrpLabel& cp);
 };
 
 } /* Namespace WrpGui */

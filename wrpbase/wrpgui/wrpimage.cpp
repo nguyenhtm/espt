@@ -12,6 +12,7 @@
  * DEFINES
  ********************************************************************************************************/
 //LV_IMG_DECLARE(def01background)
+LV_IMG_DECLARE(def02background)
 LV_IMG_DECLARE(def01home)
 LV_IMG_DECLARE(def01app)
 LV_IMG_DECLARE(def01setting)
@@ -39,10 +40,11 @@ WrpImage::WrpImage(WrpScreen* parent)
 : WrpWidget(NULL)
 {
 	WRPPRINT("%s\n", "WrpImage::WrpImage() Begin");
-	m_pParentScreen = parent;
+	mpScreenHandle = parent;
 	if (parent)
 	{
-		m_pHandler = lv_img_create(parent->m_pHandler, NULL);
+		//m_pHandler = lv_img_create(parent->m_pHandler, NULL);
+		mpWidgetHandle = lv_img_create(parent->GetHandle(), NULL);
 	}
 	WRPPRINT("%s\n", "WrpImage::WrpImage() End");
 }
@@ -87,19 +89,20 @@ bool WrpImage::SetImage(const uint16_t imgid)
 	switch(imgid)
 	{
 	//case WRPRESIMG_BACKGROUND: lv_img_set_src(m_pHandler, &def01background); break;
-	case WRPRESIMG_HOME:      lv_img_set_src(m_pHandler, &def01home); break;
-	case WRPRESIMG_APP:       lv_img_set_src(m_pHandler, &def01app); break;
-	case WRPRESIMG_SETTING:   lv_img_set_src(m_pHandler, &def01setting); break;
-	case WRPRESIMG_DIAGNOSIS: lv_img_set_src(m_pHandler, &def01diagnosis); break;
-	case WRPRESIMG_AUTOTEST:  lv_img_set_src(m_pHandler, &def01autotest); break;
-	case WRPRESIMG_WIFI0:     lv_img_set_src(m_pHandler, &def01wifi0); break;
-	case WRPRESIMG_WIFI1:     lv_img_set_src(m_pHandler, &def01wifi1); break;
-	case WRPRESIMG_WIFI2:     lv_img_set_src(m_pHandler, &def01wifi2); break;
-	case WRPRESIMG_LOGO:      lv_img_set_src(m_pHandler, &def01logo); break;
-	case WRPRESIMG_CFLOWITEM1: lv_img_set_src(m_pHandler, &menuitem1); break;
-	case WRPRESIMG_CFLOWITEM2: lv_img_set_src(m_pHandler, &menuitem2); break;
-	case WRPRESIMG_CFLOWITEM3: lv_img_set_src(m_pHandler, &menuitem3); break;
-	case WRPRESIMG_CFLOWITEM4: lv_img_set_src(m_pHandler, &menuitem4); break;
+	case WRPRESIMG_BACKGROUND: lv_img_set_src(mpWidgetHandle, &def02background); break;
+	case WRPRESIMG_HOME:       lv_img_set_src(mpWidgetHandle, &def01home); break;
+	case WRPRESIMG_APP:        lv_img_set_src(mpWidgetHandle, &def01app); break;
+	case WRPRESIMG_SETTING:    lv_img_set_src(mpWidgetHandle, &def01setting); break;
+	case WRPRESIMG_DIAGNOSIS:  lv_img_set_src(mpWidgetHandle, &def01diagnosis); break;
+	case WRPRESIMG_AUTOTEST:   lv_img_set_src(mpWidgetHandle, &def01autotest); break;
+	case WRPRESIMG_WIFI0:      lv_img_set_src(mpWidgetHandle, &def01wifi0); break;
+	case WRPRESIMG_WIFI1:      lv_img_set_src(mpWidgetHandle, &def01wifi1); break;
+	case WRPRESIMG_WIFI2:      lv_img_set_src(mpWidgetHandle, &def01wifi2); break;
+	case WRPRESIMG_LOGO:       lv_img_set_src(mpWidgetHandle, &def01logo); break;
+	case WRPRESIMG_CFLOWITEM1: lv_img_set_src(mpWidgetHandle, &menuitem1); break;
+	case WRPRESIMG_CFLOWITEM2: lv_img_set_src(mpWidgetHandle, &menuitem2); break;
+	case WRPRESIMG_CFLOWITEM3: lv_img_set_src(mpWidgetHandle, &menuitem3); break;
+	case WRPRESIMG_CFLOWITEM4: lv_img_set_src(mpWidgetHandle, &menuitem4); break;
 	default: return false;
 	}
 	return true;

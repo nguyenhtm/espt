@@ -4,8 +4,8 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef WRPTEST_WRPTEST_HPP_
-#define WRPTEST_WRPTEST_HPP_
+#ifndef WRPTEST_WRPTEST_HPP
+#define WRPTEST_WRPTEST_HPP
 
 namespace WrpTest {
 
@@ -22,8 +22,11 @@ namespace WrpTest {
  ********************************************************************************************************/
 extern void WrpSysTest(void);
 
-extern void wrpguitest(void);
+#if (LVGL_ESP32_ILI9341 || LVGL_PC_SIMU)
+extern void WrpGuiScreenCreationTest(void);
+extern void WrpGuiTest(void);
+#endif
 
 } /* Namespace WrpTest */
 
-#endif /* WRPTEST_WRPTEST_HPP_ */
+#endif /* WRPTEST_WRPTEST_HPP */

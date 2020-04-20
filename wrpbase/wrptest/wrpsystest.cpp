@@ -4,12 +4,10 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
+#include "wrptest.hpp"
 #include "wrpbase/wrpsys/wrpstorage.hpp"
 #include "wrpbase/wrpsys/wrpnetwork.hpp"
 #include "wrpbase/wrpsys/wrpsystem.hpp"
-#include "wrpbase/wrpmidw/wrpmidwappbuilder.hpp"
-#include "wrpbase/wrpmidw/wrpmidwappfsm.hpp"
-#include "wrptest.hpp"
 
 namespace WrpTest {
 
@@ -20,51 +18,71 @@ namespace WrpTest {
 /********************************************************************************************************
  * VARIABLES
  ********************************************************************************************************/
+static WrpSys::Network::WrpWebSocketClient* gWSClient = NULL;
 
 /********************************************************************************************************
  * FUNCTIONS
  ********************************************************************************************************/
 void WrpSystemTest()
 {
-	WrpSys::System::PrintChipInfo();
+   WrpSys::System::PrintChipInfo();
+   //WrpSys::System::SwReset();
 }
 
 void WrpStorageTest()
 {
-	WrpSys::Storage::InitNVS(); // must 1st initialization
+   WRPPRINT("%s\n", "WrpStorageTest() Begin");
+   WrpSys::Storage::InitNVS(); // must 1st initialization
+   //WrpSys::Storage::GetRestartCounter();
+   WRPPRINT("%s\n", "WrpStorageTest() End");
+}
+
+void WrpNetworkTest()
+{
+   WRPPRINT("%s\n", "WrpNetworkTest() Begin");
+   uint8_t nRetry = 0;
+   const uint8_t nMaxTimeOut = 1; //seconds
+   const uint8_t nMaxRetry = 10;  //times
+
+   // Connect to wifi
+   WrpSys::Network::InitWifiStation();
+   while ((nRetry < nMaxRetry) && (WrpSys::Network::gNetworkStatus != NETWORK_STATUS_CONNECTED))
+   {
+      nRetry++;
+      sleep(nMaxTimeOut);
+      WRPPRINT("%s%d\n", "WrpNetworkTest() Network Connection Wait...", nRetry);
+   }
+   if (WrpSys::Network::gNetworkStatus != NETWORK_STATUS_CONNECTED)
+   {
+      WRPPRINT("%s\n", "WrpNetworkTest() Network Connection Failed!");
+      WrpSys::Network::DeInitWifiStation();
+      return;
+   }
+   WRPPRINT("%s\n", "WrpNetworkTest() Network Connection Successfully");
+   // Connect to WS server
+   gWSClient = new WrpSys::Network::WrpWebSocketClient;
+#if USE_ESP_IDF
+   gWSClient->Create("ws://192.168.1.10", 8000);
+#else
+   gWSClient->Create("ws://127.0.0.1", WRPWS_SERVER_PORT);
+#endif
+   while (WrpSys::Network::WSCLIENT_STATUS_CONNECTED != gWSClient->m_status) {
+	   sleep(1);
+	   WRPPRINT("%s:%d\n", "WrpNetworkTest() Connecting to websocket server...", gWSClient->m_status);
+   }
+   char buf[125]="Xin Chao!";
+   gWSClient->Send(buf, 9);
+
+   WRPPRINT("%s\n", "WrpNetworkTest() End");
 }
 
 void WrpSysTest(void)
 {
-	WrpStorageTest();
-
-	WrpSystemTest();
-
-
-	WrpSys::Network::InitWifiStation();
-
-	//websocket test
-	usleep(3000*1000); //wait until wifi done
-	int count = 5;
-
-	WrpSys::Network::WrpWebSocketClient ws;
-#if LVGL_PC_SIMU
-	ws.Create("127.0.0.1", 8000);
-#elif LVGL_ESP32_ILI9341
-	ws.Create("172.20.10.5", 8000);
-#endif
-
-	while (--count)
-	{
-		usleep(1000*1000);
-	}
-/*
-	WrpMidwBuilder *midwAppBuilder = new WrpMidwESP32();
-	WrpMidwDirector *ctr = new WrpMidwDirector(midwAppBuilder);
-	ctr->BuildWrpMidwApp();
-	WrpMidw* p = ctr->GetMidwApp();
-	p->SetState(new WrpMidwInitState(p));
-	*/
+   WRPPRINT("%s\n", "WrpSysTest() Begin");
+   WrpStorageTest();
+   WrpSystemTest();
+   WrpNetworkTest();
+   WRPPRINT("%s\n", "WrpSysTest() End");
 }
 
 } /* Namespace WrpTest */

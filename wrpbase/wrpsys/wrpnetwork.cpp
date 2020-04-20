@@ -12,7 +12,7 @@ namespace Network {
 /********************************************************************************************************
  * VARIABLES
  ********************************************************************************************************/
-uint32_t m_uNetworkStatus = NETWORK_STATUS_INIT;
+uint32_t gNetworkStatus = NETWORK_STATUS_INIT;
 
 #if USE_ESP_IDF
 #define WRPESP_WIFI_CONNECTED_BIT  BIT0
@@ -35,14 +35,14 @@ esp_err_t LegacyEventHandler(void *ctx, system_event_t *event)
 		{
 			WRPPRINT("WrpBase:%s\n", "WrpSysNetwork::LegacyEventHandler() Wifi Connecting");
 			esp_wifi_connect();
-			m_uNetworkStatus = NETWORK_STATUS_CONNECTING;
+			gNetworkStatus = NETWORK_STATUS_CONNECTING;
 			break;
 		}
 		case SYSTEM_EVENT_STA_GOT_IP:
 		{
 			WRPPRINT("WrpBase:%s%s\n", "WrpSysNetwork::LegacyEventHandler() Got IP:", ip4addr_ntoa(&event->event_info.got_ip.ip_info.ip));
 			xEventGroupSetBits(g_EventGroup, WRPESP_WIFI_CONNECTED_BIT);
-			m_uNetworkStatus = NETWORK_STATUS_CONNECTED;
+			gNetworkStatus = NETWORK_STATUS_CONNECTED;
 			break;
 		}
 		case SYSTEM_EVENT_STA_DISCONNECTED:
@@ -50,7 +50,7 @@ esp_err_t LegacyEventHandler(void *ctx, system_event_t *event)
 			WRPPRINT("WrpBase:%s\n", "WrpSysNetwork::LegacyEventHandler() Disconnected!");
 			esp_wifi_connect();
 			xEventGroupClearBits(g_EventGroup, WRPESP_WIFI_CONNECTED_BIT);
-			m_uNetworkStatus = NETWORK_STATUS_NOTCONNECTED;
+			gNetworkStatus = NETWORK_STATUS_NOTCONNECTED;
 			break;
 		}
 		default:
@@ -78,9 +78,8 @@ void InitWifiStation()
     esp_wifi_set_mode(WIFI_MODE_STA);
     esp_wifi_set_config(ESP_IF_WIFI_STA, &cfgWifi);
     esp_wifi_start();
-
-    m_uNetworkStatus = NETWORK_STATUS_INIT;
 #endif
+    gNetworkStatus = NETWORK_STATUS_INIT;
 	WRPPRINT("%s\n", "WrpSys::Network::InitWifiStation() End");
 }
 
@@ -90,14 +89,14 @@ void DeInitWifiStation()
 #if USE_ESP_IDF
 	esp_wifi_stop();
 	esp_wifi_deinit();
-	m_uNetworkStatus = NETWORK_STATUS_INIT;
 #endif
+	gNetworkStatus = NETWORK_STATUS_INIT;
 	WRPPRINT("%s\n", "WrpSys::Network::DeInitWifiStation() End");
 }
 
 eWrpWebSocketStatus WrpWebSocketClient::m_status = WSCLIENT_STATUS_NOTCONNECTED;
-struct mg_mgr WrpWebSocketClient::mgr;
-struct mg_connection *WrpWebSocketClient::nc;
+struct mg_mgr* WrpWebSocketClient::mgr = NULL;
+struct mg_connection* WrpWebSocketClient::nc = NULL;
 
 /********************************************************************************************************
  * FUNCTIONS
@@ -109,22 +108,25 @@ std::string WrpWebSocketClient::m_addr = "";
 
 void WrpWebSocketClient::EventHandler(struct mg_connection *nc, int ev, void *ev_data)
 {
+	WRPPRINT("%s\n", "WrpWebSocketClient::EventHandler() Begin");
 	switch (ev)
 	{
 		case MG_EV_CONNECT:
 		{
+			WRPPRINT("%s\n", "WrpWebSocketClient::EventHandler() CONNECT");
 			int status = *((int *) ev_data);
 			if (status != 0)
 			{
 				WRPPRINT("%s\n", "WrpWebSocketClient::EventHandler() Connected Failed!");
 				m_status = WSCLIENT_STATUS_NOTCONNECTED;
-				WrpWebSocketClient::nc = mg_connect_ws(&WrpWebSocketClient::mgr, WrpWebSocketClient::EventHandler, WrpWebSocketClient::m_addr.c_str(), "ws_chat", NULL);
+				WrpWebSocketClient::nc = mg_connect_ws(WrpWebSocketClient::mgr, WrpWebSocketClient::EventHandler, WrpWebSocketClient::m_addr.c_str(), "ws_chat", NULL);
 				mg_set_timer(WrpWebSocketClient::nc, mg_time() + 3);
 			}
 			break;
 		}
 		case MG_EV_WEBSOCKET_HANDSHAKE_DONE:
 		{
+			WRPPRINT("%s\n", "WrpWebSocketClient::EventHandler() HANDSHAKE");
 			struct http_message *hm = (struct http_message *) ev_data;
 			if (hm->resp_code == 101)
 			{
@@ -140,11 +142,12 @@ void WrpWebSocketClient::EventHandler(struct mg_connection *nc, int ev, void *ev
 		}
 		case MG_EV_POLL:
 		{
-		  //WRPPRINT("%s\n", "WrpWebSocketClient::EventHandler() MG_EV_POLL");
+		  WRPPRINT("%s\n", "WrpWebSocketClient::EventHandler() MG_EV_POLL");
 		  break;
 		}
 		case MG_EV_WEBSOCKET_FRAME:
 		{
+			WRPPRINT("%s\n", "WrpWebSocketClient::EventHandler() MG_EV_WEBSOCKET_FRAME");
 			struct websocket_message *wm = (struct websocket_message *) ev_data;
 			WrpWebSocketClient::m_datalength = (uint16_t)wm->size;
 			if (wm->size)
@@ -156,6 +159,7 @@ void WrpWebSocketClient::EventHandler(struct mg_connection *nc, int ev, void *ev
 		}
 		case MG_EV_CLOSE:
 		{
+			WRPPRINT("%s\n", "WrpWebSocketClient::EventHandler() MG_EV_CLOSE");
 			if (m_status == WSCLIENT_STATUS_CONNECTED)
 			{
 				WRPPRINT("%s\n", "WrpWebSocketClient::EventHandler() Closed");
@@ -164,6 +168,7 @@ void WrpWebSocketClient::EventHandler(struct mg_connection *nc, int ev, void *ev
 			break;
 		}
 	}
+	WRPPRINT("%s\n", "WrpWebSocketClient::EventHandler() End");
 }
 
 WrpWebSocketClient::WrpWebSocketClient()
@@ -195,10 +200,11 @@ bool WrpWebSocketClient::Create(const char *uri, const unsigned int port)
 	}
 	m_addr = addr;
 	m_port = port;
+	WRPPRINT("%s%s\n", "WrpWebSocketClient::Create() Address:", addr);
+	WrpWebSocketClient::mgr = new struct mg_mgr;
+	mg_mgr_init(WrpWebSocketClient::mgr, NULL);
 
-	mg_mgr_init(&WrpWebSocketClient::mgr, NULL);
-
-	WrpWebSocketClient::nc = mg_connect_ws(&WrpWebSocketClient::mgr, WrpWebSocketClient::EventHandler, addr, "ws_chat", NULL);
+	WrpWebSocketClient::nc = mg_connect_ws(WrpWebSocketClient::mgr, WrpWebSocketClient::EventHandler, addr, "ws_chat", NULL);
 
 	m_status = WSCLIENT_STATUS_CREATED;
 
@@ -209,7 +215,7 @@ bool WrpWebSocketClient::Create(const char *uri, const unsigned int port)
 void WrpWebSocketClient::Close()
 {
 	WRPPRINT("%s\n", "WrpWebSocketClient::Close() Begin");
-	mg_mgr_free(&WrpWebSocketClient::mgr);
+	mg_mgr_free(WrpWebSocketClient::mgr);
 	m_status = WSCLIENT_STATUS_NOTCREATED;
 	WRPPRINT("%s\n", "WrpWebSocketClient::Close() End");
 }
@@ -218,7 +224,7 @@ uint32_t WrpWebSocketClient::Receive(char* buf, int size)
 {
 	//if (m_status != WSCLIENT_STATUS_NOTCONNECTED)
 	{
-		mg_mgr_poll(&WrpWebSocketClient::mgr, 300);
+		mg_mgr_poll(WrpWebSocketClient::mgr, 300);
 		if (WrpWebSocketClient::m_datalength > 0)
 		{
 			snprintf(buf, size, "%s",  WrpWebSocketClient::m_data);
@@ -228,11 +234,16 @@ uint32_t WrpWebSocketClient::Receive(char* buf, int size)
 	return 0;
 }
 
+void WrpWebSocketClient::Send(const char* buf, const uint8_t size)
+{
+	mg_send_websocket_frame(WrpWebSocketClient::nc, WEBSOCKET_OP_TEXT, buf, size);
+}
+
 void WrpWebSocketClient::ClearBuffer()
 {
 	//memset(WrpWebSocketClient::m_data, sizeof(WrpWebSocketClient::m_data), 0);
 	WrpWebSocketClient::m_datalength = 0;
 }
 
-} /* Namespace WrpSysNetwork */
+} /* Namespace Network */
 } /* Namespace WrpSys */

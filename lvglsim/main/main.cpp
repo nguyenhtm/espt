@@ -16,8 +16,8 @@
  ********************************************************************************************************/
 int main(int argc, char** argv)
 {
-	//WrpTest::WrpSysTest();
-	//WrpTest::WrpGuiTest();
-	appsample();
-	return 0;
+   //WrpTest::WrpSysTest();
+   WrpTest::WrpGuiTest();
+   //appsample();
+   return 0;
 }

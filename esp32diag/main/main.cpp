@@ -17,8 +17,5 @@ extern "C" void app_main();
 
 void app_main()
 {
-    /*
-     * This function is for ESP32 PICO kit which includes Wifi, BLE (without LCD)
-     */
 	WrpTest::WrpSysTest();
 }

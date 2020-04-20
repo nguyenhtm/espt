@@ -27,9 +27,13 @@ namespace Storage {
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
-extern uint32_t m_uStorageStatus;
+extern uint32_t gStorageStatus;
 
 bool InitNVS();
+
+int32_t GetRestartCounter();
+
+void ResetRestartCounter();
 
 void DeInitNVS();
 

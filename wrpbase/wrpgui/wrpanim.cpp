@@ -192,12 +192,12 @@ void WrpAnim::Messi()
 void WrpAnim::FadeIn(const WrpWidget* widget, const uint16_t duration)
 {
 	WRPPRINT("%s\n", "WrpAnim::FadeIn() Begin");
-	lv_obj_set_opa_scale_enable(widget->m_pHandler, true);
+	lv_obj_set_opa_scale_enable(widget->mpWidgetHandle, true);
 	lv_anim_t anim;
 	lv_anim_init(&anim);
 	lv_anim_set_time(&anim, duration, 0);
 	lv_anim_set_values(&anim, LV_OPA_TRANSP, LV_OPA_COVER);
-	lv_anim_set_exec_cb(&anim, widget->m_pHandler, (lv_anim_exec_xcb_t)lv_obj_set_opa_scale);
+	lv_anim_set_exec_cb(&anim, widget->mpWidgetHandle, (lv_anim_exec_xcb_t)lv_obj_set_opa_scale);
 	lv_anim_create(&anim);
 	WRPPRINT("%s\n", "WrpAnim::FadeIn() End");
 }
@@ -205,12 +205,12 @@ void WrpAnim::FadeIn(const WrpWidget* widget, const uint16_t duration)
 void WrpAnim::FadeOut(const WrpWidget* widget, const uint16_t duration)
 {
 	WRPPRINT("%s\n", "WrpAnim::FadeOut() Begin");
-	lv_obj_set_opa_scale_enable(widget->m_pHandler, true);
+	lv_obj_set_opa_scale_enable(widget->mpWidgetHandle, true);
 	lv_anim_t anim;
 	lv_anim_init(&anim);
 	lv_anim_set_time(&anim, duration, 0);
 	lv_anim_set_values(&anim, LV_OPA_TRANSP, LV_OPA_COVER);
-	lv_anim_set_exec_cb(&anim, widget->m_pHandler, (lv_anim_exec_xcb_t)lv_obj_set_opa_scale);
+	lv_anim_set_exec_cb(&anim, widget->mpWidgetHandle, (lv_anim_exec_xcb_t)lv_obj_set_opa_scale);
 	lv_anim_create(&anim);
 	WRPPRINT("%s\n", "WrpAnim::FadeOut() End");
 }
@@ -223,7 +223,7 @@ void WrpAnim::MoveX(const WrpWidget* widget, const wrpgui_pos_t x1, const wrpgui
 	lv_anim_set_time(&anim, duration, 0);
 	lv_anim_set_playback(&anim, 0);
 	lv_anim_set_values(&anim, x1, x2);
-	lv_anim_set_exec_cb(&anim, widget->m_pHandler, (lv_anim_exec_xcb_t)lv_obj_set_x);
+	lv_anim_set_exec_cb(&anim, widget->mpWidgetHandle, (lv_anim_exec_xcb_t)lv_obj_set_x);
 	playback == true ? lv_anim_set_playback(&anim, 0) : lv_anim_clear_playback(&anim);
 	lv_anim_create(&anim);
 	WRPPRINT("%s\n", "WrpAnim::MoveX() End");
@@ -236,7 +236,7 @@ void WrpAnim::MoveY(const WrpWidget* widget, const wrpgui_pos_t y1, const wrpgui
 	lv_anim_init(&anim);
 	lv_anim_set_time(&anim, duration, 0);
 	lv_anim_set_values(&anim, y1, y2);
-	lv_anim_set_exec_cb(&anim, widget->m_pHandler, (lv_anim_exec_xcb_t)lv_obj_set_y);
+	lv_anim_set_exec_cb(&anim, widget->mpWidgetHandle, (lv_anim_exec_xcb_t)lv_obj_set_y);
 	playback == true ? lv_anim_set_playback(&anim, 0) : lv_anim_clear_playback(&anim);
 	lv_anim_create(&anim);
 	WRPPRINT("%s\n", "WrpAnim::MoveY() End");
@@ -250,11 +250,11 @@ void WrpAnim::MoveXY(const WrpWidget* widget, const wrpgui_pos_t x1, const wrpgu
 	lv_anim_set_time(&anim, duration, 0);
 
 	lv_anim_set_values(&anim, x1, x2);
-	lv_anim_set_exec_cb(&anim, widget->m_pHandler, (lv_anim_exec_xcb_t)lv_obj_set_x);
+	lv_anim_set_exec_cb(&anim, widget->mpWidgetHandle, (lv_anim_exec_xcb_t)lv_obj_set_x);
 	lv_anim_create(&anim);
 
 	lv_anim_set_values(&anim, y1, y2);
-	lv_anim_set_exec_cb(&anim, widget->m_pHandler, (lv_anim_exec_xcb_t)lv_obj_set_y);
+	lv_anim_set_exec_cb(&anim, widget->mpWidgetHandle, (lv_anim_exec_xcb_t)lv_obj_set_y);
 	lv_anim_create(&anim);
 
 	playback == true ? lv_anim_set_playback(&anim, 0) : lv_anim_clear_playback(&anim);

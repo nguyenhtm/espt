@@ -73,7 +73,7 @@ void HomeScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned 
          break;
       case MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED:
          {
-            if (!strcmp(buffer, "setting"))
+            if (!strcmp(buffer, "diagnosis"))
             {
                mpHmiApp->LoadScreen(SETTINGSCREEN);
             }

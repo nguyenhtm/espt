@@ -11,7 +11,6 @@
  * INCLUDES
  ********************************************************************************************************/
 #include "wrpgui.hpp"
-#include "wrpstyle.hpp"
 
 namespace WrpGui {
 
@@ -19,41 +18,40 @@ namespace WrpGui {
  * DEFINES
  ********************************************************************************************************/
 
-
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
 
 // Forward Classes
 class WrpScreen;
+class WrpStyle;
 
 // Class WrpWidget
 class WrpWidget
 {
 public:
-	WrpWidget(WrpScreen* parent=NULL);
-	~WrpWidget();
-	wrpgui_pos_t  GetX();
-	wrpgui_pos_t  GetY();
-	wrpgui_size_t GetW();
-	wrpgui_size_t GetH();
-	void SetX(const wrpgui_pos_t x);
-	void SetY(const wrpgui_pos_t y);
-	void SetW(const wrpgui_size_t w);
-	void SetH(const wrpgui_size_t h);
-	void SetPos(const wrpgui_pos_t x, const wrpgui_pos_t y);
-	void SetSize(const wrpgui_size_t w, const wrpgui_size_t h);
+   WrpWidget(WrpScreen* parent);
+   ~WrpWidget();
+   wrpgui_pos_t  GetX();
+   wrpgui_pos_t  GetY();
+   wrpgui_size_t GetW();
+   wrpgui_size_t GetH();
+   void          SetX(const wrpgui_pos_t x);
+   void          SetY(const wrpgui_pos_t y);
+   void          SetW(const wrpgui_size_t w);
+   void          SetH(const wrpgui_size_t h);
+   void          SetPos(const wrpgui_pos_t x, const wrpgui_pos_t y);
+   void          SetSize(const wrpgui_size_t w, const wrpgui_size_t h);
 
-	wrpgui_handle_t* m_pHandler;
-	WrpScreen* m_pParentScreen;
-	WrpStyle m_style;
-
-protected:
+   WrpScreen*       mpScreenHandle;
+   WrpStyle*        mpAppearance;
+   wrpgui_handle_t* mpWidgetHandle;
 
 private:
-
+   WrpWidget();
+   WrpWidget(const WrpWidget& cp);
 };
 
 } /* Namespace WrpGui */
 
-#endif /* WRPGUI_WRPWIDGET_HPP_ */
+#endif /* WRPGUI_WRPWIDGET_HPP */

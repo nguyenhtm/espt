@@ -4,14 +4,14 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef WRPGUI_WRPSCREEN_HPP_
-#define WRPGUI_WRPSCREEN_HPP_
+#ifndef WRPGUI_WRPSCREEN_HPP
+#define WRPGUI_WRPSCREEN_HPP
 
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
 #include "wrpgui.hpp"
-#include "wrpstyle.hpp"
+#include "wrpbase/wrpbase.hpp"
 
 namespace WrpGui {
 
@@ -25,39 +25,42 @@ namespace WrpGui {
 
 // Forward Classes
 class WrpLabel;
-class WrpWidget;
+//class WrpWidget;
 class WrpPopup;
 class WrpImage;
+class WrpStyle;
 
 // Class WrpScreen
-class WrpScreen : public WrpStyle
+class WrpScreen
 {
 public:
-	WrpScreen(const bool bMasterScreen=false);
-	~WrpScreen();
-
-	void Load();
-	void SetTitle(const char* text);
-	void SetStyle(const WrpStyleType style);
-	void ShowPopup(const bool bShowHide, const char *text);
-	wrpgui_handle_t* GetHandle() { return m_pHandler; }
-
-protected:
+   WrpScreen(const bool bMasterScreen);
+   ~WrpScreen();
+   wrpgui_handle_t* GetHandle() { return mpObjHandle; }
+   void             Load();
+   void             SetTitle(const char* text);
+   void             SetStyle(const WrpStyleType& style);
+   void             ShowPopup(const bool& bShowHide, const char *text);
 
 private:
-	// methods
-	wrpgui_handle_t* m_pHandler;
-	friend class WrpWidget;
-	friend class WrpLabel;
-	friend class WrpImage;
+   WrpScreen();
+   WrpScreen(const WrpScreen& cp);
+   // methods
 
-	// members
-	bool      m_bMasterScreen;
-	WrpLabel* m_pMenuTitle;
-	WrpPopup* m_pTopPopup;
-	WrpImage* m_pBackground;
+   // members
+   wrpgui_handle_t* mpObjHandle;
+   bool             mbMasterScreen;
+   WrpLabel*        mpMenuTitle;
+   WrpPopup*        mpTopPopup;
+   WrpImage*        mpBackground;
+   WrpStyle*        mpAppearance;
+
+   // friend classes
+   friend class WrpWidget;
+   friend class WrpLabel;
+   friend class WrpImage;
 };
 
 } /* Namespace WrpGui */
 
-#endif /* WRPGUI_WRPSCREEN_HPP_ */
+#endif /* WRPGUI_WRPSCREEN_HPP */

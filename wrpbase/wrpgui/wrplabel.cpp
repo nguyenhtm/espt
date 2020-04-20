@@ -21,25 +21,38 @@ namespace WrpGui {
 WrpLabel::WrpLabel(WrpScreen* parent)
 : WrpWidget(NULL)
 {
-	WRPPRINT("%s", "WrpLabel::WrpLabel() Begin\n");
-	m_pParentScreen = parent;
-	if (parent)
-	{
-		m_pHandler = lv_label_create(parent->m_pHandler, NULL);
-	}
-	lv_obj_set_size(m_pHandler, WRPLABEL_WIDTH, WRPLABEL_HEIGHT);
-	WRPPRINT("%s", "WrpLabel::WrpLabel() End\n");
+   WRPPRINT("%s\n", "WrpLabel::WrpLabel() Begin");
+   mpScreenHandle = parent;
+   if (parent)
+   {
+      mpWidgetHandle = lv_label_create(parent->GetHandle(), NULL);
+      lv_obj_set_size(mpWidgetHandle, WRPLABEL_WIDTH, WRPLABEL_HEIGHT);
+   }
+   WRPPRINT("%s\n", "WrpLabel::WrpLabel() End");
 }
 
 WrpLabel::~WrpLabel()
 {
-	// m_pHandler shall be deleted by its parent
+   WRPPRINT("%s\n", "WrpLabel::~WrpLabel() Begin");
+   WRPNULL_CHECK(mpScreenHandle)
+   delete mpWidgetHandle;
+   WRPPRINT("%s\n", "WrpLabel::~WrpLabel() End");
 }
 
 void WrpLabel::SetText(const char* text)
 {
-	WRPNULL_CHECK(m_pHandler)
-	lv_label_set_text(m_pHandler, text);
+   WRPNULL_CHECK(mpWidgetHandle)
+   lv_label_set_text(mpWidgetHandle, text);
+}
+
+WrpLabel::WrpLabel()
+: WrpWidget(NULL)
+{
+}
+
+WrpLabel::WrpLabel(const WrpLabel& cp)
+: WrpWidget(NULL)
+{
 }
 
 } /* WrpGui Namespace */

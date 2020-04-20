@@ -41,6 +41,10 @@ wrpthread_t WrpCreateThread(wrpthread_handler_t threadfunc, const char* threadna
 void SwReset()
 {
    WRPPRINT("%s\n", "WrpSys::System::SwReset() Begin");
+#if USE_ESP_IDF
+   fflush(stdout);
+   esp_restart();
+#endif
    WRPPRINT("%s\n", "WrpSys::System::SwReset() End");
 }
 
@@ -56,11 +60,11 @@ void PrintChipInfo()
 #if USE_ESP_IDF
    esp_chip_info_t chipInfo;
    esp_chip_info(&chipInfo);
-   WRPPRINT("ESP32 Chip: %d CPU cores, WiFi%s%s, ", chipInfo.cores, (chipInfo.features & CHIP_FEATURE_BT) ? "/BT" : "", (chipInfo.features & CHIP_FEATURE_BLE) ? "/BLE" : "");
+   WRPPRINT("WrpSys::System::PrintChipInfo() ESP32 Chip: %d CPU cores, WiFi%s%s, ", chipInfo.cores, (chipInfo.features & CHIP_FEATURE_BT) ? "/BT" : "", (chipInfo.features & CHIP_FEATURE_BLE) ? "/BLE" : "");
    WRPPRINT("silicon revision %d, ", chipInfo.revision);
    WRPPRINT("%dMB %s flash\n", spi_flash_get_chip_size() / (1024 * 1024), (chipInfo.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
 #endif
-   WRPPRINT("%s\n", "WrpSys::PrintChipInfo() End");
+   WRPPRINT("%s\n", "WrpSys::System::PrintChipInfo() End");
 }
 
 } /* Namespace Storage */

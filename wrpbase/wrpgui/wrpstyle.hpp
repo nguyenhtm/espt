@@ -4,8 +4,8 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef WRPGUI_WRPSTYLE_HPP_
-#define WRPGUI_WRPSTYLE_HPP_
+#ifndef WRPGUI_WRPSTYLE_HPP
+#define WRPGUI_WRPSTYLE_HPP
 
 /********************************************************************************************************
  * INCLUDES
@@ -18,34 +18,29 @@ namespace WrpGui {
  * DEFINES
  ********************************************************************************************************/
 
-enum WrpStyleType
-{
-	SCREEN_DEFAULT, SCREEN_PLAIN_COLOR, SCREEN_PRETTY, SCREEN_PRETTY_COLOR,
-	BUTTON_PRESS, BUTTON_RELEASE, BUTTON_TGL_PRESS, BUTTON_TGL_RELEASE
-};
-
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
 
+// Class WrpStyle
 class WrpStyle
 {
 public:
-	WrpStyle();
-	~WrpStyle();
-	void SetStyle(wrpgui_handle_t* handler, WrpStyleType style);
-	void SetDefault(wrpgui_handle_t* handler);
-
-protected:
+   WrpStyle(wrpgui_handle_t* obj);
+   ~WrpStyle();
+   void SetStyle(const WrpStyleType& style);
+   void SetDefaultStyle();
 
 private:
-	// methods
-
-	// members
-	wrpgui_style_t m_style;
-	wrpgui_style_t m_default;
+   WrpStyle();
+   WrpStyle(const WrpStyle& cp);
+   // members
+   wrpgui_handle_t* mpObjHandle;
+   wrpgui_style_t   m_style;
+   wrpgui_style_t   m_default;
+   WrpStyleType     mCurrentStyle;
 };
 
 } /* Namespace WrpGui */
 
-#endif /* WRPGUI_WRPSTYLE_HPP_ */
+#endif /* WRPGUI_WRPSTYLE_HPP */

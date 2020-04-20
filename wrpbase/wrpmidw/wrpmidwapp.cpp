@@ -130,7 +130,7 @@ void WrpMidwApp::SetState(WrpMidwAppState* state)
 void WrpMidwApp::ReadConfig()
 {
    WRPPRINT("%s\n", "WrpMidwApp::ReadConfig() Begin");
-   if (WrpSys::Storage::m_uStorageStatus && STORAGE_STATUS_INITSPIFFS)
+   if (WrpSys::Storage::gStorageStatus && STORAGE_STATUS_INITSPIFFS)
    {
    }
    WRPPRINT("%s\n", "WrpMidwApp::ReadConfig() End");
@@ -192,7 +192,7 @@ void WrpMidwApp::ThreadWrpMidwApp(void* param)
 
       // MidwApp State Context handling state based on ws server, wifi,...status
       // for wifi connection
-      if (WrpSys::Network::m_uNetworkStatus != NETWORK_STATUS_CONNECTED)
+      if (WrpSys::Network::gNetworkStatus != NETWORK_STATUS_CONNECTED)
       {
          //TODO: display no wifi icon
       }

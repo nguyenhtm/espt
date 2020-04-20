@@ -12,6 +12,7 @@
  ********************************************************************************************************/
 #include "wrpbase/wrpbase.hpp"
 #include "wrpbase/wrpgui/wrplabel.hpp"
+#include "wrpbase/wrpgui/wrpimage.hpp"
 #include "wrpbase/wrphmi/wrphmiapp.hpp"
 #include "wrpbase/wrphmi/wrphmiscreen.hpp"
 #include "wrpbase/wrpmidw/wrpmidwapp.hpp"
@@ -55,6 +56,7 @@ private:
    //members
    WrpHmiApp*        mpHmiApp;
    WrpGui::WrpLabel* mpLblBackItem;
+   WrpGui::WrpImage* mpBackground;
 };
 
 #endif /* APPSAMPLE_DIAGSCREEN_HPP */

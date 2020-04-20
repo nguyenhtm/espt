@@ -20,10 +20,13 @@ DiagScreen::DiagScreen(WrpHmiApp* app)
 {
    WRPPRINT("%s\n", "DiagScreen::DiagScreen() Begin");
    mpHmiAppClientHandle = new WrpGui::WrpScreen(false);
-   mpHmiAppClientHandle->SetTitle("Setting");
-   mpLblBackItem = new WrpGui::WrpLabel(mpHmiAppClientHandle);
-   mpLblBackItem->SetPos(260, WRPSCREEN_MENU_POSY);
-   mpLblBackItem->SetText("Back");
+   mpHmiAppClientHandle->SetTitle("");
+   mpHmiAppClientHandle->SetStyle(WrpGui::BUTTON_TGL_RELEASE);
+   //mpLblBackItem = new WrpGui::WrpLabel(mpHmiAppClientHandle);
+   //mpLblBackItem->SetPos(260, WRPSCREEN_MENU_POSY);
+   //mpLblBackItem->SetText("Back");
+   mpBackground = new WrpGui::WrpImage(mpHmiAppClientHandle);
+   mpBackground->SetImage(WRPRESIMG_BACKGROUND);
    WRPPRINT("%s\n", "DiagScreen::DiagScreen() End");
 }
 

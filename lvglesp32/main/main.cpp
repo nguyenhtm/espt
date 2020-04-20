@@ -5,7 +5,6 @@
  *
  ********************************************************************************************************/
 #include "appsample/appdefines.hpp"
-#include "wrpbase/wrptest/wrptest.hpp"
 
 /********************************************************************************************************
  * VARIABLES
@@ -21,7 +20,5 @@ void app_main()
 	/*
 	 * This function is for ESP32 Wrover V3.0 which includes LCD
 	 */
-	//WrpTest::wrpsystest();
-	//WrpTest::wrpguitest();
 	appsample();
 }

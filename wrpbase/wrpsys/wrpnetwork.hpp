@@ -20,7 +20,6 @@ namespace Network {
 /********************************************************************************************************
  * DEFINES
  ********************************************************************************************************/
-
 #define NETWORK_STATUS_INIT          (0x00)
 #define NETWORK_STATUS_NOTCONNECTED  (0x01)
 #define NETWORK_STATUS_CONNECTING    (0x02)
@@ -37,8 +36,7 @@ enum eWrpWebSocketStatus
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
-
-extern uint32_t m_uNetworkStatus;
+extern uint32_t gNetworkStatus;
 
 void InitWifiStation();
 
@@ -52,6 +50,7 @@ public:
 	bool Create(const char *uri, const unsigned int port);
 	void Close();
 	uint32_t Receive(char* buf, int size);
+	void Send(const char* buf, const uint8_t size);
 	void ClearBuffer();
 
 	static char  m_data[255];
@@ -62,13 +61,13 @@ protected:
 
 private:
 	static void EventHandler(struct mg_connection *nc, int event, void *data);
-	static struct mg_mgr mgr;
+	static struct mg_mgr *mgr;
 	static struct mg_connection *nc;
 	static std::string m_addr;
 	uint16_t    m_port;
 };
 
-} /* Namespace WrpSysNetwork */
+} /* Namespace Network */
 } /* Namespace WrpSys */
 
 #endif /* WRPBASE_WRPSYS_WRPNETWORK_HPP_ */
