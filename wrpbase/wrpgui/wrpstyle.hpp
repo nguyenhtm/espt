@@ -37,7 +37,6 @@ private:
    // members
    wrpgui_handle_t* mpObjHandle;
    wrpgui_style_t   m_style;
-   wrpgui_style_t   m_default;
    WrpStyleType     mCurrentStyle;
 };
 

@@ -17,10 +17,12 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
-
 #include <vector>
 #include <string>
 #include <algorithm>
+
+// math
+#include <math.h>
 
 // data types
 #include <cstdint>

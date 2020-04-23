@@ -38,7 +38,7 @@ static void WrpGuiInitTest(void)
       //ESP32 target need to initialize NVS before using LVGL library
       WrpSys::Storage::InitNVS(); // must 1st initialization
       WrpSys::Network::InitWifiStation();
-      WrpSys::InitLvglLib();
+      WrpGui::InitLvglLib();
       flag = true;
    }
 }

@@ -7,7 +7,6 @@
 #include "appdefines.hpp"
 #include "loadingscreen.hpp"
 #include "wrpbase/wrpgui/wrplabel.hpp"
-#include "wrpbase/wrpgui/wrpimage.hpp"
 
 /********************************************************************************************************
  * VARIABLES
@@ -55,6 +54,11 @@ void LoadingScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsign
    WRPPRINT("%s\n", "LoadingScreen::MidwAppUpdate() Begin");
    switch(status)
    {
+      case MIDWAPP_STATUS_START:
+      case MIDWAPP_STATUS_STOP:
+      {
+      }
+      break;
       case MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED:
          {
          //TODO

@@ -58,8 +58,8 @@ void WrpMidwAppESP32::BuildStorage() const
 void WrpMidwAppESP32::BuildDisplay() const
 {
    WRPPRINT("%s\n", "WrpMidwAppESP32::BuildDisplay() Begin");
-   WrpSys::InitLvglLib();
-   WrpSys::InitLvglFileSystem();
+   WrpGui::InitLvglLib();
+   WrpGui::InitLvglFileSystem();
    WRPPRINT("%s\n", "WrpMidwAppESP32::BuildDisplay() End");
 }
 
@@ -122,8 +122,8 @@ void WrpMidwAppSIM::BuildStorage() const
 void WrpMidwAppSIM::BuildDisplay() const
 {
    WRPPRINT("%s\n", "WrpMidwAppSIM::BuildDisplay() Begin");
-   WrpSys::InitLvglLib();
-   WrpSys::InitLvglFileSystem();
+   WrpGui::InitLvglLib();
+   WrpGui::InitLvglFileSystem();
    WRPPRINT("%s\n", "WrpMidwAppSIM::BuildDisplay() End");
 }
 

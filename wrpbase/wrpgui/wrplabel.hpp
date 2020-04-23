@@ -4,8 +4,8 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef WRPGUI_WRPLABEL_HPP_
-#define WRPGUI_WRPLABEL_HPP_
+#ifndef WRPGUI_WRPLABEL_HPP
+#define WRPGUI_WRPLABEL_HPP
 
 /********************************************************************************************************
  * INCLUDES
@@ -41,4 +41,4 @@ private:
 
 } /* Namespace WrpGui */
 
-#endif /* WRPGUI_WRPLABEL_HPP_ */
+#endif /* WRPGUI_WRPLABEL_HPP */

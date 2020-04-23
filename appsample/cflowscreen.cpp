@@ -21,7 +21,6 @@ CFlowScreen::CFlowScreen(WrpHmiApp* app)
    // cflowscreen is a normal screen
    mpHmiAppClientHandle = new WrpGui::WrpScreen(false);
    mpHmiAppClientHandle->SetTitle("");
-   mpHmiAppClientHandle->SetStyle(WrpGui::BUTTON_TGL_RELEASE);
    // cflowscreen has a main menu
    mpMenuItem[0] = new WrpGui::WrpImage(mpHmiAppClientHandle);
    mpMenuItem[0]->SetImage(WRPRESIMG_CFLOWITEM1);
@@ -35,6 +34,10 @@ CFlowScreen::CFlowScreen(WrpHmiApp* app)
    mpMenuItem[3] = new WrpGui::WrpImage(mpHmiAppClientHandle);
    mpMenuItem[3]->SetImage(WRPRESIMG_CFLOWITEM4);
    mpMenuItem[3]->SetPos(WRPSCREEN_WIDTH-240, WRPSCREEN_MENU_POSY);
+   mpMenuItem[4] = new WrpGui::WrpImage(mpHmiAppClientHandle);
+   mpMenuItem[4]->SetImage(WRPRESIMG_CFLOWITEM5);
+   mpMenuItem[4]->SetPos(WRPSCREEN_WIDTH-300, WRPSCREEN_MENU_POSY);
+
    // cflowscreen has items to demo many kinds of coverflow
    mpAnimItem[0] = new WrpGui::WrpImage(mpHmiAppClientHandle);
    mpAnimItem[0]->SetImage(WRPRESIMG_APP);
@@ -65,6 +68,7 @@ void CFlowScreen::CreateAndShow()
    mAnim.FadeIn((WrpGui::WrpWidget*)mpMenuItem[1], 2000);
    mAnim.FadeIn((WrpGui::WrpWidget*)mpMenuItem[2], 2000);
    mAnim.FadeIn((WrpGui::WrpWidget*)mpMenuItem[3], 2000);
+   mAnim.FadeIn((WrpGui::WrpWidget*)mpMenuItem[4], 2000);
    mAnim.Liverpool();
    WRPPRINT("%s\n", "CFlowScreen::CreateAndShow() End");
 }

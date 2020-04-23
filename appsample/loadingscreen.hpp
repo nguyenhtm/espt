@@ -10,10 +10,9 @@
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
-#include "wrpbase/wrpbase.hpp"
 #include "wrpbase/wrphmi/wrphmiapp.hpp"
-#include "wrpbase/wrphmi/wrphmiscreen.hpp"
 #include "wrpbase/wrpmidw/wrpmidwapp.hpp"
+#include "wrpbase/wrphmi/wrphmiscreen.hpp"
 
 /********************************************************************************************************
  * DEFINES

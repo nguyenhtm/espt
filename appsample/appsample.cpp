@@ -44,7 +44,7 @@ void appsample()
    DiagScreen*    pDiagScreen    = new DiagScreen(pHmiApp);
    CFlowScreen*   pCflowScreen   = new CFlowScreen(pHmiApp);
    pHmiApp->Attach(pHomeScreen, HOMESCREEN);
-   pHmiApp->Attach(pDiagScreen, SETTINGSCREEN);
+   pHmiApp->Attach(pDiagScreen, DIAGNOSISSCREEN);
    pHmiApp->Attach(pLoadingScreen, LOADINGSCREEN);
    pHmiApp->Attach(pCflowScreen, CFLOWSCREEN);
 

@@ -56,7 +56,7 @@ private:
    /** Holds the handle of */
    WrpHmiApp*        mpHmiApp;
    WrpGui::WrpAnim   mAnim;
-   WrpGui::WrpImage* mpMenuItem[4];
+   WrpGui::WrpImage* mpMenuItem[5];
    WrpGui::WrpImage* mpAnimItem[6];
 };
 

@@ -4,15 +4,15 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef WRPBASE_WRPSYS_WRPDISPLAY_HPP_
-#define WRPBASE_WRPSYS_WRPDISPLAY_HPP_
+#ifndef WRPBASE_WRPDISPLAY_HPP
+#define WRPBASE_WRPDISPLAY_HPP
 
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
 #include "wrpbase/wrpbase.hpp"
 
-namespace WrpSys {
+namespace WrpGui {
 
 /********************************************************************************************************
  * DEFINES
@@ -30,4 +30,4 @@ bool InitLvglFileSystem();
 
 } /* Namespace WrpSys */
 
-#endif /* WRPBASE_WRPSYS_WRPDISPLAY_HPP_ */
+#endif /* WRPBASE_WRPDISPLAY_HPP */

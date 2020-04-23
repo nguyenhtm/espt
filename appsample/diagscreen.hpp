@@ -10,9 +10,6 @@
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
-#include "wrpbase/wrpbase.hpp"
-#include "wrpbase/wrpgui/wrplabel.hpp"
-#include "wrpbase/wrpgui/wrpimage.hpp"
 #include "wrpbase/wrphmi/wrphmiapp.hpp"
 #include "wrpbase/wrphmi/wrphmiscreen.hpp"
 #include "wrpbase/wrpmidw/wrpmidwapp.hpp"
@@ -24,6 +21,11 @@
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
+// Forward classes
+class WrpGui::WrpLabel;
+class WrpGui::WrpImage;
+
+// Class DiagScreen
 class DiagScreen : public WrpHmiAppClient
                  , public WrpMidwAppClient
                  , public WrpHmiScreen
@@ -53,10 +55,12 @@ public:
 
 private:
    DiagScreen(const DiagScreen& cp);
+   void RunSpeedMeter();
    //members
    WrpHmiApp*        mpHmiApp;
+   WrpGui::WrpImage* mpMeter;
+   WrpGui::WrpImage* mpNeedle;
    WrpGui::WrpLabel* mpLblBackItem;
-   WrpGui::WrpImage* mpBackground;
 };
 
 #endif /* APPSAMPLE_DIAGSCREEN_HPP */

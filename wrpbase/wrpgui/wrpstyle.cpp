@@ -37,7 +37,15 @@ void WrpStyle::SetStyle(const WrpStyleType& style)
    WRPPRINT("%s%d\n", "WrpStyle::SetStyle() Begin style=", style);
    switch(style)
    {
-      case SCREEN_DEFAULT:      lv_style_copy(&m_style, &lv_style_scr); break;
+      case SCREEN_DEFAULT:
+      {
+         lv_style_copy(&m_style, &lv_style_btn_tgl_rel);
+         m_style.body.main_color = LV_COLOR_BLACK;
+         m_style.body.grad_color = LV_COLOR_BLACK;
+         m_style.body.radius = 0;
+         m_style.text.color = LV_COLOR_WHITE;
+         break;
+      }
       case SCREEN_PLAIN_COLOR:  lv_style_copy(&m_style, &lv_style_plain_color); break;
       case SCREEN_PRETTY:       lv_style_copy(&m_style, &lv_style_pretty); break;
       case SCREEN_PRETTY_COLOR: lv_style_copy(&m_style, &lv_style_pretty_color); break;

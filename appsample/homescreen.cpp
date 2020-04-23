@@ -21,7 +21,6 @@ HomeScreen::HomeScreen(WrpHmiApp* app)
    // homescreen is a master screen
    mpHmiAppClientHandle = new WrpGui::WrpScreen(true);
    mpHmiAppClientHandle->SetTitle("");
-   mpHmiAppClientHandle->SetStyle(WrpGui::BUTTON_TGL_RELEASE);
    mpMenuItem[0] = new WrpGui::WrpImage(mpHmiAppClientHandle);
    mpMenuItem[0]->SetImage(WRPRESIMG_SETTING);
    mpMenuItem[0]->SetPos(WRPSCREEN_WIDTH-30, WRPSCREEN_MENU_POSY);
@@ -34,7 +33,7 @@ HomeScreen::HomeScreen(WrpHmiApp* app)
    // homescreen has a logo
    mpLogo = new WrpGui::WrpImage(mpHmiAppClientHandle);
    mpLogo->SetImage(WRPRESIMG_LOGO);
-   mpLogo->SetPos(WRPSCREEN_MENU_POSX+120, WRPSCREEN_MENU_POSY+80);
+   mpLogo->SetPos(WRPSCREEN_MENU_POSX+130, WRPSCREEN_MENU_POSY+90);
    WRPPRINT("%s\n", "HomeScreen::HomeScreen() End");
 }
 
@@ -75,7 +74,7 @@ void HomeScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned 
          {
             if (!strcmp(buffer, "diagnosis"))
             {
-               mpHmiApp->LoadScreen(SETTINGSCREEN);
+               mpHmiApp->LoadScreen(DIAGNOSISSCREEN);
             }
             else if (!strcmp(buffer, "cflow"))
             {

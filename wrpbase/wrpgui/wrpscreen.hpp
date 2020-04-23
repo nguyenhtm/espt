@@ -11,7 +11,6 @@
  * INCLUDES
  ********************************************************************************************************/
 #include "wrpgui.hpp"
-#include "wrpbase/wrpbase.hpp"
 
 namespace WrpGui {
 
@@ -25,7 +24,6 @@ namespace WrpGui {
 
 // Forward Classes
 class WrpLabel;
-//class WrpWidget;
 class WrpPopup;
 class WrpImage;
 class WrpStyle;

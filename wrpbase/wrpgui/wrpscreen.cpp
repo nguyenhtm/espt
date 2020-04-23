@@ -9,6 +9,7 @@
 #include "wrppopup.hpp"
 #include "wrpimage.hpp"
 #include "wrpstyle.hpp"
+#include "wrpbase/wrpbase.hpp"
 
 namespace WrpGui {
 
@@ -40,7 +41,7 @@ WrpScreen::WrpScreen(const bool bMasterScreen)
    }
    // set screen style before background usage
    mpAppearance = new WrpStyle(mpObjHandle);
-   mpAppearance->SetStyle(BUTTON_TGL_RELEASE);
+   mpAppearance->SetStyle(SCREEN_DEFAULT);
    // set screen background
    //mpBackground = new WrpImage(this);
    //mpBackground->SetSize(320, 240);
@@ -50,6 +51,7 @@ WrpScreen::WrpScreen(const bool bMasterScreen)
    // set screen menu title
    mpMenuTitle = new WrpLabel(this);
    mpMenuTitle->SetPos(WRPSCREEN_MENU_POSX, WRPSCREEN_MENU_POSY);
+   mpMenuTitle->SetText("");
    WRPPRINT("%s%d\n", "WrpScreen::WrpScreen() End bMasterScreen=", bMasterScreen);
 }
 
@@ -57,7 +59,7 @@ WrpScreen::~WrpScreen()
 {
    WRPPRINT("%s\n", "WrpScreen::~WrpScreen() Begin");
    delete mpAppearance;
-   delete mpBackground;
+   //delete mpBackground;
    delete mpTopPopup;
    delete mpMenuTitle;
    // delete the 'mpObjHandle' screen handle and all its children
