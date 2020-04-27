@@ -53,11 +53,13 @@ void WrpMidwAppInitState::Handle()
    WRPPRINT("%s\n", "WrpMidwAppInitState::Handle() Begin");
    mpContext->ReadConfig();
    mpContext->mpWsClientHandle = new WrpWebSocketClient;
+   bool ret;
 #if USE_ESP_IDF
-   mpContext->mpWsClientHandle->Create("192.168.1.10", 8000);
+   ret = mpContext->mpWsClientHandle->Create("192.168.1.10", WRPWS_SERVER_PORT);
 #else
-   mpContext->mpWsClientHandle->Create("127.0.0.1", WRPWS_SERVER_PORT);
+   ret = mpContext->mpWsClientHandle->Create("127.0.0.1", WRPWS_SERVER_PORT);
 #endif
+
    mpContext->mMidwAppStatus = MIDWAPP_STATUS_START;
    mpContext->mThreadId = WrpSys::System::WrpCreateThread(WrpMidwApp::ThreadWrpMidwApp, "WrpMidwApp", mpContext);
    if (!mpContext->mThreadId)

@@ -26,7 +26,7 @@ LV_IMG_DECLARE(menuitem3)
 LV_IMG_DECLARE(menuitem4)
 LV_IMG_DECLARE(menuitem5)
 
-LV_IMG_DECLARE(meter)
+//LV_IMG_DECLARE(meter)
 LV_IMG_DECLARE(needle)
 
 namespace WrpGui {
@@ -108,7 +108,7 @@ bool WrpImage::SetImage(const uint16_t imgid)
       case WRPRESIMG_CFLOWITEM3:   lv_img_set_src(mpWidgetHandle, &menuitem3); break;
       case WRPRESIMG_CFLOWITEM4:   lv_img_set_src(mpWidgetHandle, &menuitem4); break;
       case WRPRESIMG_CFLOWITEM5:   lv_img_set_src(mpWidgetHandle, &menuitem5); break;
-      case WRPRESIMG_METER:        lv_img_set_src(mpWidgetHandle, &meter); break;
+      //case WRPRESIMG_METER:        lv_img_set_src(mpWidgetHandle, &meter); break;
       case WRPRESIMG_METER_NEEDLE: lv_img_set_src(mpWidgetHandle, &needle); break;
       default: return false;
    }

@@ -62,7 +62,7 @@ void HomeScreen::HideAndDestroy()
 
 void HomeScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length)
 {
-   WRPPRINT("%s\n", "HomeScreen::MidwAppUpdate() Begin");
+   WRPPRINT("%s%s\n", "HomeScreen::MidwAppUpdate() Begin buffer=", buffer);
    switch(status)
    {
       case MIDWAPP_STATUS_START:
@@ -120,7 +120,7 @@ void HomeScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned 
          }
          break;
    }
-   WRPPRINT("%s\n", "HomeScreen::MidwAppUpdate() End");
+   WRPPRINT("%s%s\n", "HomeScreen::MidwAppUpdate() End buffer=", buffer);
 }
 
 HomeScreen::HomeScreen(const HomeScreen& cp)

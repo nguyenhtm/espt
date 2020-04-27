@@ -17,5 +17,5 @@ extern "C" void app_main();
 
 void app_main()
 {
-	WrpTest::WrpSysTest();
+   WrpTest::WrpSysTest();
 }

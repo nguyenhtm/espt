@@ -51,7 +51,7 @@ void LoadingScreen::HideAndDestroy()
 
 void LoadingScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length)
 {
-   WRPPRINT("%s\n", "LoadingScreen::MidwAppUpdate() Begin");
+   WRPPRINT("%s%s\n", "LoadingScreen::MidwAppUpdate() Begin buffer=", buffer);
    switch(status)
    {
       case MIDWAPP_STATUS_START:
@@ -82,7 +82,7 @@ void LoadingScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsign
 		break;
 	}
 
-   WRPPRINT("%s\n", "LoadingScreen::MidwAppUpdate() End");
+   WRPPRINT("%s%s\n", "LoadingScreen::MidwAppUpdate() End buffer=", buffer);
 }
 
 LoadingScreen::LoadingScreen(const LoadingScreen& cp)

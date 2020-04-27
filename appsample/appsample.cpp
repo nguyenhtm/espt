@@ -48,6 +48,7 @@ void appsample()
    pHmiApp->Attach(pLoadingScreen, LOADINGSCREEN);
    pHmiApp->Attach(pCflowScreen, CFLOWSCREEN);
 
+   //pHmiApp->LoadScreen(LOADINGSCREEN);
    pHmiApp->LoadScreen(HOMESCREEN);
 
    pMidwApp->Attach(pHomeScreen);

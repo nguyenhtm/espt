@@ -40,12 +40,17 @@ void WrpStorageTest()
 void WrpNetworkTest()
 {
    WRPPRINT("%s\n", "WrpNetworkTest() Begin");
+
    uint8_t nRetry = 0;
    const uint8_t nMaxTimeOut = 1; //seconds
    const uint8_t nMaxRetry = 10;  //times
 
-   // Connect to wifi
+#if USE_ESP_IDF
+   // Connect to wifi if using ESP32
    WrpSys::Network::InitWifiStation();
+#elif LVGL_PC_SIMU
+   WrpSys::Network::gNetworkStatus = NETWORK_STATUS_CONNECTED;
+#endif
    while ((nRetry < nMaxRetry) && (WrpSys::Network::gNetworkStatus != NETWORK_STATUS_CONNECTED))
    {
       nRetry++;
@@ -59,19 +64,29 @@ void WrpNetworkTest()
       return;
    }
    WRPPRINT("%s\n", "WrpNetworkTest() Network Connection Successfully");
+
    // Connect to WS server
    gWSClient = new WrpSys::Network::WrpWebSocketClient;
+   bool ret;
 #if USE_ESP_IDF
-   gWSClient->Create("ws://192.168.1.10", 8000);
-#else
-   gWSClient->Create("ws://127.0.0.1", WRPWS_SERVER_PORT);
+   ret = gWSClient->Create("192.168.1.10", WRPWS_SERVER_PORT);
+#elif LVGL_PC_SIMU
+   ret = gWSClient->Create("127.0.0.1", WRPWS_SERVER_PORT);
 #endif
-   while (WrpSys::Network::WSCLIENT_STATUS_CONNECTED != gWSClient->m_status) {
-	   sleep(1);
-	   WRPPRINT("%s:%d\n", "WrpNetworkTest() Connecting to websocket server...", gWSClient->m_status);
+
+   char buf1[125]={0};
+   while(!gWSClient->mRecvBufferLength)
+   {
+      gWSClient->Receive(buf1, 9);
+#if USE_ESP_IDF
+      vTaskDelay(1000 / portTICK_PERIOD_MS);
+#endif
    }
    char buf[125]="Xin Chao!";
-   gWSClient->Send(buf, 9);
+   if (ret)
+   {
+      gWSClient->Send(buf, 9);
+   }
 
    WRPPRINT("%s\n", "WrpNetworkTest() End");
 }

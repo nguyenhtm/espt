@@ -75,7 +75,12 @@ void WrpMidwAppESP32::BuildNetwork() const
    {
       nRetry++;
       sleep(nMaxTimeOut);
-      WRPPRINT("%s%d\n", "WrpMidwAppESP32::BuildNetwork() Retry ", nRetry);
+      WRPPRINT("%s%d\n", "WrpNetworkTest() Network Connection Wait...", nRetry);
+   }
+   if (WrpSys::Network::gNetworkStatus != NETWORK_STATUS_CONNECTED)
+   {
+      WRPPRINT("%s\n", "WrpNetworkTest() Network Connection Failed!");
+      WrpSys::Network::DeInitWifiStation();
    }
    WRPPRINT("%s\n", "WrpMidwAppESP32::BuildNetwork() End");
 }

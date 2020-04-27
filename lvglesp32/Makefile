@@ -20,3 +20,5 @@ EXTRA_COMPONENT_DIRS += D:/iotprj/appsample
 
 #esp-idf platform makefile
 include $(IDF_PATH)/make/project.mk
+
+

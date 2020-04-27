@@ -81,7 +81,7 @@ void CFlowScreen::HideAndDestroy()
 
 void CFlowScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length)
 {
-   WRPPRINT("%s\n", "CFlowScreen::MidwAppUpdate() Begin");
+   WRPPRINT("%s%s\n", "CFlowScreen::MidwAppUpdate() Begin buffer=", buffer);
    switch(status)
    {
       case MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED:
@@ -125,7 +125,7 @@ void CFlowScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned
       default:
          break;
    }
-   WRPPRINT("%s", "CFlowScreen::MidwAppUpdate() End\n");
+   WRPPRINT("%s%s\n", "CFlowScreen::MidwAppUpdate() End buffer=", buffer);
 }
 
 CFlowScreen::CFlowScreen(const CFlowScreen& cp)

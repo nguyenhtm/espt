@@ -4,8 +4,8 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef WRPBASE_WRPSYS_WRPNETWORK_HPP_
-#define WRPBASE_WRPSYS_WRPNETWORK_HPP_
+#ifndef WRPBASE_WRPSYS_WRPNETWORK_HPP
+#define WRPBASE_WRPSYS_WRPNETWORK_HPP
 
 /********************************************************************************************************
  * INCLUDES
@@ -27,10 +27,10 @@ namespace Network {
 
 enum eWrpWebSocketStatus
 {
-	WSCLIENT_STATUS_NOTCREATED = 0,
-	WSCLIENT_STATUS_CREATED,
-	WSCLIENT_STATUS_NOTCONNECTED,
-	WSCLIENT_STATUS_CONNECTED
+   WSCLIENT_STATUS_NOTCREATED = 0,
+   WSCLIENT_STATUS_CREATED,
+   WSCLIENT_STATUS_NOTCONNECTED,
+   WSCLIENT_STATUS_CONNECTED
 };
 
 /********************************************************************************************************
@@ -42,32 +42,35 @@ void InitWifiStation();
 
 void DeInitWifiStation();
 
+// Class WrpWebSocketClient
 class WrpWebSocketClient
 {
 public:
-	WrpWebSocketClient();
-	virtual ~WrpWebSocketClient();
-	bool Create(const char *uri, const unsigned int port);
-	void Close();
-	uint32_t Receive(char* buf, int size);
-	void Send(const char* buf, const uint8_t size);
-	void ClearBuffer();
+   WrpWebSocketClient();
+   ~WrpWebSocketClient();
+   bool     Create(const char *serveraddr, const uint16_t serverport);
+   void     Close();
+   uint32_t Receive(char* buf, int size);
+   void     Send(const char* buf, const uint32_t size);
+   void     ClearBuffer();
 
-	static char  m_data[255];
-	static unsigned int m_datalength;
-	static eWrpWebSocketStatus m_status;
-
-protected:
+   static eWrpWebSocketStatus m_status;
+   static char   mRecvBuffer[255];
+   static size_t mRecvBufferLength;
+   static char   mSentBuffer[255];
+   static size_t mSentBufferLength;
 
 private:
-	static void EventHandler(struct mg_connection *nc, int event, void *data);
-	static struct mg_mgr *mgr;
-	static struct mg_connection *nc;
-	static std::string m_addr;
-	uint16_t    m_port;
+   WrpWebSocketClient(const WrpWebSocketClient& cp);
+   //methods
+   static void EventHandler(struct mg_connection *nc, int event, void *data);
+   //members
+   std::string           msURI;
+   struct mg_mgr         mEventManager;
+   struct mg_connection *mpConnection;
 };
 
 } /* Namespace Network */
 } /* Namespace WrpSys */
 
-#endif /* WRPBASE_WRPSYS_WRPNETWORK_HPP_ */
+#endif /* WRPBASE_WRPSYS_WRPNETWORK_HPP */
