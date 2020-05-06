@@ -55,12 +55,14 @@ public:
 
 private:
    DiagScreen(const DiagScreen& cp);
-   void RunSpeedMeter();
+   void RunSpeedMeter(const uint16_t km);
    //members
    WrpHmiApp*        mpHmiApp;
    WrpGui::WrpImage* mpMeter;
    WrpGui::WrpImage* mpNeedle;
    WrpGui::WrpLabel* mpLblBackItem;
+   int16_t mCurrentSpeed;
+   lv_obj_t* mpCanvas;
 };
 
 #endif /* APPSAMPLE_DIAGSCREEN_HPP */

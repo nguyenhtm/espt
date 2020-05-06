@@ -100,10 +100,9 @@ void IRAM_ATTR lv_tick_task(void)
 
 bool InitLvglFileSystem()
 {
-	WRPPRINT("%s\n", "WrpSys::WrpDisplay::InitLVGLFileSystem() Begin");
-
-	static lv_fs_drv_t pcfs_drv;
-	//memset(&pcfs_drv, 0, sizeof(lv_fs_drv_t));
+   WRPPRINT("%s\n", "WrpSys::WrpDisplay::InitLVGLFileSystem() Begin");
+   static lv_fs_drv_t pcfs_drv;
+   //memset(&pcfs_drv, 0, sizeof(lv_fs_drv_t));
 #if LVGL_PC_SIMU
     pcfs_drv.letter = 'D';
     pcfs_drv.file_size = sizeof(pc_file_t);       /*Set up fields...*/
@@ -113,55 +112,59 @@ bool InitLvglFileSystem()
     pcfs_drv.file_size = sizeof(FIL*);       /*Set up fields...*/
 #endif
 
-    pcfs_drv.open_cb = pcfs_open;
+    pcfs_drv.open_cb  = pcfs_open;
     pcfs_drv.close_cb = pcfs_close;
-    pcfs_drv.read_cb = pcfs_read;
-    pcfs_drv.seek_cb = pcfs_seek;
-    pcfs_drv.tell_cb = pcfs_tell;
+    pcfs_drv.read_cb  = pcfs_read;
+    pcfs_drv.seek_cb  = pcfs_seek;
+    pcfs_drv.tell_cb  = pcfs_tell;
     lv_fs_drv_register(&pcfs_drv);
     //usleep(500*1000); //importance
 
-	WRPPRINT("%s\n", "WrpSys::WrpDisplay::InitLVGLFileSystem() End");
-	return true;
+   WRPPRINT("%s\n", "WrpSys::WrpDisplay::InitLVGLFileSystem() End");
+   return true;
 }
 
-lv_fs_res_t pcfs_open(lv_fs_drv_t * drv, void * file_p, const char * fn, lv_fs_mode_t mode)
+lv_fs_res_t pcfs_open(lv_fs_drv_t* drv, void* file_p, const char* fn, lv_fs_mode_t mode)
 {
-    (void) drv; /*Unused*/
+   const char * flags = "";
 
-    errno = 0;
+   if (mode == LV_FS_MODE_WR)
+   {
+      flags = "wb";
+   }
+   else if (mode == LV_FS_MODE_RD)
+   {
+      flags = "rb";
+   }
+   else if (mode == (LV_FS_MODE_WR | LV_FS_MODE_RD))
+   {
+      flags = "a+";
+   }
 
-    const char * flags = "";
-
-    if(mode == LV_FS_MODE_WR) flags = "wb";
-    else if(mode == LV_FS_MODE_RD) flags = "rb";
-    else if(mode == (LV_FS_MODE_WR | LV_FS_MODE_RD)) flags = "a+";
-
-    /*Make the path relative to the current directory (the projects root folder)*/
-    char buf[256]={0};
+   /*Make the path relative to the current directory (the projects root folder)*/
+   char buf[256]={0};
 #if LVGL_PC_SIMU
-    sprintf(buf, "%c:/%s", drv->letter, fn);
+   sprintf(buf, "%c:/%s", drv->letter, fn);
 #elif LVGL_ESP32_ILI9341
-    sprintf(buf, "/%s", fn);
+   sprintf(buf, "/%s", fn);
 #endif
-	WRPPRINT("%s{%s}\n", "pcfs_open() file:", buf);
+   WRPPRINT("%s{%s}\n", "pcfs_open() file:", buf);
 
 #if LVGL_PC_SIMU
-    pc_file_t f = fopen(buf, "rb");
-    if(f == NULL)
-    {
-    	WRPPRINT("%s\n", "pcfs_open(): open file failed!");
-    	return LV_FS_RES_UNKNOWN;
-    }
-    else
-    {
-        fseek(f, 0, SEEK_SET);
-        /* 'file_p' is pointer to a file descriptor and
-         * we need to store our file descriptor here*/
-        pc_file_t * fp = (pc_file_t*) file_p;        /*Just avoid the confusing casings*/
-        *fp = f;
-    }
-	return LV_FS_RES_OK;
+   pc_file_t f = fopen(buf, flags);
+   if(f == NULL)
+   {
+      WRPPRINT("%s\n", "pcfs_open(): open file failed!");
+      return LV_FS_RES_UNKNOWN;
+   }
+   else
+   {
+      fseek(f, 0, SEEK_SET);
+      /* 'file_p' is pointer to a file descriptor and we need to store our file descriptor here*/
+      pc_file_t *fp = (pc_file_t*) file_p; /*Just avoid the confusing casings*/
+      *fp = f;
+   }
+   return LV_FS_RES_OK;
 #elif LVGL_ESP32_ILI9341
 	FIL* f = NULL;
     FRESULT res = f_open(f, buf, FA_READ);
@@ -178,23 +181,21 @@ lv_fs_res_t pcfs_open(lv_fs_drv_t * drv, void * file_p, const char * fn, lv_fs_m
 
 lv_fs_res_t pcfs_close(lv_fs_drv_t * drv, void * file_p)
 {
-    (void) drv; /*Unused*/
 #if LVGL_PC_SIMU
-    pc_file_t * fp = (pc_file_t*) file_p;        /*Just avoid the confusing casings*/
-    fclose(*fp);
+   pc_file_t *fp = (pc_file_t*) file_p;        /*Just avoid the confusing casings*/
+   fclose(*fp);
 #elif LVGL_ESP32_ILI9341
-    f_close((FIL*)file_p);
+   f_close((FIL*)file_p);
 #endif
-    return LV_FS_RES_OK;
+   return LV_FS_RES_OK;
 }
 
 lv_fs_res_t pcfs_read(lv_fs_drv_t * drv, void * file_p, void * buf, uint32_t btr, uint32_t * br)
 {
-    (void) drv; /*Unused*/
 #if LVGL_PC_SIMU
-    pc_file_t * fp = (pc_file_t*) file_p;        /*Just avoid the confusing casings*/
-    *br = fread(buf, 1, btr, *fp);
-    return LV_FS_RES_OK;
+   pc_file_t *fp = (pc_file_t*) file_p;        /*Just avoid the confusing casings*/
+   *br = fread(buf, 1, btr, *fp);
+   return LV_FS_RES_OK;
 #elif LVGL_ESP32_ILI9341
     WRPPRINT("%s%p\n", "pcfs_read(): read file with file_p=", file_p);
     FRESULT res = f_read((FIL*)file_p, buf, btr, (UINT*)br);
@@ -232,6 +233,3 @@ lv_fs_res_t pcfs_tell(lv_fs_drv_t * drv, void * file_p, uint32_t * pos_p)
 }
 
 } /* Namespace WrpSys */
-
-
-

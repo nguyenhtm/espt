@@ -13,7 +13,6 @@
 /********************************************************************************************************
  * DEFINES
  ********************************************************************************************************/
-//LV_IMG_DECLARE(meter)
 LV_IMG_DECLARE(needle)
 
 /********************************************************************************************************
@@ -28,12 +27,15 @@ DiagScreen::DiagScreen(WrpHmiApp* app)
 , mpMeter(NULL)
 , mpNeedle(NULL)
 , mpLblBackItem(NULL)
+, mCurrentSpeed(20)
+, mpCanvas(NULL)
 {
    WRPPRINT("%s\n", "DiagScreen::DiagScreen() Begin");
    mpHmiAppClientHandle = new WrpGui::WrpScreen(false);
    mpHmiAppClientHandle->SetTitle("");
-   //mpMeter = new WrpGui::WrpImage(mpHmiAppClientHandle);
-   //mpMeter->SetImage(WRPRESIMG_METER);
+   mpMeter = new WrpGui::WrpImage(mpHmiAppClientHandle);
+   mpMeter->SetImage(WRPRESIMG_METER);
+   //mpMeter->LoadImageFromFile("def01background.bin");
    //mpMeter->SetPos(0,0);
    //mpNeedle = new WrpGui::WrpImage(mpHmiAppClientHandle);
    //mpNeedle->SetImage(WRPRESIMG_METER_NEEDLE);
@@ -44,7 +46,7 @@ DiagScreen::DiagScreen(WrpHmiApp* app)
 DiagScreen::~DiagScreen()
 {
    WRPPRINT("%s\n", "DiagScreen::~DiagScreen() Begin");
-   //delete mpMeter;
+   delete mpMeter;
    //delete mpNeedle;
    WRPPRINT("%s\n", "DiagScreen::~DiagScreen() End");
 }
@@ -52,7 +54,7 @@ DiagScreen::~DiagScreen()
 void DiagScreen::CreateAndShow()
 {
    WRPPRINT("%s\n", "DiagScreen::CreateAndShow() Begin");
-
+   mpCanvas = lv_canvas_create(mpHmiAppClientHandle->GetHandle(), NULL);
    WRPPRINT("%s\n", "DiagScreen::CreateAndShow() End");
 }
 
@@ -62,45 +64,52 @@ void DiagScreen::HideAndDestroy()
    //WRPNULL_CHECK(m_pScreenHandle)
    //delete m_pScreenHandle;
    //delete m_pLblBackItem;
+   lv_obj_del(mpCanvas);
    WRPPRINT("%s\n", "DiagScreen::HideAndDestroy() End");
 }
 
-void DiagScreen::RunSpeedMeter()
+void DiagScreen::RunSpeedMeter(const uint16_t km)
 {
    WRPPRINT("%s\n", "DiagScreen::RunSpeedMeter() Begin");
-#if 1 //dram0_0_seg overflow here
-   //static lv_color_t canvas_buf[206 * 206];
-   int32_t angle = -3;
-   uint32_t canvas_x = 50; //move canvas to propriate posy
-   uint32_t canvas_y = 15; //move canvas to propriate posx
-   uint32_t canvas_w = 206;//(size of needle - needle's circle) * 2
-   uint32_t canvas_h = 206;//canvas square rotate
-   lv_color_t* canvas_buf = new lv_color_t [206 * 206];
+   lv_color_t canvas_buf[206 * 206];
+   int16_t angle = -3;
+   uint8_t canvas_x = 50; //move canvas to appropriate posx
+   uint8_t canvas_y = 5; //move canvas to appropriate posy
+   uint8_t canvas_w = 206;//(size of needle - needle's circle) * 2
+   uint8_t canvas_h = 206;//canvas square rotate
+   int16_t angledest = (int16_t)km*0.8;
 
-   lv_obj_t *canvas = lv_canvas_create(mpHmiAppClientHandle->GetHandle(), NULL);
-   lv_obj_set_pos(canvas, canvas_x, canvas_y);
-   lv_canvas_set_buffer(canvas, canvas_buf, canvas_w, canvas_h, LV_IMG_CF_TRUE_COLOR_CHROMA_KEYED);
-   //memset(canvas_buf, 0x0, sizeof(canvas_buf));
-   memset(canvas_buf, 0x0, sizeof(lv_color_t)*206*206);
-
-   //move the needle to first position
    lv_coord_t canvas_needle_imgX = 0; //after rotate, needle is at position X of canvas
    lv_coord_t canvas_needle_imgY = canvas_h - needle.header.h; //after rotate, needle is at position Y of canvas
+   lv_coord_t pivotX = canvas_w/2; //relative source canvas
+   lv_coord_t pivotY = needle.header.h/2; //relative source canvas
 
-   lv_coord_t pivotX = canvas_w/2;
-   lv_coord_t pivotY = canvas_y/2;
-   lv_canvas_rotate(canvas, &needle, angle, canvas_needle_imgX, canvas_needle_imgY, pivotX, pivotY);
-
-   while(angle <185) {
-      usleep(10*1000);
-      /*Clear the canvas*/
+      lv_obj_set_pos(mpCanvas, canvas_x, canvas_y);
+      lv_canvas_set_buffer(mpCanvas, canvas_buf, canvas_w, canvas_h, LV_IMG_CF_TRUE_COLOR_CHROMA_KEYED);
       //memset(canvas_buf, 0x0, sizeof(canvas_buf));
-      memset(canvas_buf, 0x0, sizeof(lv_color_t)*206*206);
-      lv_canvas_rotate(canvas, &needle, angle, canvas_needle_imgX, canvas_needle_imgY, pivotX, pivotY);
-      angle++;
+      angle = (int16_t)mCurrentSpeed*0.8;
+      lv_canvas_rotate(mpCanvas, &needle, angle, canvas_needle_imgX, canvas_needle_imgY, pivotX, pivotY);
+
+   int16_t diff = angledest - angle;
+   while(diff)
+   {
+      /* Periodically call the lv_task handler.*/
+      lv_task_handler();
+      usleep(20*1000);
+      /*Clear the canvas*/
+      if (diff%5 == 0)  memset(canvas_buf, 0x0, sizeof(canvas_buf));
+      if (diff > 0) {
+         lv_canvas_rotate(mpCanvas, &needle, angle++, canvas_needle_imgX, canvas_needle_imgY, pivotX, pivotY);
+         diff--;
+      }
+      else
+      {
+          lv_canvas_rotate(mpCanvas, &needle, angle--, canvas_needle_imgX, canvas_needle_imgY, pivotX, pivotY);
+          diff++;
+      }
    }
-   delete [] canvas_buf;
-#endif
+   mCurrentSpeed = km;
+
    WRPPRINT("%s\n", "DiagScreen::RunSpeedMeter() End");
 }
 
@@ -117,8 +126,26 @@ void DiagScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned 
             }
             else if (!strcmp(buffer, "diagnosis"))
             {
-               RunSpeedMeter();
+               RunSpeedMeter(220);
+               sleep(1);
+               RunSpeedMeter(20);
+               sleep(1);
+               RunSpeedMeter(120);
+
             }
+            else if (!strcmp(buffer, "diag40"))
+            {
+               RunSpeedMeter(40);
+            }
+            else if (!strcmp(buffer, "diag60"))
+            {
+               RunSpeedMeter(60);
+            }
+            else if (!strcmp(buffer, "diag80"))
+            {
+               RunSpeedMeter(80);
+            }
+
          }
          break;
       default:

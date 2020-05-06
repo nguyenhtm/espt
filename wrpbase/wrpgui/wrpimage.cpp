@@ -26,7 +26,7 @@ LV_IMG_DECLARE(menuitem3)
 LV_IMG_DECLARE(menuitem4)
 LV_IMG_DECLARE(menuitem5)
 
-//LV_IMG_DECLARE(meter)
+LV_IMG_DECLARE(meter)
 LV_IMG_DECLARE(needle)
 
 namespace WrpGui {
@@ -58,20 +58,20 @@ WrpImage::~WrpImage()
    WRPPRINT("%s\n", "WrpImage::~WrpImage() End");
 }
 
-bool WrpImage::LoadImageFromFile(const char* path)
+bool WrpImage::LoadImageFromFile(const char* filepath)
 {
-#if 0
+#if 1
     //#if LV_COLOR_DEPTH == 16; Letter=D
     char tmp[255] = {0};
 #if LVGL_PC_SIMU
-    sprintf(tmp, "D:/iotprj/wrpbase/resources/%s", path);
+    sprintf(tmp, "D:/iotprj/wrpbase/wrpres/%s", filepath);
 #elif LVGL_ESP32_ILI9341
-    sprintf(tmp, "S:/sdcard/resources/%s", path);
+    sprintf(tmp, "S:/sdcard/resources/%s", filepath);
 #endif
-	WRPPRINT("%s{%s}\n", "WrpImage::LoadImageFromFile(): ", tmp);
-	lv_img_set_src(m_pHandler, tmp);
-    lv_obj_set_drag(m_pHandler, true);
-	WRPPRINT("%s\n", "WrpImage::LoadImageFromFile() Begin");
+   WRPPRINT("%s{%s}\n", "WrpImage::LoadImageFromFile() Begin ", tmp);
+   lv_img_set_src(mpWidgetHandle, tmp);
+   lv_obj_set_drag(mpWidgetHandle, true);
+
 	//lv_img_set_src(m_pHandler,"S:resources/background.bin");
 	//lv_img_set_src(m_pHandler,"S:sdcard/resources/background.bin");
 	//lv_img_set_src(m_pHandler,"0:resources/background.bin");
@@ -80,10 +80,9 @@ bool WrpImage::LoadImageFromFile(const char* path)
 	//lv_img_set_src(m_pHandler, "D:/iotprj/wrpbase/resources/background1.bin");
 	//lv_img_set_src(m_pHandler, &WRPRESIMG_BACKGROUND);
 	//lv_img_set_src(m_pHandler, &bg2);
-	lv_obj_set_pos(m_pHandler, 0, 0);
-	lv_obj_set_size(m_pHandler, 320, 240);
-    lv_obj_set_drag(m_pHandler, true);
-	WRPPRINT("%s\n", "WrpImage::LoadImageFromFile() End");
+	//lv_obj_set_pos(mpWidgetHandle, 0, 0);
+	//lv_obj_set_size(mpWidgetHandle, 320, 240);
+   WRPPRINT("%s{%s}\n", "WrpImage::LoadImageFromFile() End ", tmp);
 #endif
    return true;
 }
@@ -108,7 +107,7 @@ bool WrpImage::SetImage(const uint16_t imgid)
       case WRPRESIMG_CFLOWITEM3:   lv_img_set_src(mpWidgetHandle, &menuitem3); break;
       case WRPRESIMG_CFLOWITEM4:   lv_img_set_src(mpWidgetHandle, &menuitem4); break;
       case WRPRESIMG_CFLOWITEM5:   lv_img_set_src(mpWidgetHandle, &menuitem5); break;
-      //case WRPRESIMG_METER:        lv_img_set_src(mpWidgetHandle, &meter); break;
+      case WRPRESIMG_METER:        lv_img_set_src(mpWidgetHandle, &meter); break;
       case WRPRESIMG_METER_NEEDLE: lv_img_set_src(mpWidgetHandle, &needle); break;
       default: return false;
    }

@@ -33,7 +33,7 @@ namespace WrpGui {
 #define WRPRESIMG_CFLOWITEM3   0x16 //menuitem3
 #define WRPRESIMG_CFLOWITEM4   0x17 //menuitem4
 #define WRPRESIMG_CFLOWITEM5   0x18 //menuitem5
-//#define WRPRESIMG_METER        0x19
+#define WRPRESIMG_METER        0x19
 #define WRPRESIMG_METER_NEEDLE 0x1A
 
 /********************************************************************************************************
