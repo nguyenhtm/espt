@@ -55,7 +55,6 @@ void appsample()
    pMidwApp->Attach(pDiagScreen);
    pMidwApp->Attach(pLoadingScreen);
    pMidwApp->Attach(pCflowScreen);
-
    while(1)
    {
       // for display

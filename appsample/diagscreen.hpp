@@ -63,6 +63,8 @@ private:
    WrpGui::WrpLabel* mpLblBackItem;
    int16_t mCurrentSpeed;
    lv_obj_t* mpCanvas;
+   lv_color_t *mpCanvasBuf;
+   uint16_t mCanvasBufSize;
 };
 
 #endif /* APPSAMPLE_DIAGSCREEN_HPP */

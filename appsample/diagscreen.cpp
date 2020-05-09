@@ -27,8 +27,10 @@ DiagScreen::DiagScreen(WrpHmiApp* app)
 , mpMeter(NULL)
 , mpNeedle(NULL)
 , mpLblBackItem(NULL)
-, mCurrentSpeed(20)
+, mCurrentSpeed(0)
 , mpCanvas(NULL)
+, mpCanvasBuf(NULL)
+, mCanvasBufSize(0)
 {
    WRPPRINT("%s\n", "DiagScreen::DiagScreen() Begin");
    mpHmiAppClientHandle = new WrpGui::WrpScreen(false);
@@ -40,6 +42,12 @@ DiagScreen::DiagScreen(WrpHmiApp* app)
    //mpNeedle = new WrpGui::WrpImage(mpHmiAppClientHandle);
    //mpNeedle->SetImage(WRPRESIMG_METER_NEEDLE);
    //mpNeedle->SetPos(0,0);
+   mpCanvas = lv_canvas_create(mpHmiAppClientHandle->GetHandle(), NULL);
+   mpCanvasBuf = new lv_color_t[130 * 206]; // header.w + dist_canvas_needle * canvas_w
+   mCanvasBufSize = sizeof(lv_color_t)*130*206;
+
+   memset(mpCanvasBuf, 0x0, mCanvasBufSize);
+   lv_canvas_set_buffer(mpCanvas, mpCanvasBuf, 206, 130, LV_IMG_CF_TRUE_COLOR_CHROMA_KEYED);
    WRPPRINT("%s\n", "DiagScreen::DiagScreen() End");
 }
 
@@ -48,13 +56,15 @@ DiagScreen::~DiagScreen()
    WRPPRINT("%s\n", "DiagScreen::~DiagScreen() Begin");
    delete mpMeter;
    //delete mpNeedle;
+   lv_obj_del(mpCanvas);
+   delete[] mpCanvasBuf;
+   mCanvasBufSize = 0;
    WRPPRINT("%s\n", "DiagScreen::~DiagScreen() End");
 }
 
 void DiagScreen::CreateAndShow()
 {
    WRPPRINT("%s\n", "DiagScreen::CreateAndShow() Begin");
-   mpCanvas = lv_canvas_create(mpHmiAppClientHandle->GetHandle(), NULL);
    WRPPRINT("%s\n", "DiagScreen::CreateAndShow() End");
 }
 
@@ -62,42 +72,49 @@ void DiagScreen::HideAndDestroy()
 {
    WRPPRINT("%s\n", "DiagScreen::HideAndDestroy() Begin");
    //WRPNULL_CHECK(m_pScreenHandle)
-   //delete m_pScreenHandle;
-   //delete m_pLblBackItem;
-   lv_obj_del(mpCanvas);
    WRPPRINT("%s\n", "DiagScreen::HideAndDestroy() End");
 }
 
 void DiagScreen::RunSpeedMeter(const uint16_t km)
 {
    WRPPRINT("%s\n", "DiagScreen::RunSpeedMeter() Begin");
-   lv_color_t canvas_buf[206 * 206];
-   int16_t angle = -3;
-   uint8_t canvas_x = 50; //move canvas to appropriate posx
-   uint8_t canvas_y = 5; //move canvas to appropriate posy
-   uint8_t canvas_w = 206;//(size of needle - needle's circle) * 2
-   uint8_t canvas_h = 206;//canvas square rotate
-   int16_t angledest = (int16_t)km*0.8;
+   // needle size: .header.w = 110, .header.h = 18, needle circle width=7
+   const uint8_t dist_canvas_needle = 20; // distance between needle and bottom of canvas ->needle can point to km0
+   const uint8_t needle_circle_w = 7; // circle radia
+   //lv_color_t canvas_buf[130 * 206]; // header.w + dist_canvas_needle * canvas_w
+   int16_t angle;
+
+   uint8_t canvas_w = (needle.header.w - needle_circle_w)*2; //206
+   uint8_t canvas_h = needle.header.w + dist_canvas_needle; //110: if angle < 0, the needle shall be lost-> 110 not enough
+   uint8_t canvas_x = 52; //move canvas to posx
+   uint8_t canvas_y = canvas_h - dist_canvas_needle - 5; //move canvas to posy
+
+   int16_t angledest = (int16_t)km*0.5-6;
 
    lv_coord_t canvas_needle_imgX = 0; //after rotate, needle is at position X of canvas
-   lv_coord_t canvas_needle_imgY = canvas_h - needle.header.h; //after rotate, needle is at position Y of canvas
+   lv_coord_t canvas_needle_imgY = canvas_h - needle.header.h - dist_canvas_needle; //after rotate, needle is at position Y of canvas
    lv_coord_t pivotX = canvas_w/2; //relative source canvas
    lv_coord_t pivotY = needle.header.h/2; //relative source canvas
 
-      lv_obj_set_pos(mpCanvas, canvas_x, canvas_y);
-      lv_canvas_set_buffer(mpCanvas, canvas_buf, canvas_w, canvas_h, LV_IMG_CF_TRUE_COLOR_CHROMA_KEYED);
-      //memset(canvas_buf, 0x0, sizeof(canvas_buf));
-      angle = (int16_t)mCurrentSpeed*0.8;
-      lv_canvas_rotate(mpCanvas, &needle, angle, canvas_needle_imgX, canvas_needle_imgY, pivotX, pivotY);
+   memset(mpCanvasBuf, 0x0, mCanvasBufSize);
+   lv_obj_set_pos(mpCanvas, canvas_x, canvas_y);
+   angle = (int16_t)mCurrentSpeed*0.5-6;
+   lv_canvas_rotate(mpCanvas, &needle, angle, canvas_needle_imgX, canvas_needle_imgY, pivotX, pivotY);
 
    int16_t diff = angledest - angle;
    while(diff)
    {
       /* Periodically call the lv_task handler.*/
-      lv_task_handler();
-      usleep(20*1000);
+      //lv_task_handler();
+#if LVGL_PC_SIMU
+      usleep(30*1000);
+#elif LVGL_ESP32_ILI9341
+      usleep(10*1000);
+#endif
       /*Clear the canvas*/
-      if (diff%5 == 0)  memset(canvas_buf, 0x0, sizeof(canvas_buf));
+      if (diff%10 == 0)  {
+         memset(mpCanvasBuf, 0x0, mCanvasBufSize);
+      }
       if (diff > 0) {
          lv_canvas_rotate(mpCanvas, &needle, angle++, canvas_needle_imgX, canvas_needle_imgY, pivotX, pivotY);
          diff--;
@@ -108,8 +125,11 @@ void DiagScreen::RunSpeedMeter(const uint16_t km)
           diff++;
       }
    }
-   mCurrentSpeed = km;
+   // clear, area of below pivot?
+   memset(mpCanvasBuf, 0x0, mCanvasBufSize);
+   lv_canvas_rotate(mpCanvas, &needle, angle, canvas_needle_imgX, canvas_needle_imgY, pivotX, pivotY);
 
+   mCurrentSpeed = km;
    WRPPRINT("%s\n", "DiagScreen::RunSpeedMeter() End");
 }
 
@@ -126,26 +146,32 @@ void DiagScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned 
             }
             else if (!strcmp(buffer, "diagnosis"))
             {
-               RunSpeedMeter(220);
-               sleep(1);
+               RunSpeedMeter(360);
+            }
+            else if (!strcmp(buffer, "diag20"))
+            {
+               RunSpeedMeter(0);
+            }
+            else if (!strcmp(buffer, "diag30"))
+            {
                RunSpeedMeter(20);
-               sleep(1);
-               RunSpeedMeter(120);
-
             }
             else if (!strcmp(buffer, "diag40"))
             {
                RunSpeedMeter(40);
             }
-            else if (!strcmp(buffer, "diag60"))
+            else if (!strcmp(buffer, "diag50"))
             {
                RunSpeedMeter(60);
             }
-            else if (!strcmp(buffer, "diag80"))
+            else if (!strcmp(buffer, "diag60"))
             {
                RunSpeedMeter(80);
             }
-
+            else if (!strcmp(buffer, "diag180"))
+            {
+               RunSpeedMeter(300);
+            }
          }
          break;
       default:
