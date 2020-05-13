@@ -204,11 +204,11 @@ bool WrpWebSocketClient::Create(const char *serveraddr, const uint16_t serverpor
 
    if (serveraddr)
    {
-      snprintf(addr, sizeof(addr), "ws://%s:%d", serveraddr, serverport);
+      snprintf(addr, sizeof(addr), "ws://%s:%d/", serveraddr, serverport);
    }
    else
    {
-      snprintf(addr, sizeof(addr), "ws://127.0.0.1:%d", serverport);
+      snprintf(addr, sizeof(addr), "ws://127.0.0.1:%d/", serverport);
    }
    msURI = addr;
    WRPPRINT("%s%s\n", "WrpWebSocketClient::Create() Address: ", addr);

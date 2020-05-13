@@ -107,9 +107,9 @@ void DiagScreen::RunSpeedMeter(const uint16_t km)
       /* Periodically call the lv_task handler.*/
       //lv_task_handler();
 #if LVGL_PC_SIMU
-      usleep(30*1000);
+      usleep(70*1000);
 #elif LVGL_ESP32_ILI9341
-      usleep(10*1000);
+      usleep(60*1000);// no flicker
 #endif
       /*Clear the canvas*/
       if (diff%10 == 0)  {

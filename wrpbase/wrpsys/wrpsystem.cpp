@@ -63,6 +63,10 @@ void PrintChipInfo()
    WRPPRINT("WrpSys::System::PrintChipInfo() ESP32 Chip: %d CPU cores, WiFi%s%s, ", chipInfo.cores, (chipInfo.features & CHIP_FEATURE_BT) ? "/BT" : "", (chipInfo.features & CHIP_FEATURE_BLE) ? "/BLE" : "");
    WRPPRINT("silicon revision %d, ", chipInfo.revision);
    WRPPRINT("%dMB %s flash\n", spi_flash_get_chip_size() / (1024 * 1024), (chipInfo.features & CHIP_FEATURE_EMB_FLASH) ? "embedded" : "external");
+
+   WRPPRINT("%s%d\n", "[APP] Free memory (bytes): ", esp_get_free_heap_size());
+   WRPPRINT("%s%s\n", "[APP] IDF version: ", esp_get_idf_version());
+
 #endif
    WRPPRINT("%s\n", "WrpSys::System::PrintChipInfo() End");
 }

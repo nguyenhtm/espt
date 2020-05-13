@@ -25,8 +25,11 @@ static WrpSys::Network::WrpWebSocketClient* gWSClient = NULL;
  ********************************************************************************************************/
 void WrpSystemTest()
 {
+   WRPPRINT("%s\n", "void WrpSystemTest() Begin");
    WrpSys::System::PrintChipInfo();
+
    //WrpSys::System::SwReset();
+   WRPPRINT("%s\n", "void WrpSystemTest() End");
 }
 
 void WrpStorageTest()
@@ -69,7 +72,7 @@ void WrpNetworkTest()
    gWSClient = new WrpSys::Network::WrpWebSocketClient;
    bool ret;
 #if USE_ESP_IDF
-   ret = gWSClient->Create("192.168.1.10", WRPWS_SERVER_PORT);
+   ret = gWSClient->Create(WRPWS_SERVER_ADDRESS, WRPWS_SERVER_PORT);
 #elif LVGL_PC_SIMU
    ret = gWSClient->Create("127.0.0.1", WRPWS_SERVER_PORT);
 #endif
