@@ -36,6 +36,13 @@ namespace WrpGui {
 #define WRPRESIMG_METER        0x19
 #define WRPRESIMG_METER_NEEDLE 0x1A
 
+#define WRPRESIMG_METER_NEEDLE1 0x1B
+#define WRPRESIMG_METER1_0      0x1C
+#define WRPRESIMG_METER1_1      0x1D
+#define WRPRESIMG_METER1_2      0x1E
+#define WRPRESIMG_METER1_3      0x1F
+
+
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
@@ -51,6 +58,9 @@ public:
    ~WrpImage();
    bool LoadImageFromFile(const char* path);
    bool SetImage(const uint16_t imgid);
+   void SetHide();
+   void SetShow();
+   void SetTop();
 
 private:
    WrpImage();

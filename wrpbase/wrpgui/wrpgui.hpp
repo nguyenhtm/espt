@@ -13,7 +13,7 @@
 
 // LVGL INCLUDES
 #if LVGL_PC_SIMU                            // LVGL for PC Simulation
-//#define SDL_MAIN_HANDLED
+#define SDL_MAIN_HANDLED
 #include <SDL2/SDL.h>
 #include "lv_drivers/display/monitor.h"
 #include "lv_drivers/indev/mouse.h"

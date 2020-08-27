@@ -9,6 +9,9 @@
 #include "wrpbase/wrpsys/wrpnetwork.hpp"
 #include "wrpbase/wrpsys/wrpsystem.hpp"
 
+#include "wrpbase/wrpmidw/wrpmidwbuilder.hpp"
+#include "wrpbase/wrpsys/wrpstoragefactory.hpp"
+
 namespace WrpTest {
 
 /********************************************************************************************************
@@ -101,6 +104,21 @@ void WrpSysTest(void)
    WrpSystemTest();
    WrpNetworkTest();
    WRPPRINT("%s\n", "WrpSysTest() End");
+}
+
+WrpSysTestApp::WrpSysTestApp()
+: mpMidw(NULL)
+{
+   WRPPRINT("%s\n", "WrpSysTestApp::WrpSysTestApp() Begin");
+   mMidwBuilder.BuildStorage();
+   mMidwBuilder.BuildConnectivity();
+   mpMidw = mMidwBuilder.GetMidw();
+   WRPPRINT("%s\n", "WrpSysTestApp::WrpSysTestApp() End");
+}
+WrpSysTestApp::~WrpSysTestApp()
+{
+   WRPPRINT("%s\n", "WrpSysTestApp::~WrpSysTestApp() Begin");
+   WRPPRINT("%s\n", "WrpSysTestApp::~WrpSysTestApp() End");
 }
 
 } /* Namespace WrpTest */

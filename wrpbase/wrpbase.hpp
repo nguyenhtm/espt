@@ -34,6 +34,8 @@
  * DEFINES
  ********************************************************************************************************/
 #define WRPNULL_CHECK(p)    if(!p) return;
+#define WRPNULL_CHECK2(p1,p2) if(!p1 && !p2) return;
+#define WRPNULL_CHECK3(p1,p2,p3) if(!p1 && !p2 && !p3) return;
 #define WRPNULL_CHECKRET(p) if(!p) return 0;
 #define WRPPRINT(fmt, ...)  fprintf(stderr, fmt, __VA_ARGS__)
 #define WRPPRINT2(fmt, ...) fprintf(stderr, "%s:%d:%s(): " fmt, __FILE__, __LINE__, __func__, __VA_ARGS__)

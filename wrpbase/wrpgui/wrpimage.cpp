@@ -25,9 +25,14 @@ LV_IMG_DECLARE(menuitem2)
 LV_IMG_DECLARE(menuitem3)
 LV_IMG_DECLARE(menuitem4)
 LV_IMG_DECLARE(menuitem5)
-
 LV_IMG_DECLARE(meter)
 LV_IMG_DECLARE(needle)
+//appcluster
+LV_IMG_DECLARE(needle1)
+LV_IMG_DECLARE(meter10)
+LV_IMG_DECLARE(meter1_1)
+LV_IMG_DECLARE(meter1_2)
+LV_IMG_DECLARE(meter1_3)
 
 namespace WrpGui {
 
@@ -92,7 +97,6 @@ bool WrpImage::SetImage(const uint16_t imgid)
    WRPPRINT("%s%d\n", "WrpImage::SetImage() Begin imgid=", imgid);
    switch(imgid)
    {
-      //case WRPRESIMG_BACKGROUND: lv_img_set_src(m_pHandler, &def01background); break;
       case WRPRESIMG_HOME:         lv_img_set_src(mpWidgetHandle, &def01home); break;
       case WRPRESIMG_APP:          lv_img_set_src(mpWidgetHandle, &def01app); break;
       case WRPRESIMG_SETTING:      lv_img_set_src(mpWidgetHandle, &def01setting); break;
@@ -109,10 +113,32 @@ bool WrpImage::SetImage(const uint16_t imgid)
       case WRPRESIMG_CFLOWITEM5:   lv_img_set_src(mpWidgetHandle, &menuitem5); break;
       case WRPRESIMG_METER:        lv_img_set_src(mpWidgetHandle, &meter); break;
       case WRPRESIMG_METER_NEEDLE: lv_img_set_src(mpWidgetHandle, &needle); break;
+      //appcluster
+      case WRPRESIMG_METER_NEEDLE1: lv_img_set_src(mpWidgetHandle, &needle1); break;
+      case WRPRESIMG_METER1_0:      lv_img_set_src(mpWidgetHandle, &meter10); break;
+      case WRPRESIMG_METER1_1:      lv_img_set_src(mpWidgetHandle, &meter1_1); break;
+      case WRPRESIMG_METER1_2:      lv_img_set_src(mpWidgetHandle, &meter1_2); break;
+      case WRPRESIMG_METER1_3:      lv_img_set_src(mpWidgetHandle, &meter1_3); break;
       default: return false;
    }
    WRPPRINT("%s%d\n", "WrpImage::SetImage() End imgid=", imgid);
    return true;
+}
+
+void WrpImage::SetHide()
+{
+   lv_obj_set_hidden(mpWidgetHandle, true);
+}
+
+void WrpImage::SetShow()
+{
+   lv_obj_set_hidden(mpWidgetHandle, false);
+}
+
+void WrpImage::SetTop()
+{
+   //lv_obj_set_top(mpWidgetHandle, true);
+	lv_obj_move_foreground(mpWidgetHandle);
 }
 
 WrpImage::WrpImage()
