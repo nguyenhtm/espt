@@ -23,22 +23,20 @@ WrpLed::WrpLed(WrpDiagHandler* p)
    WRPPRINT("%s\n", "WrpLed::WrpLed() Begin");
    WRPPRINT("%s\n", "WrpLed::WrpLed() End");
 }
-
 WrpLed::~WrpLed()
 {
    WRPPRINT("%s\n", "WrpLed::~WrpLed() Begin");
    WRPPRINT("%s\n", "WrpLed::~WrpLed() End");
 }
-
 void WrpLed::HandleDiagRequest()
 {
    WRPPRINT("%s\n", "WrpLed::HandleDiagRequest() Begin");
    // handle a diag request for led
+
    WRPPRINT("%s\n", "WrpLed::HandleDiagRequest() End");
    // then forwards to successor
    WrpDiagHandler::HandleDiagRequest();
 }
-
 WrpLed::WrpLed(const WrpLed& cp)
 : WrpDiagHandler(NULL)
 {

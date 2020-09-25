@@ -106,19 +106,6 @@ void WrpSysTest(void)
    WRPPRINT("%s\n", "WrpSysTest() End");
 }
 
-WrpSysTestApp::WrpSysTestApp()
-: mpMidw(NULL)
-{
-   WRPPRINT("%s\n", "WrpSysTestApp::WrpSysTestApp() Begin");
-   mMidwBuilder.BuildStorage();
-   mMidwBuilder.BuildConnectivity();
-   mpMidw = mMidwBuilder.GetMidw();
-   WRPPRINT("%s\n", "WrpSysTestApp::WrpSysTestApp() End");
-}
-WrpSysTestApp::~WrpSysTestApp()
-{
-   WRPPRINT("%s\n", "WrpSysTestApp::~WrpSysTestApp() Begin");
-   WRPPRINT("%s\n", "WrpSysTestApp::~WrpSysTestApp() End");
-}
+
 
 } /* Namespace WrpTest */

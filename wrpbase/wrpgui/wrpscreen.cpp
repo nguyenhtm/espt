@@ -31,7 +31,7 @@ WrpScreen::WrpScreen(const bool bMasterScreen)
    // screen creation
    if (mbMasterScreen == true)
    {
-      // not create new screen, use current loaded screen as a master screen
+      // not create new screen, use the current loaded screen as a master screen
       mpObjHandle = lv_disp_get_scr_act(NULL);
    }
    else
@@ -42,10 +42,12 @@ WrpScreen::WrpScreen(const bool bMasterScreen)
    // set screen style before background usage
    mpAppearance = new WrpStyle(mpObjHandle);
    mpAppearance->SetStyle(SCREEN_DEFAULT);
+
    // set screen background
    //mpBackground = new WrpImage(this);
    //mpBackground->SetSize(320, 240);
    //mpBackground->SetImage(0);
+
    // set screen top popup
    mpTopPopup = new WrpPopup(this);
    // set screen menu title

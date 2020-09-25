@@ -17,14 +17,14 @@ WrpHmi::WrpHmi()
 : mThreadId(NULL)
 {
    WRPPRINT("%s\n", "WrpHmi::WrpHmi() Begin");
-   mObservers.clear();
+   mpObservers.clear();
    mStatus = WRPHMI_STATUS_STOP;
    WRPPRINT("%s\n", "WrpHmi::WrpHmi() End");
 }
 WrpHmi::~WrpHmi()
 {
    WRPPRINT("%s\n", "WrpHmi::~WrpHmi() Begin");
-   mObservers.clear();
+   mpObservers.clear();
    mStatus = WRPHMI_STATUS_STOP;
    WRPPRINT("%s\n", "WrpHmi::~WrpHmi() End");
 }
@@ -38,48 +38,49 @@ void WrpHmi::DeInitialize()
    WRPPRINT("%s\n", "WrpHmi::DeInitialize() Begin");
    WRPPRINT("%s\n", "WrpHmi::DeInitialize() End");
 }
-void WrpHmi::Attach(WrpHmiObserver* obj)
+void WrpHmi::Attach(WrpGui::WrpScreen* obj)
 {
    WRPPRINT("%s\n", "WrpHmi::Attach() Begin");
    WRPNULL_CHECK(obj)
-   mObservers.push_back(obj);
+   mpObservers.push_back(obj);
    WRPPRINT("%s\n", "WrpHmi::Attach() End");
 }
-void WrpHmi::Detach(WrpHmiObserver* obj)
+void WrpHmi::Detach(WrpGui::WrpScreen* obj)
 {
    WRPPRINT("%s\n", "WrpHmi::Detach() Begin");
    WRPNULL_CHECK(obj)
-   std::vector<WrpHmiObserver*>::iterator it;
-   it = std::find(mObservers.begin(), mObservers.end(), obj);
-   if (it != mObservers.end())
+   std::vector<WrpGui::WrpScreen*>::iterator it;
+   it = std::find(mpObservers.begin(), mpObservers.end(), obj);
+   if (it != mpObservers.end())
    {
-      mObservers.erase(it);
+      mpObservers.erase(it);
    }
    WRPPRINT("%s\n", "WrpHmi::Detach() End");
 }
-void WrpHmi::LoadScreen(WrpHmiObserver* obj)
+void WrpHmi::LoadScreen(WrpGui::WrpScreen* obj)
 {
    WRPPRINT("%s\n", "WrpHmi::LoadScreen() Begin");
-   std::vector<WrpHmiObserver*>::iterator it;
+   std::vector<WrpGui::WrpScreen*>::iterator it;
    // destroy and hide the current loaded screen
-   for (it = mObservers.begin(); it != mObservers.end(); ++it)
+   for (it = mpObservers.begin(); it != mpObservers.end(); ++it)
    {
       (*it)->HideAndDestroy();
    }
    // then create and show the obj screen
-   it = std::find(mObservers.begin(), mObservers.end(), obj);
-   if (it != mObservers.end())
+   it = std::find(mpObservers.begin(), mpObservers.end(), obj);
+   if (it != mpObservers.end())
    {
       (*it)->CreateAndShow();
+      (*it)->Load();
    }
    WRPPRINT("%s\n", "WrpHmi::LoadScreen() End");
 }
-void WrpHmi::ActiveScreen(const WrpHmiObserver& obj)
+void WrpHmi::ActiveScreen(const WrpGui::WrpScreen& obj)
 {
    WRPPRINT("%s\n", "WrpHmi::ActiveScreen() Begin");
-   std::vector<WrpHmiObserver*>::iterator it;
-   // inform current active screen
-   for (it = mObservers.begin(); it != mObservers.end(); ++it)
+   std::vector<WrpGui::WrpScreen*>::iterator it;
+   // inform the current active screen
+   for (it = mpObservers.begin(); it != mpObservers.end(); ++it)
    {
       (*it)->ActiveScreen(obj);
    }
@@ -96,7 +97,7 @@ void WrpHmi::SetStatus(eWrpHmiStatus status)
 WrpHmi::WrpHmi(const WrpHmi& cp)
 : mThreadId(NULL)
 {
-   mObservers.clear();
+   mpObservers.clear();
    mStatus = WRPHMI_STATUS_STOP;
 }
 
@@ -139,7 +140,7 @@ void WrpHmiLvgl::ThreadWrpHmi(void* param)
    {
       usleep(5*1000); /*Tell LittelvGL that 5 milliseconds were elapsed*/
       lv_task_handler();
-#if 0
+#if 1
 #if LVGL_PC_SIMU
       SDL_Delay(5);   /*Sleep for 5 millisecond*/
       lv_tick_inc(5); /*Tell LittelvGL that 5 milliseconds were elapsed*/
@@ -179,22 +180,5 @@ void WrpHmiUgfx::DeInitialize()
    WRPPRINT("%s\n", "WrpHmiUgfx::DeInitialize() End");
 }
 WrpHmiUgfx::WrpHmiUgfx(const WrpHmiUgfx& cp)
-{
-}
-
-/********************************************************************************************************
- * FUNCTIONS - WrpHmiObserver
- ********************************************************************************************************/
-WrpHmiObserver::WrpHmiObserver()
-{
-   WRPPRINT("%s\n", "WrpHmiObserver::WrpHmiObserver() Begin");
-   WRPPRINT("%s\n", "WrpHmiObserver::WrpHmiObserver() End");
-}
-WrpHmiObserver::~WrpHmiObserver()
-{
-   WRPPRINT("%s\n", "WrpHmiObserver::~WrpHmiObserver() Begin");
-   WRPPRINT("%s\n", "WrpHmiObserver::~WrpHmiObserver() End");
-}
-WrpHmiObserver::WrpHmiObserver(const WrpHmiObserver& cp)
 {
 }

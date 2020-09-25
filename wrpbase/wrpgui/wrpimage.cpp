@@ -11,6 +11,7 @@
 /********************************************************************************************************
  * DEFINES
  ********************************************************************************************************/
+//appsample
 LV_IMG_DECLARE(def01home)
 LV_IMG_DECLARE(def01app)
 LV_IMG_DECLARE(def01setting)
@@ -20,13 +21,13 @@ LV_IMG_DECLARE(def01wifi0)
 LV_IMG_DECLARE(def01wifi1)
 LV_IMG_DECLARE(def01wifi2)
 LV_IMG_DECLARE(def01logo)
-LV_IMG_DECLARE(menuitem1)
-LV_IMG_DECLARE(menuitem2)
-LV_IMG_DECLARE(menuitem3)
-LV_IMG_DECLARE(menuitem4)
-LV_IMG_DECLARE(menuitem5)
-LV_IMG_DECLARE(meter)
-LV_IMG_DECLARE(needle)
+LV_IMG_DECLARE(def01menuitem1)
+LV_IMG_DECLARE(def01menuitem2)
+LV_IMG_DECLARE(def01menuitem3)
+LV_IMG_DECLARE(def01menuitem4)
+LV_IMG_DECLARE(def01menuitem5)
+LV_IMG_DECLARE(def01meter)
+LV_IMG_DECLARE(def01needle)
 //appcluster
 LV_IMG_DECLARE(needle1)
 LV_IMG_DECLARE(meter10)
@@ -97,22 +98,23 @@ bool WrpImage::SetImage(const uint16_t imgid)
    WRPPRINT("%s%d\n", "WrpImage::SetImage() Begin imgid=", imgid);
    switch(imgid)
    {
-      case WRPRESIMG_HOME:         lv_img_set_src(mpWidgetHandle, &def01home); break;
-      case WRPRESIMG_APP:          lv_img_set_src(mpWidgetHandle, &def01app); break;
-      case WRPRESIMG_SETTING:      lv_img_set_src(mpWidgetHandle, &def01setting); break;
-      case WRPRESIMG_DIAGNOSIS:    lv_img_set_src(mpWidgetHandle, &def01diagnosis); break;
-      case WRPRESIMG_AUTOTEST:     lv_img_set_src(mpWidgetHandle, &def01autotest); break;
-      case WRPRESIMG_WIFI0:        lv_img_set_src(mpWidgetHandle, &def01wifi0); break;
-      case WRPRESIMG_WIFI1:        lv_img_set_src(mpWidgetHandle, &def01wifi1); break;
-      case WRPRESIMG_WIFI2:        lv_img_set_src(mpWidgetHandle, &def01wifi2); break;
-      case WRPRESIMG_LOGO:         lv_img_set_src(mpWidgetHandle, &def01logo); break;
-      case WRPRESIMG_CFLOWITEM1:   lv_img_set_src(mpWidgetHandle, &menuitem1); break;
-      case WRPRESIMG_CFLOWITEM2:   lv_img_set_src(mpWidgetHandle, &menuitem2); break;
-      case WRPRESIMG_CFLOWITEM3:   lv_img_set_src(mpWidgetHandle, &menuitem3); break;
-      case WRPRESIMG_CFLOWITEM4:   lv_img_set_src(mpWidgetHandle, &menuitem4); break;
-      case WRPRESIMG_CFLOWITEM5:   lv_img_set_src(mpWidgetHandle, &menuitem5); break;
-      case WRPRESIMG_METER:        lv_img_set_src(mpWidgetHandle, &meter); break;
-      case WRPRESIMG_METER_NEEDLE: lv_img_set_src(mpWidgetHandle, &needle); break;
+      //appsample
+      case WRPRESIMG_DEF01HOME:      lv_img_set_src(mpWidgetHandle, &def01home); break;
+      case WRPRESIMG_DEF01APP:       lv_img_set_src(mpWidgetHandle, &def01app); break;
+      case WRPRESIMG_DEF01SETTING:   lv_img_set_src(mpWidgetHandle, &def01setting); break;
+      case WRPRESIMG_DEF01DIAGNOSIS: lv_img_set_src(mpWidgetHandle, &def01diagnosis); break;
+      case WRPRESIMG_DEF01AUTOTEST:  lv_img_set_src(mpWidgetHandle, &def01autotest); break;
+      case WRPRESIMG_DEF01WIFI0:     lv_img_set_src(mpWidgetHandle, &def01wifi0); break;
+      case WRPRESIMG_DEF01WIFI1:     lv_img_set_src(mpWidgetHandle, &def01wifi1); break;
+      case WRPRESIMG_DEF01WIFI2:     lv_img_set_src(mpWidgetHandle, &def01wifi2); break;
+      case WRPRESIMG_DEF01LOGO:      lv_img_set_src(mpWidgetHandle, &def01logo); break;
+      case WRPRESIMG_DEF01MENUITEM1: lv_img_set_src(mpWidgetHandle, &def01menuitem1); break;
+      case WRPRESIMG_DEF01MENUITEM2: lv_img_set_src(mpWidgetHandle, &def01menuitem2); break;
+      case WRPRESIMG_DEF01MENUITEM3: lv_img_set_src(mpWidgetHandle, &def01menuitem3); break;
+      case WRPRESIMG_DEF01MENUITEM4: lv_img_set_src(mpWidgetHandle, &def01menuitem4); break;
+      case WRPRESIMG_DEF01MENUITEM5: lv_img_set_src(mpWidgetHandle, &def01menuitem5); break;
+      case WRPRESIMG_DEF01METER:     lv_img_set_src(mpWidgetHandle, &def01meter); break;
+      case WRPRESIMG_DEF01NEEDLE:    lv_img_set_src(mpWidgetHandle, &def01needle); break;
       //appcluster
       case WRPRESIMG_METER_NEEDLE1: lv_img_set_src(mpWidgetHandle, &needle1); break;
       case WRPRESIMG_METER1_0:      lv_img_set_src(mpWidgetHandle, &meter10); break;

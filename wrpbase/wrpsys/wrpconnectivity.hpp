@@ -86,7 +86,7 @@ private:
 };
 
 
-} /* Namespace Network */
+} /* Namespace WrpConnectivity */
 } /* Namespace WrpSys */
 
 #endif /* WRPBASE_WRPSYS_WRPCONNECTIVITY_HPP */

@@ -32,13 +32,20 @@ class WrpStyle;
 class WrpScreen
 {
 public:
-   WrpScreen(const bool bMasterScreen);
-   ~WrpScreen();
+   WrpScreen(const bool bMasterScreen=false);
+   virtual ~WrpScreen();
    wrpgui_handle_t* GetHandle() { return mpObjHandle; }
    void             Load();
    void             SetTitle(const char* text);
    void             SetStyle(const WrpStyleType& style);
    void             ShowPopup(const bool& bShowHide, const char *text);
+   virtual void     CreateAndShow() = 0;
+   virtual void     HideAndDestroy() = 0;
+   virtual void     ActiveScreen(const WrpScreen& obj) = 0;
+
+protected:
+   // members
+   wrpgui_handle_t* mpObjHandle;
 
 private:
    WrpScreen();
@@ -46,7 +53,6 @@ private:
    // methods
 
    // members
-   wrpgui_handle_t* mpObjHandle;
    bool             mbMasterScreen;
    WrpLabel*        mpMenuTitle;
    WrpPopup*        mpTopPopup;

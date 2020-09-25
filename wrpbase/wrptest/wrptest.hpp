@@ -16,6 +16,7 @@
 
 #include "wrpbase/wrpgui/wrpscreen.hpp"
 #include "wrpbase/wrpgui/wrplabel.hpp"
+#include "wrpbase/wrpgui/wrpimage.hpp"
 
 namespace WrpTest {
 
@@ -28,52 +29,24 @@ namespace WrpTest {
  ********************************************************************************************************/
 
 /********************************************************************************************************
+ * FUNCTIONS
+ ********************************************************************************************************/
+extern void GuiTestApp();
+
+/********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
-extern void WrpSysTest(void);
-
-#if (LVGL_ESP32_ILI9341 || LVGL_PC_SIMU)
-extern void WrpGuiScreenCreationTest(void);
-extern void WrpGuiTest(void);
-#endif
-
-class WrpSysTestApp
+// Class TestScreen
+class TestScreen : public WrpGui::WrpScreen
 {
 public:
-   WrpSysTestApp();
-   ~WrpSysTestApp();
-
-private:
-   WrpSysMidwBuilder mMidwBuilder;
-   WrpMidw* mpMidw;
-};
-
-class WrpGuiTestApp
-{
-public:
-   WrpGuiTestApp();
-   ~WrpGuiTestApp();
-
-   //create a midw instance
-   void ConstructMidw();
-   // delete created midw obj
-   void DestructMidw();
-   //factory method to create a hmi instance
-   void ConstructHmi(uint8_t productid=0);
-   //get instances
-   WrpHmi* GetHmiInstance() { return mpHmi; }
-   WrpMidw* GetMidwInstance() { return mpMidw; }
-
-private:
-   WrpGuiMidwBuilder mMidwBuilder;
-   WrpMidw* mpMidw;
-   WrpHmi* mpHmi;
-};
-
-class TestScreen : public WrpHmiObserver
-{
-public:
+   /*
+    * Constructor
+    */
    TestScreen();
+   /*
+    * Destructor
+    */
    ~TestScreen();
    /*
     * Call back function called on a WrpHmiObserver screen creation
@@ -86,12 +59,16 @@ public:
    /*
     * Call back function called on a WrpHmiObserver screen active
     */
-   void ActiveScreen(const WrpHmiObserver& obj);
+   void ActiveScreen(const WrpScreen& obj);
 
 private:
+   /*
+    * Default constructor
+    */
    TestScreen(const TestScreen& cp);
-   WrpGui::WrpScreen* mpScreen;
-   WrpGui::WrpLabel*  mpLabel;
+   // members
+   WrpGui::WrpLabel* mpTestLabel;
+   WrpGui::WrpImage* mpTestImage;
 };
 
 } /* Namespace WrpTest */

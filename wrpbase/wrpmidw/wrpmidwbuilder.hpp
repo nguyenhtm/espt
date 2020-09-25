@@ -13,8 +13,8 @@
 #include "wrpbase/wrpbase.hpp"
 #include "wrpbase/wrpsys/wrpstoragefactory.hpp"
 #include "wrpbase/wrpsys/wrpconnectivity.hpp"
-#include "wrpbase/wrpsys/wrpdiagnosis.hpp"
 #include "wrpbase/wrpsys/wrpdisplay.hpp"
+#include "wrpbase/wrpdrv/wrpdiag.hpp"
 
 /********************************************************************************************************
  * DEFINES
@@ -70,9 +70,9 @@ class WrpSysMidwBuilder : public WrpMidwBuilder
 public:
    WrpSysMidwBuilder();
    ~WrpSysMidwBuilder();
-   virtual void BuildStorage();
-   virtual void BuildConnectivity();
-   virtual WrpMidw* GetMidw() const;
+   void BuildStorage();
+   void BuildConnectivity();
+   WrpMidw* GetMidw() const;
 
 private:
    WrpSysMidwBuilder(const WrpSysMidwBuilder& cp);
@@ -86,11 +86,11 @@ class WrpGuiMidwBuilder : public WrpMidwBuilder
 public:
    WrpGuiMidwBuilder();
    ~WrpGuiMidwBuilder();
-   virtual void BuildStorage();
-   virtual void BuildConnectivity();
-   virtual void BuildDisplay();
-   virtual void BuildSystem();
-   virtual WrpMidw* GetMidw() const;
+   void BuildStorage();
+   void BuildConnectivity();
+   void BuildDisplay();
+   void BuildSystem();
+   WrpMidw* GetMidw() const;
 
 private:
    WrpGuiMidwBuilder(const WrpGuiMidwBuilder& cp);

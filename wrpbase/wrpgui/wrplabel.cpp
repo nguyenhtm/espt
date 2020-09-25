@@ -33,8 +33,9 @@ WrpLabel::WrpLabel(WrpScreen* parent)
 WrpLabel::~WrpLabel()
 {
    WRPPRINT("%s\n", "WrpLabel::~WrpLabel() Begin");
-   WRPNULL_CHECK(mpScreenHandle)
+   WRPNULL_CHECK(mpWidgetHandle)
    delete mpWidgetHandle;
+   mpWidgetHandle = NULL;
    WRPPRINT("%s\n", "WrpLabel::~WrpLabel() End");
 }
 

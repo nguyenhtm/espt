@@ -67,7 +67,6 @@ void WrpDisplay::DeInitialize()
 }
 WrpDisplay::WrpDisplay(const WrpDisplay& cp)
 {
-
 }
 
 } /* Namespace WrpDisplay */

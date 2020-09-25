@@ -12,6 +12,7 @@
  ********************************************************************************************************/
 #include "wrpbase/wrpbase.hpp"
 #include "wrpbase/wrpsys/wrpsystem.hpp"
+#include "wrpbase/wrpgui/wrpscreen.hpp"
 
 /********************************************************************************************************
  * DEFINES
@@ -24,23 +25,6 @@ enum eWrpHmiStatus
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
-
-class WrpHmiObserver
-{
-public:
-   WrpHmiObserver();
-   virtual ~WrpHmiObserver();
-   virtual void CreateAndShow() = 0;
-   virtual void HideAndDestroy() = 0;
-   virtual void ActiveScreen(const WrpHmiObserver& obj) = 0;
-
-private:
-   WrpHmiObserver(const WrpHmiObserver& cp);
-   // methods
-
-   // members
-};
-
 class WrpHmi
 {
 public:
@@ -48,10 +32,10 @@ public:
    virtual ~WrpHmi();
    virtual void  Initialize();
    virtual void  DeInitialize();
-   void          Attach(WrpHmiObserver* obj);
-   void          Detach(WrpHmiObserver* obj);
-   void          LoadScreen(WrpHmiObserver* obj);
-   void          ActiveScreen(const WrpHmiObserver& obj);
+   void          Attach(WrpGui::WrpScreen* obj);
+   void          Detach(WrpGui::WrpScreen* obj);
+   void          LoadScreen(WrpGui::WrpScreen* obj);
+   void          ActiveScreen(const WrpGui::WrpScreen& obj);
    eWrpHmiStatus GetStatus() const;
    void          SetStatus(eWrpHmiStatus status);
 
@@ -59,15 +43,15 @@ protected:
    // methods
 
    // members
-   WrpSys::System::wrpthread_t  mThreadId;
-   eWrpHmiStatus                mStatus;
+   WrpSys::System::wrpthread_t mThreadId;
+   eWrpHmiStatus               mStatus;
 
 private:
    WrpHmi(const WrpHmi& cp);
    // methods
 
    // members
-   std::vector<WrpHmiObserver*> mObservers;
+   std::vector<WrpGui::WrpScreen*> mpObservers;
 };
 
 class WrpHmiLvgl : public WrpHmi
