@@ -13,6 +13,7 @@
 #include "wrpbase/wrphmi/wrphmiapp.hpp"
 #include "wrpbase/wrpmidw/wrpmidwapp.hpp"
 #include "wrpbase/wrphmi/wrphmiscreen.hpp"
+#include "wrpbase/wrpgui/wrpscreen.hpp"
 
 /********************************************************************************************************
  * DEFINES
@@ -21,36 +22,36 @@
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
-class LoadingScreen : public WrpHmiAppClient
-                    , public WrpMidwAppClient
-                    , public WrpHmiScreen
+class LoadingScreenEx : public WrpGui::WrpScreen
 {
 public:
-   LoadingScreen(WrpHmiApp* app);
-   ~LoadingScreen();
    /*
-    * Call back function called on a WrpHmiClient screen creation
+    * Constructor
+    */
+   LoadingScreenEx();
+   /*
+    * Destructor
+    */
+   ~LoadingScreenEx();
+   /*
+    * Call back function called on a WrpHmiObserver screen creation
     */
    void CreateAndShow();
    /*
-    * Call back function called on a WrpHmiClient screen destroy
+    * Call back function called on a WrpHmiObserver screen destroy
     */
    void HideAndDestroy();
    /*
-    * Call back function called on a WrpMidwAppClient events update
+    * Call back function called on a WrpHmiObserver screen active
     */
-   void MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length);
-   /*
-    * Call back function called on a WrpHmiScreen config loading
-    */
-   void          LoadConfig(){};
-   void          Add(WrpHmiScreen* pHmiScreen){};
-   void          Remove(WrpHmiScreen* pHmiScreen){};
-   WrpHmiScreen* GetChild(const uint8_t id) const { return NULL; };
+   void ActiveScreen(const WrpScreen& obj);
 
 private:
-   LoadingScreen(const LoadingScreen& cp);
-   WrpHmiApp*        mpHmiApp;
+   /*
+    * Default constructor
+    */
+   LoadingScreenEx(const LoadingScreenEx& cp);
+   // members
    WrpGui::WrpLabel* mpLblLoadingStatus;
 };
 

@@ -13,7 +13,6 @@
 #include "wrpbase/wrphmi/wrphmiapp.hpp"
 #include "wrpbase/wrpmidw/wrpmidwapp.hpp"
 #include "wrpbase/wrphmi/wrphmiscreen.hpp"
-#include "wrpbase/wrpgui/wrpimage.hpp"
 #include "wrpbase/wrpgui/wrpanim.hpp"
 
 /********************************************************************************************************
@@ -23,39 +22,38 @@
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
-class HomeScreen : public WrpHmiAppClient
-                 , public WrpMidwAppClient
-                 , public WrpHmiScreen
+class HomeScreenEx : public WrpGui::WrpScreen
 {
 public:
-   HomeScreen(WrpHmiApp* app);
-   ~HomeScreen();
    /*
-    * Call back function called on a WrpHmiClient screen creation
+    * Constructor
+    */
+	HomeScreenEx();
+   /*
+    * Destructor
+    */
+   ~HomeScreenEx();
+   /*
+    * Call back function called on a WrpHmiObserver screen creation
     */
    void CreateAndShow();
    /*
-    * Call back function called on a WrpHmiClient screen destroy
+    * Call back function called on a WrpHmiObserver screen destroy
     */
    void HideAndDestroy();
    /*
-    * Call back function called on a WrpMidwAppClient events update
+    * Call back function called on a WrpHmiObserver screen active
     */
-   void MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length);
-   /*
-    * Call back function called on a WrpHmiScreen config loading
-    */
-   void          LoadConfig(){};
-   void          Add(WrpHmiScreen* pHmiScreen){};
-   void          Remove(WrpHmiScreen* pHmiScreen){};
-   WrpHmiScreen* GetChild(const uint8_t id) const { return NULL; };
+   void ActiveScreen(const WrpScreen& obj);
 
 private:
-   HomeScreen(const HomeScreen& cp);
-   WrpHmiApp*        mpHmiApp;
-   WrpGui::WrpAnim   mAnim;
-   WrpGui::WrpImage* mpMenuItem[3];
+   /*
+    * Default constructor
+    */
+   HomeScreenEx(const HomeScreenEx& cp);
+   // members
    WrpGui::WrpImage* mpLogo;
+   WrpGui::WrpImage* mpMenuItem[3];
 };
 
 #endif /* APPSAMPLE_HOMESCREEN_HPP */

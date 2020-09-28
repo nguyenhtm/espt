@@ -5,6 +5,7 @@
  *
  ********************************************************************************************************/
 #include "appsample/appdefines.hpp"
+#include "appcluster/clusterapp.hpp"
 
 /********************************************************************************************************
  * VARIABLES
@@ -20,5 +21,6 @@ void app_main()
 	/*
 	 * This function is for ESP32 Wrover V3.0 which includes LCD
 	 */
-	appsample();
+	//appsample();
+	appcluster();
 }

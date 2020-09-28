@@ -21,7 +21,7 @@ using namespace WrpSys::System;
  * DEFINES
  ********************************************************************************************************/
 LV_IMG_DECLARE(needle1)
-LV_IMG_DECLARE(meter1_0)
+LV_IMG_DECLARE(meter10)
 LV_IMG_DECLARE(meter1_1)
 
 /********************************************************************************************************
@@ -59,7 +59,6 @@ static void WrpGuiInit(void)
       WRPPRINT("%s\n", "WrpGuiInit() WrpCreateThread Failed!");
    }
 }
-
 
 lv_obj_t*   mpCanvasNeedle = NULL;
 lv_color_t* mpCanvasBufNeedle = NULL;
@@ -114,7 +113,8 @@ static void DisplayNeedle(const uint16_t km, const uint16_t delay)
 	   usleep(delay*1000);
       //usleep(40*1000);
 #elif LVGL_ESP32_ILI9341
-      usleep(60*1000);// no flicker
+	   usleep(delay*1000);
+      //usleep(60*1000);// no flicker
 #endif
       /*Clear the canvas continueously -> flicker */
       //if (diff%20 == 0)
@@ -155,11 +155,11 @@ static void RotateMeter(lv_img_dsc_t meter, const uint16_t delay)
    //set up position, buffer size of meter canvas
    mpCanvasBufMeter    = new lv_color_t[canvas_w*canvas_h];
    mCanvasBufMeterSize = sizeof(lv_color_t)*canvas_w*canvas_h;
-   memset(mpCanvasBufMeter, 0x0, mCanvasBufMeterSize);
+   //memset(mpCanvasBufMeter, 0x0, mCanvasBufMeterSize);
 
    lv_canvas_set_buffer(mpCanvasMeter, mpCanvasBufMeter, canvas_w, canvas_h, LV_IMG_CF_TRUE_COLOR);
    lv_obj_set_pos(mpCanvasMeter, gSpeedometerX, gSpeedometerY);
-
+   WRPPRINT("%s\n", "ClusterApp::RotateMeter() 1111111111111111111");
    memset(mpCanvasBufMeter, 0x0, mCanvasBufMeterSize);
    lv_canvas_rotate(mpCanvasMeter, &meter, angle, canvas_needle_imgX, canvas_needle_imgY, pivotX, pivotY);
 
@@ -168,18 +168,18 @@ static void RotateMeter(lv_img_dsc_t meter, const uint16_t delay)
 #if LVGL_PC_SIMU
       usleep(2*1000);
 #elif LVGL_ESP32_ILI9341
-      usleep(60*1000);// no flicker
+      usleep(40*1000);
 #endif
       lv_canvas_rotate(mpCanvasMeter, &meter, angle++, canvas_needle_imgX, canvas_needle_imgY, pivotX, pivotY);
    }
    //memset(mpCanvasBufMeter, 0x0, mCanvasBufMeterSize);
-
+   WRPPRINT("%s\n", "ClusterApp::RotateMeter() 2222222222222222222");
    while(angle>0)
    {
 #if LVGL_PC_SIMU
       usleep(2*1000);
 #elif LVGL_ESP32_ILI9341
-      usleep(60*1000);// no flicker
+      usleep(20*1000);
 #endif
       lv_canvas_rotate(mpCanvasMeter, &meter, angle--, canvas_needle_imgX, canvas_needle_imgY, pivotX, pivotY);
    }
@@ -191,20 +191,20 @@ void appcluster(void)
 {
    WrpGuiInit();
 
-   gpHomeScreen = new WrpGui::WrpScreen(true);
+   //gpHomeScreen = new WrpGui::WrpScreen(true);
    gpHomeScreen->SetStyle(WrpGui::SCREEN_DEFAULT);
    usleep(2000*1000);
 
    WrpGui::WrpImage* mpMeter0 = new WrpGui::WrpImage(gpHomeScreen);
    mpMeter0->SetImage(WRPRESIMG_METER1_0);
    mpMeter0->SetPos(gSpeedometerX, gSpeedometerY);
-   mAnim.FadeIn((WrpGui::WrpWidget*)mpMeter0, 700);
+   mAnim.FadeIn((WrpGui::WrpWidget*)mpMeter0, 2000);
 #if 0
-   usleep(1300*1000); //700+500
-   mpMeter0->SetHide();
+   //usleep(1300*1000); //700+600
+   //mpMeter0->SetHide();
 
-   RotateMeter(meter1_0, 1);
-   usleep(1500*1000);
+   //RotateMeter(meter1_0, 1);
+   //usleep(1500*1000);
 
    WrpGui::WrpImage* mpMeter1 = new WrpGui::WrpImage(gpHomeScreen);
    mpMeter1->SetImage(WRPRESIMG_METER1_1);
@@ -238,7 +238,9 @@ void appcluster(void)
 
    DisplayNeedle(350, 40);
 #endif
-   while(1) {}
+   while(1)
+   {
+   }
 
    delete gpHomeScreen;
 }

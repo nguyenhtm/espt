@@ -13,10 +13,12 @@ COMPONENT_EXTRA_INCLUDES := D:/iotprj/packages D:/iotprj/packages/esp32_ili9341/
 #Define macros for wrpbase
 CPPFLAGS += -DLVGL_PC_SIMU=0 -DLVGL_ESP32_ILI9341=1 -DUSE_ESP_IDF=1
 #Use wrpbase component
-EXTRA_COMPONENT_DIRS += D:/iotprj/wrpbase/wrpdrv D:/iotprj/wrpbase/wrpsys D:/iotprj/wrpbase/wrpgui D:/iotprj/wrpbase/wrpmidw D:/iotprj/wrpbase/wrphmi D:/iotprj/wrpbase/wrpres
+EXTRA_COMPONENT_DIRS += D:/iotprj/wrpbase/wrpdrv D:/iotprj/wrpbase/wrpsys D:/iotprj/wrpbase/wrpgui D:/iotprj/wrpbase/wrpmidw D:/iotprj/wrpbase/wrphmi
+#Use wrpres resource for each app
+EXTRA_COMPONENT_DIRS += D:/iotprj/wrpbase/wrpres
 
 #Use appsample component
-EXTRA_COMPONENT_DIRS += D:/iotprj/appsample
+EXTRA_COMPONENT_DIRS += D:/iotprj/appsample D:/iotprj/appcluster
 
 #esp-idf platform makefile
 include $(IDF_PATH)/make/project.mk
