@@ -6,6 +6,8 @@
  ********************************************************************************************************/
 #include "appdefines.hpp"
 #include "homescreen.hpp"
+#include "wrpbase/wrpgui/wrpimage.hpp"
+#include "wrpbase/wrpgui/wrplabel.hpp"
 
 /********************************************************************************************************
  * VARIABLES
@@ -14,115 +16,59 @@
 /********************************************************************************************************
  * FUNCTIONS
  ********************************************************************************************************/
-HomeScreen::HomeScreen(WrpHmiApp* app)
-: mpHmiApp(app)
+/********************************************************************************************************
+ * FUNCTIONS - HomeScreenEx
+ ********************************************************************************************************/
+HomeScreenEx::HomeScreenEx()
+: WrpGui::WrpScreen(false)
+, mpLogo(NULL)
 {
-   WRPPRINT("%s\n", "HomeScreen::HomeScreen() Begin");
-   // homescreen is a master screen
-   mpHmiAppClientHandle = new WrpGui::WrpScreen(true);
-   mpHmiAppClientHandle->SetTitle("");
-   mpMenuItem[0] = new WrpGui::WrpImage(mpHmiAppClientHandle);
-   mpMenuItem[0]->SetImage(WRPRESIMG_SETTING);
-   mpMenuItem[0]->SetPos(WRPSCREEN_WIDTH-30, WRPSCREEN_MENU_POSY);
-   mpMenuItem[1] = new WrpGui::WrpImage(mpHmiAppClientHandle);
-   mpMenuItem[1]->SetImage(WRPRESIMG_AUTOTEST);
-   mpMenuItem[1]->SetPos(WRPSCREEN_WIDTH-60, WRPSCREEN_MENU_POSY);
-   mpMenuItem[2] = new WrpGui::WrpImage(mpHmiAppClientHandle);
-   mpMenuItem[2]->SetImage(WRPRESIMG_DIAGNOSIS);
-   mpMenuItem[2]->SetPos(WRPSCREEN_WIDTH-90, WRPSCREEN_MENU_POSY);
+   WRPPRINT("%s\n", "HomeScreenEx::HomeScreenEx() Begin");
+   WRPPRINT("%s\n", "HomeScreenEx::HomeScreenEx() End");
+}
+HomeScreenEx::~HomeScreenEx()
+{
+   WRPPRINT("%s\n", "HomeScreenEx::~HomeScreenEx() Begin");
+   WRPPRINT("%s\n", "HomeScreenEx::~HomeScreenEx() End");
+}
+void HomeScreenEx::CreateAndShow()
+{
+   WRPPRINT("%s\n", "HomeScreenEx::CreateAndShow() Begin");
    // homescreen has a logo
-   mpLogo = new WrpGui::WrpImage(mpHmiAppClientHandle);
-   mpLogo->SetImage(WRPRESIMG_LOGO);
+   mpLogo = new WrpGui::WrpImage(this);
+   mpLogo->SetImage(WRPRESIMG_DEF01LOGO);
    mpLogo->SetPos(WRPSCREEN_MENU_POSX+130, WRPSCREEN_MENU_POSY+90);
-   WRPPRINT("%s\n", "HomeScreen::HomeScreen() End");
+   // and a menu items
+   mpMenuItem[0] = new WrpGui::WrpImage(this);
+   mpMenuItem[0]->SetImage(WRPRESIMG_DEF01SETTING);
+   mpMenuItem[0]->SetPos(WRPSCREEN_WIDTH-30, WRPSCREEN_MENU_POSY);
+   mpMenuItem[1] = new WrpGui::WrpImage(this);
+   mpMenuItem[1]->SetImage(WRPRESIMG_DEF01AUTOTEST);
+   mpMenuItem[1]->SetPos(WRPSCREEN_WIDTH-60, WRPSCREEN_MENU_POSY);
+   mpMenuItem[2] = new WrpGui::WrpImage(this);
+   mpMenuItem[2]->SetImage(WRPRESIMG_DEF01DIAGNOSIS);
+   mpMenuItem[2]->SetPos(WRPSCREEN_WIDTH-90, WRPSCREEN_MENU_POSY);
+   WRPPRINT("%s\n", "HomeScreenEx::CreateAndShow() End");
 }
-
-HomeScreen::~HomeScreen()
+void HomeScreenEx::HideAndDestroy()
 {
-   WRPPRINT("%s\n", "HomeScreen::~HomeScreen() Begin");
+   WRPPRINT("%s\n", "HomeScreenEx::HideAndDestroy() Begin");
+   WRPNULL_CHECK(mpLogo)
+   delete mpLogo; mpLogo = NULL;
    delete [] mpMenuItem;
-   delete mpLogo;
-   WRPPRINT("%s\n", "HomeScreen::~HomeScreen() End");
+   WRPPRINT("%s\n", "HomeScreenEx::HideAndDestroy() End");
 }
-
-void HomeScreen::CreateAndShow()
+void HomeScreenEx::ActiveScreen(const WrpScreen& obj)
 {
-   WRPPRINT("%s\n", "HomeScreen::CreateAndShow() Begin");
-   // homescreen is a master screen, must create in constructor
-   mAnim.FadeIn((WrpGui::WrpWidget*)mpLogo, 2000);
-   WRPPRINT("%s\n", "HomeScreen::CreateAndShow() End");
-}
-
-void HomeScreen::HideAndDestroy()
-{
-   WRPPRINT("%s\n", "HomeScreen::HideAndDestroy() Begin");
-   // homescreen is a master screen, must not delete it
-   WRPPRINT("%s\n", "HomeScreen::HideAndDestroy() End");
-}
-
-void HomeScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length)
-{
-   WRPPRINT("%s%s\n", "HomeScreen::MidwAppUpdate() Begin buffer=", buffer);
-   switch(status)
+   WRPPRINT("%s%p:%p\n", "HomeScreenEx::ActiveScreen() Begin ", &obj, this);
+   if (this == &obj)
    {
-      case MIDWAPP_STATUS_START:
-      case MIDWAPP_STATUS_STOP:
-         {
-         }
-         break;
-      case MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED:
-         {
-            if (!strcmp(buffer, "diagnosis"))
-            {
-               mpHmiApp->LoadScreen(DIAGNOSISSCREEN);
-            }
-            else if (!strcmp(buffer, "cflow"))
-            {
-               mpHmiApp->LoadScreen(CFLOWSCREEN);
-            }
-            else if (!strcmp(buffer, "shutdown"))
-            {
-               mpHmiAppClientHandle->ShowPopup(true, "Shutting Down!");
-            }
-            else if(!strcmp(buffer, "SCREEN_PLAIN_COLOR"))
-            {
-               mpHmiAppClientHandle->SetStyle(WrpGui::SCREEN_PLAIN_COLOR);
-            }
-            else if(!strcmp(buffer, "SCREEN_PRETTY"))
-            {
-               mpHmiAppClientHandle->SetStyle(WrpGui::SCREEN_PRETTY);
-            }
-            else if(!strcmp(buffer, "SCREEN_PRETTY_COLOR"))
-            {
-               mpHmiAppClientHandle->SetStyle(WrpGui::SCREEN_PRETTY_COLOR);
-            }
-            else if(!strcmp(buffer, "BUTTON_PRESS"))
-            {
-               mpHmiAppClientHandle->SetStyle(WrpGui::BUTTON_PRESS);
-            }
-            else if(!strcmp(buffer, "BUTTON_RELEASE"))
-            {
-               mpHmiAppClientHandle->SetStyle(WrpGui::BUTTON_RELEASE);
-            }
-            else if(!strcmp(buffer, "BUTTON_TGL_RELEASE"))
-            {
-               mpHmiAppClientHandle->SetStyle(WrpGui::BUTTON_TGL_RELEASE);
-            }
-            else if(!strcmp(buffer, "BUTTON_TGL_PRESS"))
-            {
-               mpHmiAppClientHandle->SetStyle(WrpGui::BUTTON_TGL_PRESS);
-            }
-         }
-         break;
-      default:
-         {
-            //do nothing
-         }
-         break;
+      WrpScreen::Load();
    }
-   WRPPRINT("%s%s\n", "HomeScreen::MidwAppUpdate() End buffer=", buffer);
+   WRPPRINT("%s\n", "HomeScreenEx::ActiveScreen() End");
 }
-
-HomeScreen::HomeScreen(const HomeScreen& cp)
+HomeScreenEx::HomeScreenEx(const HomeScreenEx& cp)
+: WrpGui::WrpScreen(false)
+, mpLogo(NULL)
 {
 }

@@ -33,7 +33,7 @@ DiagScreen::DiagScreen(WrpHmiApp* app)
 , mCanvasBufSize(0)
 {
    WRPPRINT("%s\n", "DiagScreen::DiagScreen() Begin");
-   mpHmiAppClientHandle = new WrpGui::WrpScreen(false);
+   //mpHmiAppClientHandle = new WrpGui::WrpScreen(false);
    mpHmiAppClientHandle->SetTitle("");
    mpMeter = new WrpGui::WrpImage(mpHmiAppClientHandle);
    mpMeter->SetImage(WRPRESIMG_METER);
@@ -107,12 +107,13 @@ void DiagScreen::RunSpeedMeter(const uint16_t km)
       /* Periodically call the lv_task handler.*/
       //lv_task_handler();
 #if LVGL_PC_SIMU
-      usleep(70*1000);
+      usleep(40*1000);
 #elif LVGL_ESP32_ILI9341
       usleep(60*1000);// no flicker
 #endif
       /*Clear the canvas*/
-      if (diff%10 == 0)  {
+      if (diff%20 == 0)
+      {
          memset(mpCanvasBuf, 0x0, mCanvasBufSize);
       }
       if (diff > 0) {

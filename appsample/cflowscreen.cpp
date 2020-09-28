@@ -6,6 +6,7 @@
  ********************************************************************************************************/
 #include "appdefines.hpp"
 #include "cflowscreen.hpp"
+#include "wrpbase/wrpgui/wrpimage.hpp"
 
 /********************************************************************************************************
  * VARIABLES
@@ -14,120 +15,90 @@
 /********************************************************************************************************
  * FUNCTIONS
  ********************************************************************************************************/
-CFlowScreen::CFlowScreen(WrpHmiApp* app)
-: mpHmiApp(app)
+CFlowScreenEx::CFlowScreenEx()
+: WrpGui::WrpScreen(false)
+, mpMenuItem() // initialize array of pointers to null
+, mpAnimItem()
 {
-   WRPPRINT("%s\n", "CFlowScreen::CFlowScreen() Begin");
-   // cflowscreen is a normal screen
-   mpHmiAppClientHandle = new WrpGui::WrpScreen(false);
-   mpHmiAppClientHandle->SetTitle("");
-   // cflowscreen has a main menu
-   mpMenuItem[0] = new WrpGui::WrpImage(mpHmiAppClientHandle);
-   mpMenuItem[0]->SetImage(WRPRESIMG_CFLOWITEM1);
+   WRPPRINT("%s\n", "CFlowScreenEx::CFlowScreenEx() Begin");
+   WRPPRINT("%s\n", "CFlowScreenEx::CFlowScreenEx() End");
+}
+CFlowScreenEx::~CFlowScreenEx()
+{
+   WRPPRINT("%s\n", "CFlowScreenEx::~CFlowScreenEx() Begin");
+   WRPPRINT("%s\n", "CFlowScreenEx::~CFlowScreenEx() End");
+}
+void CFlowScreenEx::CreateAndShow()
+{
+   WRPPRINT("%s\n", "CFlowScreenEx::CreateAndShow() Begin");
+
+   // cflowscreen has a list of menu items to select each kind of cover flow
+   mpMenuItem[0] = new WrpGui::WrpImage(this);
+   mpMenuItem[0]->SetImage(WRPRESIMG_DEF01MENUITEM1);
    mpMenuItem[0]->SetPos(WRPSCREEN_WIDTH-60, WRPSCREEN_MENU_POSY);
-   mpMenuItem[1] = new WrpGui::WrpImage(mpHmiAppClientHandle);
-   mpMenuItem[1]->SetImage(WRPRESIMG_CFLOWITEM2);
+   mpMenuItem[1] = new WrpGui::WrpImage(this);
+   mpMenuItem[1]->SetImage(WRPRESIMG_DEF01MENUITEM2);
    mpMenuItem[1]->SetPos(WRPSCREEN_WIDTH-120, WRPSCREEN_MENU_POSY);
-   mpMenuItem[2] = new WrpGui::WrpImage(mpHmiAppClientHandle);
-   mpMenuItem[2]->SetImage(WRPRESIMG_CFLOWITEM3);
+   mpMenuItem[2] = new WrpGui::WrpImage(this);
+   mpMenuItem[2]->SetImage(WRPRESIMG_DEF01MENUITEM3);
    mpMenuItem[2]->SetPos(WRPSCREEN_WIDTH-180, WRPSCREEN_MENU_POSY);
-   mpMenuItem[3] = new WrpGui::WrpImage(mpHmiAppClientHandle);
-   mpMenuItem[3]->SetImage(WRPRESIMG_CFLOWITEM4);
+   mpMenuItem[3] = new WrpGui::WrpImage(this);
+   mpMenuItem[3]->SetImage(WRPRESIMG_DEF01MENUITEM4);
    mpMenuItem[3]->SetPos(WRPSCREEN_WIDTH-240, WRPSCREEN_MENU_POSY);
-   mpMenuItem[4] = new WrpGui::WrpImage(mpHmiAppClientHandle);
-   mpMenuItem[4]->SetImage(WRPRESIMG_CFLOWITEM5);
+   mpMenuItem[4] = new WrpGui::WrpImage(this);
+   mpMenuItem[4]->SetImage(WRPRESIMG_DEF01MENUITEM5);
    mpMenuItem[4]->SetPos(WRPSCREEN_WIDTH-300, WRPSCREEN_MENU_POSY);
 
    // cflowscreen has items to demo many kinds of coverflow
-   mpAnimItem[0] = new WrpGui::WrpImage(mpHmiAppClientHandle);
-   mpAnimItem[0]->SetImage(WRPRESIMG_APP);
-   mpAnimItem[1] = new WrpGui::WrpImage(mpHmiAppClientHandle);
-   mpAnimItem[1]->SetImage(WRPRESIMG_SETTING);
-   mpAnimItem[2] = new WrpGui::WrpImage(mpHmiAppClientHandle);
-   mpAnimItem[2]->SetImage(WRPRESIMG_DIAGNOSIS);
-   mpAnimItem[3] = new WrpGui::WrpImage(mpHmiAppClientHandle);
-   mpAnimItem[3]->SetImage(WRPRESIMG_AUTOTEST);
-   mpAnimItem[4] = new WrpGui::WrpImage(mpHmiAppClientHandle);
-   mpAnimItem[4]->SetImage(WRPRESIMG_WIFI2);
-   mpAnimItem[5] = new WrpGui::WrpImage(mpHmiAppClientHandle);
-   mpAnimItem[5]->SetImage(WRPRESIMG_HOME);
+   mpAnimItem[0] = new WrpGui::WrpImage(this);
+   mpAnimItem[0]->SetImage(WRPRESIMG_DEF01APP);
+   mpAnimItem[1] = new WrpGui::WrpImage(this);
+   mpAnimItem[1]->SetImage(WRPRESIMG_DEF01SETTING);
+   mpAnimItem[2] = new WrpGui::WrpImage(this);
+   mpAnimItem[2]->SetImage(WRPRESIMG_DEF01DIAGNOSIS);
+   mpAnimItem[3] = new WrpGui::WrpImage(this);
+   mpAnimItem[3]->SetImage(WRPRESIMG_DEF01AUTOTEST);
+   mpAnimItem[4] = new WrpGui::WrpImage(this);
+   mpAnimItem[4]->SetImage(WRPRESIMG_DEF01WIFI2);
+   mpAnimItem[5] = new WrpGui::WrpImage(this);
+   mpAnimItem[5]->SetImage(WRPRESIMG_DEF01HOME);
    mAnim.SetWidgets((WrpGui::WrpWidget**)mpAnimItem, 6);
-   WRPPRINT("%s\n", "CFlowScreen::CFlowScreen() End");
-}
 
-CFlowScreen::~CFlowScreen()
-{
-   WRPPRINT("%s\n", "CFlowScreen::~CFlowScreen() Begin");
-   WRPPRINT("%s\n", "CFlowScreen::~CFlowScreen() End");
-}
-
-void CFlowScreen::CreateAndShow()
-{
-   WRPPRINT("%s\n", "CFlowScreen::CreateAndShow() Begin");
    mAnim.FadeIn((WrpGui::WrpWidget*)mpMenuItem[0], 2000);
    mAnim.FadeIn((WrpGui::WrpWidget*)mpMenuItem[1], 2000);
    mAnim.FadeIn((WrpGui::WrpWidget*)mpMenuItem[2], 2000);
    mAnim.FadeIn((WrpGui::WrpWidget*)mpMenuItem[3], 2000);
    mAnim.FadeIn((WrpGui::WrpWidget*)mpMenuItem[4], 2000);
+
    mAnim.Liverpool();
-   WRPPRINT("%s\n", "CFlowScreen::CreateAndShow() End");
-}
 
-void CFlowScreen::HideAndDestroy()
-{
-   WRPPRINT("%s\n", "CFlowScreen::HideAndDestroy() Begin");
-   WRPPRINT("%s\n", "CFlowScreen::HideAndDestroy() End");
+   WRPPRINT("%s\n", "CFlowScreenEx::CreateAndShow() End");
 }
-
-void CFlowScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length)
+void CFlowScreenEx::HideAndDestroy()
 {
-   WRPPRINT("%s%s\n", "CFlowScreen::MidwAppUpdate() Begin buffer=", buffer);
-   switch(status)
-   {
-      case MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED:
-         {
-            if (!strcmp(buffer, "home"))
-            {
-               mpHmiApp->LoadScreen(HOMESCREEN);
-            }
-            else if (!strcmp(buffer, "cflow1"))
-            {
-               mpAnimItem[5]->SetPos(0,0); // unhide it
-               mAnim.SetWidgets((WrpGui::WrpWidget**)mpAnimItem, 6);
-               mAnim.Liverpool();
-            }
-            else if (!strcmp(buffer, "cflow2"))
-            {
-               mpAnimItem[5]->SetPos(0,-30); // hide it
-               mAnim.SetWidgets((WrpGui::WrpWidget**)mpAnimItem, 5);
-               mAnim.Barcelona();
-            }
-            else if (!strcmp(buffer, "cflow3"))
-            {
-               mpAnimItem[5]->SetPos(0,0);  // unhide it
-               mAnim.SetWidgets((WrpGui::WrpWidget**)mpAnimItem, 6);
-               mAnim.RealMadrid();
-            }
-            else if (!strcmp(buffer, "cflow4"))
-            {
-               mpAnimItem[5]->SetPos(0,0);  // unhide it
-               mAnim.SetWidgets((WrpGui::WrpWidget**)mpAnimItem, 6);
-               mAnim.Chealse();
-            }
-            else if (!strcmp(buffer, "cflow5"))
-            {
-               mpAnimItem[5]->SetPos(0,0);  // unhide it
-               mAnim.SetWidgets((WrpGui::WrpWidget**)mpAnimItem, 6);
-               mAnim.Messi();
-            }
-         }
-         break;
-      default:
-         break;
+   WRPPRINT("%s\n", "CFlowScreenEx::HideAndDestroy() Begin");
+   WRPNULL_CHECK(mpMenuItem[0])
+   int i = 0;
+   for (i = 0; i < MENUITEMS_MAX; i++) {
+      delete mpMenuItem[i];
+      mpMenuItem[i] = NULL;
    }
-   WRPPRINT("%s%s\n", "CFlowScreen::MidwAppUpdate() End buffer=", buffer);
+   for (i = 0; i < ANIMITEMS_MAX; i++) {
+      delete mpAnimItem[i];
+      mpAnimItem[i] = NULL;
+   }
+   WRPPRINT("%s\n", "CFlowScreenEx::HideAndDestroy() End");
 }
-
-CFlowScreen::CFlowScreen(const CFlowScreen& cp)
+void CFlowScreenEx::ActiveScreen(const WrpScreen& obj)
+{
+   WRPPRINT("%s%p:%p\n", "CFlowScreenEx::ActiveScreen() Begin ", &obj, this);
+   if (this == &obj)
+   {
+      WrpScreen::Load();
+   }
+   WRPPRINT("%s\n", "CFlowScreenEx::ActiveScreen() End");
+}
+CFlowScreenEx::CFlowScreenEx(const CFlowScreenEx& cp)
+: WrpGui::WrpScreen(false)
 {
 }

@@ -13,78 +13,47 @@
  ********************************************************************************************************/
 
 /********************************************************************************************************
- * FUNCTIONS
+ * FUNCTIONS - LoadingScreenEx
  ********************************************************************************************************/
-LoadingScreen::LoadingScreen(WrpHmiApp* app)
-: mpHmiApp(app)
+LoadingScreenEx::LoadingScreenEx()
+: WrpGui::WrpScreen(true)
 , mpLblLoadingStatus(NULL)
 {
-   WRPPRINT("%s\n", "LoadingScreen::LoadingScreen() Begin");
-   WRPPRINT("%s\n", "LoadingScreen::LoadingScreen() End");
+   WRPPRINT("%s\n", "LoadingScreenEx::LoadingScreenEx() Begin");
+   WRPPRINT("%s\n", "LoadingScreenEx::LoadingScreenEx() End");
 }
-
-LoadingScreen::~LoadingScreen()
+LoadingScreenEx::~LoadingScreenEx()
 {
-   WRPPRINT("%s\n", "LoadingScreen::~LoadingScreen() Begin");
-   WRPPRINT("%s\n", "LoadingScreen::~LoadingScreen() End");
+   WRPPRINT("%s\n", "LoadingScreenEx::~LoadingScreenEx() Begin");
+   WRPPRINT("%s\n", "LoadingScreenEx::~LoadingScreenEx() End");
 }
-
-void LoadingScreen::CreateAndShow()
+void LoadingScreenEx::CreateAndShow()
 {
-   WRPPRINT("%s\n", "LoadingScreen::CreateAndShow() Begin");
-   mpHmiAppClientHandle = new WrpGui::WrpScreen(false);
-   mpHmiAppClientHandle->SetTitle("");
-   mpLblLoadingStatus = new WrpGui::WrpLabel(mpHmiAppClientHandle);
-   mpLblLoadingStatus->SetPos(100, 90);
-   mpLblLoadingStatus->SetText("Loading......0%");
-   WRPPRINT("%s\n", "LoadingScreen::CreateAndShow() End");
+   WRPPRINT("%s\n", "LoadingScreenEx::CreateAndShow() Begin");
+   mpLblLoadingStatus = new WrpGui::WrpLabel(this);
+   mpLblLoadingStatus->SetText("Loading...");
+   mpLblLoadingStatus->SetPos(50, 90);
+   WRPPRINT("%s\n", "LoadingScreenEx::CreateAndShow() End");
 }
-
-void LoadingScreen::HideAndDestroy()
+void LoadingScreenEx::HideAndDestroy()
 {
-   WRPPRINT("%s\n", "LoadingScreen::HideAndDestroy() Begin");
-   //WRPNULL_CHECK(m_pScreenHandle)
-   //delete m_pScreenHandle;
-   //delete m_pLblLoadingStatus;
-   WRPPRINT("%s\n", "LoadingScreen::HideAndDestroy() End");
+   WRPPRINT("%s\n", "LoadingScreenEx::HideAndDestroy() Begin");
+   WRPNULL_CHECK(mpLblLoadingStatus)
+   delete mpLblLoadingStatus;
+   mpLblLoadingStatus = NULL;
+   WRPPRINT("%s\n", "LoadingScreenEx::HideAndDestroy() End");
 }
-
-void LoadingScreen::MidwAppUpdate(eWrpMidwAppStatus status, char* buffer, unsigned int length)
+void LoadingScreenEx::ActiveScreen(const WrpScreen& obj)
 {
-   WRPPRINT("%s%s\n", "LoadingScreen::MidwAppUpdate() Begin buffer=", buffer);
-   switch(status)
+   WRPPRINT("%s%p:%p\n", "TestScreen::ActiveScreen() Begin ", &obj, this);
+   if (this == &obj)
    {
-      case MIDWAPP_STATUS_START:
-      case MIDWAPP_STATUS_STOP:
-      {
-      }
-      break;
-      case MIDWAPP_WSCLIENT_STATUS_DATA_RECEIVED:
-         {
-         //TODO
-         if (!strcmp(buffer, "go"))
-			{
-				for(int i = 1; i <= 10; i++)
-				{
-					char str[100] = {0};
-					sprintf(str, "Loading.......%d%%", i*10);
-					mpLblLoadingStatus->SetText(str);
-					usleep(500*1000);
-				}
-				mpHmiApp->LoadScreen(HOMESCREEN);
-			}
-		}
-		break;
-		default:
-		{
-
-		}
-		break;
-	}
-
-   WRPPRINT("%s%s\n", "LoadingScreen::MidwAppUpdate() End buffer=", buffer);
+      WrpScreen::Load();
+   }
+   WRPPRINT("%s\n", "TestScreen::ActiveScreen() End");
 }
-
-LoadingScreen::LoadingScreen(const LoadingScreen& cp)
+LoadingScreenEx::LoadingScreenEx(const LoadingScreenEx& cp)
+: WrpGui::WrpScreen(true)
+, mpLblLoadingStatus(NULL)
 {
 }
