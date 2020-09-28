@@ -31,11 +31,11 @@
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.c.compiler.option.include.paths.1735328631" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\iotprj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\iotprj\packages&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\iotprj\packages\mongoose_lib&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\iotprj\packages\SDL2-2.0.5\i686-w64-mingw32\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\iotprj\packages\pc_simulator_sdl_eclipse&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\iotprj\espt&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\iotprj\espt\packages&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\iotprj\espt\packages\mongoose_lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\iotprj\espt\packages\SDL2-2.0.5\i686-w64-mingw32\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\iotprj\espt\packages\pc_simulator_sdl_eclipse&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1188538501" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -44,11 +44,11 @@
 								<option defaultValue="gnu.cpp.compiler.debugging.level.max" id="gnu.cpp.compiler.option.debugging.level.1335917294" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" valueType="enumerated"/>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.compiler.option.include.paths.1712022237" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\iotprj&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\iotprj\packages&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\iotprj\packages\mongoose_lib&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\iotprj\packages\SDL2-2.0.5\i686-w64-mingw32\include&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;D:\iotprj\packages\pc_simulator_sdl_eclipse&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\iotprj\espt&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\iotprj\espt\packages&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\iotprj\espt\packages\mongoose_lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\iotprj\espt\packages\SDL2-2.0.5\i686-w64-mingw32\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\iotprj\espt\packages\pc_simulator_sdl_eclipse&quot;"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.compiler.option.preprocessor.def.769305549" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="LV_CONF_INCLUDE_SIMPLE=1"/>
@@ -61,7 +61,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.cross.c.linker.618054500" name="Cross GCC Linker" superClass="cdt.managedbuild.tool.gnu.cross.c.linker"/>
 							<tool id="cdt.managedbuild.tool.gnu.cross.cpp.linker.2026581227" name="Cross G++ Linker" superClass="cdt.managedbuild.tool.gnu.cross.cpp.linker">
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.link.option.paths.502618802" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
-									<listOptionValue builtIn="false" value="&quot;D:\iotprj\packages\SDL2-2.0.5\i686-w64-mingw32\lib&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;D:\iotprj\espt\packages\SDL2-2.0.5\i686-w64-mingw32\lib&quot;"/>
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="gnu.cpp.link.option.libs.541638079" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" useByScannerDiscovery="false" valueType="libs">
 									<listOptionValue builtIn="false" value="SDL2"/>
