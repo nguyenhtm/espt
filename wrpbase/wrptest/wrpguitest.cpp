@@ -91,6 +91,7 @@ void GuiTestApp()
    app.GetHmiInstance()->Attach(&testscreen);
    app.GetHmiInstance()->LoadScreen(&testscreen);
 
+#ifndef USE_ESP_IDF
    SDL_Event e;
    while(1)
    {
@@ -98,6 +99,9 @@ void GuiTestApp()
          if (e.type == SDL_QUIT) break;
       }
    }
+#else
+   while(1){}
+#endif
    app.DeInitialize();
 }
 

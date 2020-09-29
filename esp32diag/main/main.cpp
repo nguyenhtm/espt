@@ -17,8 +17,5 @@ extern "C" void app_main();
 
 void app_main()
 {
-   WrpTest::WrpTestApp app;
-   app.Construct();
-
-   //WrpTest::WrpSysTest();
+	WrpTest::WrpSysTest();
 }

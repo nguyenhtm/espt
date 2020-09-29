@@ -28,32 +28,32 @@
 		<link>
 			<name>appcluster</name>
 			<type>2</type>
-			<location>D:/iotprj/appcluster</location>
+			<location>D:/iotprj/espt/appcluster</location>
 		</link>
 		<link>
 			<name>appsample</name>
 			<type>2</type>
-			<location>D:/iotprj/appsample</location>
+			<location>D:/iotprj/espt/appsample</location>
 		</link>
 		<link>
 			<name>lv_drivers</name>
 			<type>2</type>
-			<location>D:/iotprj/packages/pc_simulator_sdl_eclipse/lv_drivers</location>
+			<location>D:/iotprj/espt/packages/pc_simulator_sdl_eclipse/lv_drivers</location>
 		</link>
 		<link>
 			<name>lvgl</name>
 			<type>2</type>
-			<location>D:/iotprj/packages/lvgl</location>
+			<location>D:/iotprj/espt/packages/lvgl</location>
 		</link>
 		<link>
 			<name>mongoose_lib</name>
 			<type>2</type>
-			<location>D:/iotprj/packages/mongoose_lib</location>
+			<location>D:/iotprj/espt/packages/mongoose_lib</location>
 		</link>
 		<link>
 			<name>wrpbase</name>
 			<type>2</type>
-			<location>D:/iotprj/wrpbase</location>
+			<location>D:/iotprj/espt/wrpbase</location>
 		</link>
 	</linkedResources>
 </projectDescription>

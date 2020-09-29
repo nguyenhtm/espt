@@ -34,3 +34,4 @@ fi
 # if [ -d "${HOME}/info" ]; then
 #   INFOPATH="${HOME}/info:${INFOPATH}"
 # fi
+export IDF_PATH="D:/iotprj/espt/packages/esp-idf"

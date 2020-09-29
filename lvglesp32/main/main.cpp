@@ -6,6 +6,7 @@
  ********************************************************************************************************/
 #include "appsample/appdefines.hpp"
 #include "appcluster/clusterapp.hpp"
+#include "wrpbase/wrptest/wrptest.hpp"
 
 /********************************************************************************************************
  * VARIABLES
@@ -18,9 +19,7 @@ extern "C" void app_main();
 
 void app_main()
 {
-	/*
-	 * This function is for ESP32 Wrover V3.0 which includes LCD
-	 */
-	//appsample();
-	appcluster();
+	appsample();
+   //appcluster();
+	WrpTest::GuiTestApp();
 }

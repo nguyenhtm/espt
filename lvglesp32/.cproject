@@ -48,7 +48,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="appsample|wrpmidw|wrphmi|wrpsamples|wrpbase|wrpgui" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="appsample|wrpmidw|wrphmi|wrpsamples|wrpbase|wrpgui|appcluster" flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>

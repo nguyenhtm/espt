@@ -73,3 +73,14 @@ git pull
 cd iotprj/espt/
 git pull
 exit
+exit
+cd /d
+cd iotprj/espt/
+git fetch
+git pull
+git rebase
+git gui
+exit
+cd /d
+D:/iotprj/espt/buildtools/msys32/mingw32/bin/python.exe -m pip install --user -r D:/iotprj/espt/packages/esp-idf\\requirements.txt
+exit

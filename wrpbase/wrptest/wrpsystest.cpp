@@ -97,7 +97,7 @@ void WrpNetworkTest()
    WRPPRINT("%s\n", "WrpNetworkTest() End");
 }
 
-void WrpSysTest(void)
+void SysTestApp(void)
 {
    WRPPRINT("%s\n", "WrpSysTest() Begin");
    WrpStorageTest();

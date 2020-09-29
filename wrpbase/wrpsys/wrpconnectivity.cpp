@@ -12,10 +12,54 @@ namespace WrpConnectivity{
 /********************************************************************************************************
  * VARIABLES
  ********************************************************************************************************/
+#if USE_ESP_IDF
+#define WRPESP_WIFI_CONNECTED_BIT  BIT0
+
+static EventGroupHandle_t g_EventGroup = xEventGroupCreate();
+#endif
 
 /********************************************************************************************************
  * FUNCTIONS - WrpWifiStation
  ********************************************************************************************************/
+#if USE_ESP_IDF
+// legacy event loop: events from Wifi driver, Ethernet driver, and TCP/IP stack were dispatched
+esp_err_t LegacyEventHandler(void *ctx, system_event_t *event)
+{
+	//WRPPRINT("WrpBase:%s\n", "WrpSysNetwork::LegacyEventHandler() Called");
+    switch(event->event_id)
+    {
+		case SYSTEM_EVENT_STA_START:
+		{
+			WRPPRINT("WrpBase:%s\n", "WrpSysNetwork::LegacyEventHandler() Wifi Connecting");
+			esp_wifi_connect();
+			//gNetworkStatus = NETWORK_STATUS_CONNECTING;
+			break;
+		}
+		case SYSTEM_EVENT_STA_GOT_IP:
+		{
+			WRPPRINT("WrpBase:%s%s\n", "WrpSysNetwork::LegacyEventHandler() Got IP:", ip4addr_ntoa(&event->event_info.got_ip.ip_info.ip));
+			xEventGroupSetBits(g_EventGroup, WRPESP_WIFI_CONNECTED_BIT);
+			//gNetworkStatus = NETWORK_STATUS_CONNECTED;
+			break;
+		}
+		case SYSTEM_EVENT_STA_DISCONNECTED:
+		{
+			WRPPRINT("WrpBase:%s\n", "WrpSysNetwork::LegacyEventHandler() Disconnected!");
+			esp_wifi_connect();
+			xEventGroupClearBits(g_EventGroup, WRPESP_WIFI_CONNECTED_BIT);
+			//gNetworkStatus = NETWORK_STATUS_NOTCONNECTED;
+			break;
+		}
+		default:
+		{
+			//WRPPRINT("WrpBase:%s\n", "WrpSysNetwork::LegacyEventHandler() Unknown!");
+			break;
+		}
+    }
+    return ESP_OK;
+}
+#endif
+
 WrpWifiStation::WrpWifiStation()
 {
    WRPPRINT("%s\n", "WrpWifiStation::WrpWifiStation() Begin");

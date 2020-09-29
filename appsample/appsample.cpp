@@ -48,7 +48,7 @@ void appsample()
    app.GetHmiInstance()->LoadScreen(&meter);
    meter.RunSpeedMeter(360);
    meter.RunSpeedMeter(20);
-
+#ifndef USE_ESP_IDF
    SDL_Event e;
    while(1)
    {
@@ -57,4 +57,7 @@ void appsample()
             break;
       }
    }
+#else
+   while(1){}
+#endif
 }
