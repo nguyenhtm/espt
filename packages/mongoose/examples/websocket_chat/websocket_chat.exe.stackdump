@@ -1,0 +1,10 @@
+Exception: STATUS_ACCESS_VIOLATION at eip=0040B9F4
+eax=00000000 ebx=0065CC7C ecx=00418267 edx=00000005 esi=612D390A edi=0065CD64
+ebp=0065CC08 esp=0065CC08 program=D:\iotprj\packages\mongoose\examples\websocket_chat\websocket_chat.exe, pid 16052, thread main
+cs=0023 ds=002B es=002B fs=0053 gs=002B ss=002B
+Stack trace:
+Frame     Function  Args
+0065CC08  0040B9F4 (00000000, 0041A4C0, 00415EDD, 00010000)
+0065CC58  004160C3 (00000001, 0065CC7C, 200000D0, 61009E40)
+0065CD08  61009EA2 (00000000, 0065CD64, 61008DC0, 00000000)
+End of stack trace

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title>Hello</title>
+   <meta charset="utf-8" />
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+   <style type="text/css">
+      body {
+         background-color: #789; margin: 0;
+         padding: 0; font: 14px Helvetica, Arial, sans-serif;
+      }
+      div.content {
+         width: 700px; margin: 2em auto; padding: 20px 50px;
+         background-color: #fff; border-radius: 0em;
+      }
+      #messages {
+         border: 2px solid #fec; border-radius: 0em;
+         height: 100px; overflow: scroll; padding: 0.5em 1em;
+      }
+      a:link, a:visited { color: #69c; text-decoration: none; }
+      @media (max-width: 700px) {
+         body { background-color: #fff; }
+         div.content {
+            width: auto; margin: 0 auto; border-radius: 0;
+            padding: 1em;
+         }
+      }
+   </style>
+
+   <script language="javascript" type="text/javascript">
+      var ws = new WebSocket('ws://' + location.host + '/ws');
+
+      window.onload = function() {
+         document.getElementById('send_button').onclick = function(ev) {
+            var msg = document.getElementById('send_input').value;
+            document.getElementById('send_input').value = '';
+            ws.send(msg);
+         };
+         document.getElementById('send_input').onkeypress = function(ev) {
+            if (ev.keyCode == 13 || ev.which == 13) {
+               document.getElementById('send_button').click();
+            };
+         };
+         document.getElementById('style1').onclick = function(ev) {
+            ws.send('SCREEN_PLAIN_COLOR');
+         };
+         document.getElementById('style2').onclick = function(ev) {
+            ws.send('SCREEN_PRETTY');
+         };
+         document.getElementById('style3').onclick = function(ev) {
+            ws.send('SCREEN_PRETTY_COLOR');
+         };
+         document.getElementById('style4').onclick = function(ev) {
+            ws.send('BUTTON_PRESS');
+         };
+         document.getElementById('style5').onclick = function(ev) {
+            ws.send('BUTTON_RELEASE');
+         };
+         document.getElementById('style6').onclick = function(ev) {
+            ws.send('BUTTON_TGL_RELEASE');
+         };
+         document.getElementById('style7').onclick = function(ev) {
+            ws.send('BUTTON_TGL_PRESS');
+         };
+         document.getElementById('setting').onclick = function(ev) {
+            ws.send('setting');
+         };
+         document.getElementById('diagnosis').onclick = function(ev) {
+            ws.send('diagnosis');
+         };
+         document.getElementById('autotest').onclick = function(ev) {
+            ws.send('cflow');
+         };
+         document.getElementById('back').onclick = function(ev) {
+            ws.send('back');
+         };
+         document.getElementById('shutdown').onclick = function(ev) {
+            ws.send('shutdown');
+         };
+      };
+
+      var final_transcript = '';
+      var recognizing = false;
+      var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      var recognition = new SpeechRecognition();
+
+      //var recognition = new webkitSpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'vi';
+
+      recognition.onstart = function() {
+         recognizing = true;
+      };
+
+      recognition.onerror = function(event) {
+      };
+
+      recognition.onend = function() {
+         recognizing = false;
+      };
+
+      recognition.onresult = function(event) {
+         var interim_transcript = '';
+         for (var i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+               final_transcript = event.results[i][0].transcript;
+            } else {
+               interim_transcript += event.results[i][0].transcript;
+            }
+         }
+         var two_line = /\n\n/g;
+         var one_line = /\n/g;
+         final_transcript.replace(two_line, '');
+         final_transcript.replace(one_line, '');
+         final_span.innerHTML = final_transcript;
+
+         if(final_transcript.toLowerCase() == ' mắm tôm') {
+            ws.send('cflow');
+         }
+         if(final_transcript.toLowerCase() == ' một') {
+            ws.send('cflow1');
+         }
+         if(final_transcript.toLowerCase() == ' hai') {
+            ws.send('cflow2');
+         }
+         if(final_transcript.toLowerCase() == ' tôm hùm') {
+            ws.send('cflow3');
+         }
+         if (final_transcript.toLowerCase() == ' thịt chó') {
+            ws.send('cflow4');
+         }
+         if (final_transcript.toLowerCase() == ' rực rỡ') {
+            ws.send('cflow5');
+         }
+
+         final_transcript='';
+      };
+
+      function startButton(event) {
+         if (recognizing) {
+            recognition.stop();
+            return;
+      }
+      final_transcript = '';
+      recognition.start();
+      final_span.innerHTML = '';
+      interim_span.innerHTML = '';
+   }
+
+</script>
+</head>
+
+<body>
+
+   <div class="content">
+      <div>
+        <button onclick="startButton(event)"><img src="mic.gif" height="40" width="40"></button>
+      </div>
+      <div id="results">
+        <span id="final_span" class="final"></span>
+        <span id="interim_span" class="interim"></span>
+      </div>
+      <p>
+      <table width="320" height="240" background="./def01background.png">
+         <tr><td><img id="shutdown"    src="def01home.png" width="30" height="30" onlick="function()"></td></tr>
+         <tr><td><img id="application" src="def01app.png" width="30" height="30" onlick="function()"></td></tr>
+         <tr><td><img id="setting"     src="def01setting.png" width="30" height="30" onlick="function()"></td></tr>
+         <tr><td><img id="diagnosis"   src="def01diagnosis.png" width="30" height="30" onlick="function()"></td></tr>
+         <tr><td><img id="autotest"    src="def01autotest.png" width="30" height="30" onlick="function()"></td></tr>
+         <tr><td><img id="back"        src="back.png" width="30" height="30" onlick="function()"></td></tr>
+      </table>
+      <table style="width:100%" border="1">
+         <tr>
+            <th align="left" width="312" height="10"><h1>CLI</h1></th>
+            <th align="left"><h1>OTA</h1></th>
+         </tr>
+         <tr>
+            <td> <p> <input type="text" id="send_input"/> <button id="send_button">Send Message</button> </p> </td>
+            <td> <p> Select a file: <input type="file" name="myFile"> </p></td> 
+         </tr>
+      </table>
+      <div class="container">
+         <button id="style1"><img src="SCREEN_PLAIN_COLOR.png" width="25" height="25"></button>
+         <button id="style2"><img src="SCREEN_PRETTY.png" width="25" height="25"></button>
+         <button id="style3"><img src="SCREEN_PLAIN_COLOR.png" width="25" height="25"></button>
+         <button id="style4"><img src="BUTTON_PRESS.png" width="25" height="25"></button>
+         <button id="style5"><img src="BUTTON_RELEASE.png" width="25" height="25"></button>
+         <button id="style6"><img src="BUTTON_TGL_RELEASE.png" width="25" height="25"></button>
+         <button id="style7"><img src="BUTTON_TGL_PRESS.png" width="25" height="25"></button>
+      </div>
+   </div>
+
+</body>
+</html>
