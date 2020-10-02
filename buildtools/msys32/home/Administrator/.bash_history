@@ -84,3 +84,24 @@ exit
 cd /d
 D:/iotprj/espt/buildtools/msys32/mingw32/bin/python.exe -m pip install --user -r D:/iotprj/espt/packages/esp-idf\\requirements.txt
 exit
+echo $HOME
+echo $IDF_PATH
+export IDF_PATH="D:/iotprj/packages/esp-idf"' >> $HOME/.bash_profile
+
+exit
+close
+echo 'export IDF_PATH="D:/iotprj/packages/esp-idf"' >> $HOME/.bash_profile
+echo $IDF_PATH
+cd /d/iotprj/espt/
+dir
+ls
+cd lvglesp32/
+make menuconfig
+cd /d/iotprj/espt
+cd lvglesp32/
+make monitor
+make all
+make flash
+make monitor
+make monitor
+exit

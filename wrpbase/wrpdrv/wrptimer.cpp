@@ -5,8 +5,7 @@
  *
  ********************************************************************************************************/
 #include "wrptimer.hpp"
-#include "wrpbase/wrpgui/wrpdisplay.hpp"
-#include "wrpbase/wrpsys/wrpsystem.hpp"
+#include "wrpbase/wrpbase.hpp"
 
 namespace WrpDrv {
 

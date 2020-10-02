@@ -10,7 +10,9 @@
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
+#if (LVGL_ESP32_ILI9341 || LVGL_PC_SIMU)
 #include "wrpbase/wrpgui/wrpgui.hpp"
+#endif
 #include "wrpbase/wrpsys/wrpsys.hpp"
 
 // c/c++ standard lib INCLUDES

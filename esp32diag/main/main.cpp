@@ -4,7 +4,7 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#include "wrpbase/wrptest/wrptest.hpp"
+#include "wrpbase/wrptest/wrpsystest.hpp"
 
 /********************************************************************************************************
  * VARIABLES
@@ -17,5 +17,5 @@ extern "C" void app_main();
 
 void app_main()
 {
-	WrpTest::WrpSysTest();
+	WrpTest::SysTestApp();
 }

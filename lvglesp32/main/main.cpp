@@ -6,7 +6,7 @@
  ********************************************************************************************************/
 #include "appsample/appdefines.hpp"
 #include "appcluster/clusterapp.hpp"
-#include "wrpbase/wrptest/wrptest.hpp"
+#include "wrpbase/wrptest/wrpguitest.hpp"
 
 /********************************************************************************************************
  * VARIABLES
@@ -21,5 +21,5 @@ void app_main()
 {
 	appsample();
    //appcluster();
-	WrpTest::GuiTestApp();
+	//WrpTest::GuiTestApp();
 }

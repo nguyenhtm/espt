@@ -1,4 +1,4 @@
-# ESP32 LVGL SampleApp Project Name
+# ESP32 LVGL AppCluster/AppSample Project Name
 PROJECT_NAME := lvglesp32
 
 #For C++ language flags
@@ -20,7 +20,7 @@ EXTRA_COMPONENT_DIRS += D:/iotprj/espt/wrpbase D:/iotprj/espt/wrpbase/wrpdrv D:/
 EXTRA_COMPONENT_DIRS += D:/iotprj/espt/wrpbase/wrpres D:/iotprj/espt/wrpbase/wrptest
 
 #Use appsample component
-EXTRA_COMPONENT_DIRS += D:/iotprj/espt/appsample D:/iotprj/espt/appcluster
+EXTRA_COMPONENT_DIRS += D:/iotprj/espt/appcluster D:/iotprj/espt/appsample
 
 #esp-idf platform makefile
 include $(IDF_PATH)/make/project.mk

@@ -4,7 +4,12 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#include "wrptest.hpp"
+#if (USE_ESP_IDF)
+
+/********************************************************************************************************
+ * INCLUDES
+ ********************************************************************************************************/
+#include "wrpsystest.hpp"
 #include "wrpbase/wrpsys/wrpstorage.hpp"
 #include "wrpbase/wrpsys/wrpnetwork.hpp"
 #include "wrpbase/wrpsys/wrpsystem.hpp"
@@ -106,6 +111,6 @@ void SysTestApp(void)
    WRPPRINT("%s\n", "WrpSysTest() End");
 }
 
-
-
 } /* Namespace WrpTest */
+
+#endif /* (USE_ESP_IDF) */

@@ -1,28 +1,22 @@
 /********************************************************************************************************
- * @File  : wrpsystest.hpp
+ * @File  : wrpguitest.hpp
  * @Date  : 2019-10-06
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef WRPTEST_WRPTEST_HPP
-#define WRPTEST_WRPTEST_HPP
+#ifndef WRPTEST_WRPGUITEST_HPP
+#define WRPTEST_WRPGUITEST_HPP
+
+#if (LVGL_ESP32_ILI9341 || LVGL_PC_SIMU)
 
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
-#include "wrpbase/wrpmidw/wrpmidwbuilder.hpp"
-#include "wrpbase/wrpsys/wrpstoragefactory.hpp"
-#include "wrpbase/wrphmi/wrphmi.hpp"
-
 #include "wrpbase/wrpgui/wrpscreen.hpp"
 #include "wrpbase/wrpgui/wrplabel.hpp"
 #include "wrpbase/wrpgui/wrpimage.hpp"
 
 namespace WrpTest {
-
-/********************************************************************************************************
- * INCLUDES
- ********************************************************************************************************/
 
 /********************************************************************************************************
  * DEFINES
@@ -31,7 +25,6 @@ namespace WrpTest {
 /********************************************************************************************************
  * FUNCTIONS
  ********************************************************************************************************/
-extern void SysTestApp();
 extern void GuiTestApp();
 
 /********************************************************************************************************
@@ -74,4 +67,6 @@ private:
 
 } /* Namespace WrpTest */
 
-#endif /* WRPTEST_WRPTEST_HPP */
+#endif /* (LVGL_ESP32_ILI9341 || LVGL_PC_SIMU) */
+
+#endif /* WRPTEST_WRPGUITEST_HPP */

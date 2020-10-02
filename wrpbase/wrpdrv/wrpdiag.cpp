@@ -5,6 +5,7 @@
  *
  ********************************************************************************************************/
 #include "wrpdiag.hpp"
+#include "wrpbase/wrpbase.hpp"
 #include "wrpbase/wrpdrv/wrptimer.hpp"
 #include "wrpbase/wrpdrv/wrpled.hpp"
 

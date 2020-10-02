@@ -5,6 +5,7 @@
  *
  ********************************************************************************************************/
 #include "wrpdrvfacade.hpp"
+#include "wrpbase/wrpbase.hpp"
 #include "wrpdiag.hpp"
 
 namespace WrpDrv {
