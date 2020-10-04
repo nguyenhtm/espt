@@ -4,7 +4,7 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#include "appdefines.hpp"
+#include "wrpbase/wrpbase.hpp"
 #include "cflowscreen.hpp"
 #include "wrpbase/wrpgui/wrpimage.hpp"
 
@@ -15,22 +15,22 @@
 /********************************************************************************************************
  * FUNCTIONS
  ********************************************************************************************************/
-CFlowScreenEx::CFlowScreenEx()
+CFlowScreen::CFlowScreen()
 : WrpGui::WrpScreen(false)
 , mpMenuItem() // initialize array of pointers to null
 , mpAnimItem()
 {
-   WRPPRINT("%s\n", "CFlowScreenEx::CFlowScreenEx() Begin");
-   WRPPRINT("%s\n", "CFlowScreenEx::CFlowScreenEx() End");
+   WRPPRINT("%s\n", "CFlowScreen::CFlowScreen() Begin");
+   WRPPRINT("%s\n", "CFlowScreen::CFlowScreen() End");
 }
-CFlowScreenEx::~CFlowScreenEx()
+CFlowScreen::~CFlowScreen()
 {
-   WRPPRINT("%s\n", "CFlowScreenEx::~CFlowScreenEx() Begin");
-   WRPPRINT("%s\n", "CFlowScreenEx::~CFlowScreenEx() End");
+   WRPPRINT("%s\n", "CFlowScreen::~CFlowScreen() Begin");
+   WRPPRINT("%s\n", "CFlowScreen::~CFlowScreen() End");
 }
-void CFlowScreenEx::CreateAndShow()
+void CFlowScreen::CreateAndShow()
 {
-   WRPPRINT("%s\n", "CFlowScreenEx::CreateAndShow() Begin");
+   WRPPRINT("%s\n", "CFlowScreen::CreateAndShow() Begin");
 
    // cflowscreen has a list of menu items to select each kind of cover flow
    mpMenuItem[0] = new WrpGui::WrpImage(this);
@@ -74,7 +74,7 @@ void CFlowScreenEx::CreateAndShow()
 
    WRPPRINT("%s\n", "CFlowScreenEx::CreateAndShow() End");
 }
-void CFlowScreenEx::HideAndDestroy()
+void CFlowScreen::HideAndDestroy()
 {
    WRPPRINT("%s\n", "CFlowScreenEx::HideAndDestroy() Begin");
    WRPNULL_CHECK(mpMenuItem[0])
@@ -89,7 +89,7 @@ void CFlowScreenEx::HideAndDestroy()
    }
    WRPPRINT("%s\n", "CFlowScreenEx::HideAndDestroy() End");
 }
-void CFlowScreenEx::ActiveScreen(const WrpScreen& obj)
+void CFlowScreen::ActiveScreen(const WrpScreen& obj)
 {
    WRPPRINT("%s%p:%p\n", "CFlowScreenEx::ActiveScreen() Begin ", &obj, this);
    if (this == &obj)
@@ -98,7 +98,7 @@ void CFlowScreenEx::ActiveScreen(const WrpScreen& obj)
    }
    WRPPRINT("%s\n", "CFlowScreenEx::ActiveScreen() End");
 }
-CFlowScreenEx::CFlowScreenEx(const CFlowScreenEx& cp)
+CFlowScreen::CFlowScreen(const CFlowScreen& cp)
 : WrpGui::WrpScreen(false)
 {
 }

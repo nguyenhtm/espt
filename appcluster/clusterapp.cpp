@@ -48,6 +48,7 @@ static void WrpThreadHmiApp(void* param)
 
 static void WrpGuiInit(void)
 {
+#if 0
    //ESP32 target need to initialize NVS before using LVGL library
    WrpSys::Storage::InitNVS(); // must 1st initialization
    WrpSys::Network::InitWifiStation();
@@ -58,6 +59,7 @@ static void WrpGuiInit(void)
    {
       WRPPRINT("%s\n", "WrpGuiInit() WrpCreateThread Failed!");
    }
+#endif
 }
 
 lv_obj_t*   mpCanvasNeedle = NULL;

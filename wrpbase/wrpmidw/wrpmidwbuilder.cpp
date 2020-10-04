@@ -5,67 +5,12 @@
  *
  ********************************************************************************************************/
 #include "wrpmidwbuilder.hpp"
+#include "wrpbase/wrpsys/wrpstoragefactory.hpp"
+#include "wrpbase/wrpsys/wrpconnectivity.hpp"
 
 /********************************************************************************************************
  * VARIABLES
  ********************************************************************************************************/
-
-/********************************************************************************************************
- * FUNCTIONS - WrpMidw
- ********************************************************************************************************/
-WrpMidw::WrpMidw()
-: mpStorage(NULL)
-, mpConnectivity(NULL)
-, mpDisplay(NULL)
-{
-   WRPPRINT("%s\n", "WrpMidw::WrpMidw() Begin");
-   WRPPRINT("%s\n", "WrpMidw::WrpMidw() End");
-}
-WrpMidw::~WrpMidw()
-{
-   WRPPRINT("%s\n", "WrpMidw::~WrpMidw() Begin");
-   WRPPRINT("%s\n", "WrpMidw::~WrpMidw() End");
-}
-void WrpMidw::SetStorage(WrpSys::WrpStorage::WrpStorage* storage)
-{
-   mpStorage = storage;
-}
-WrpSys::WrpStorage::WrpStorage* WrpMidw::GetStorage() const
-{
-   return mpStorage;
-}
-void WrpMidw::SetConnectivity(WrpSys::WrpConnectivity::WrpConnectivity* connectivity)
-{
-   mpConnectivity = connectivity;
-}
-WrpSys::WrpConnectivity::WrpConnectivity* WrpMidw::GetConnectivity() const
-{
-   return mpConnectivity;
-}
-void WrpMidw::SetDisplay(WrpSys::WrpDisplay::WrpDisplay* display)
-{
-   mpDisplay = display;
-}
-WrpSys::WrpDisplay::WrpDisplay* WrpMidw::GetDisplay() const
-{
-   return mpDisplay;
-}
-void WrpMidw::DeInitialize()
-{
-   WRPPRINT("%s\n", "WrpMidw::DeInitialize() Begin");
-   //WRPNULL_CHECK(mpDisplay)
-   //mpDisplay->DeInitialize();
-   //delete mpDisplay;
-
-   WRPNULL_CHECK(mpConnectivity)
-   mpConnectivity->DeInitialize();
-   delete mpConnectivity;
-
-   WRPNULL_CHECK(mpStorage)
-   mpStorage->DeInitialize();
-   delete mpStorage;
-   WRPPRINT("%s\n", "WrpMidw::DeInitialize() End");
-}
 
 /********************************************************************************************************
  * FUNCTIONS - WrpMidwBuilder
@@ -90,15 +35,14 @@ void WrpMidwBuilder::BuildConnectivity()
    WRPPRINT("%s\n", "WrpMidwBuilder::BuildConnectivity() Begin");
    WRPPRINT("%s\n", "WrpMidwBuilder::BuildConnectivity() End");
 }
-void WrpMidwBuilder::BuildDisplay()
-{
-   WRPPRINT("%s\n", "WrpMidwBuilder::BuildDisplay() Begin");
-   WRPPRINT("%s\n", "WrpMidwBuilder::BuildDisplay() End");
-}
 void WrpMidwBuilder::BuildSystem()
 {
    WRPPRINT("%s\n", "WrpMidwBuilder::BuildSystem() Begin");
    WRPPRINT("%s\n", "WrpMidwBuilder::BuildSystem() End");
+}
+WrpMidw* WrpMidwBuilder::GetMidw() const
+{
+   return NULL;
 }
 WrpMidwBuilder::WrpMidwBuilder(const WrpMidwBuilder& cp)
 {
@@ -107,20 +51,21 @@ WrpMidwBuilder::WrpMidwBuilder(const WrpMidwBuilder& cp)
 /********************************************************************************************************
  * FUNCTIONS - WrpSimpleMidwBuilder
  ********************************************************************************************************/
-WrpSysMidwBuilder::WrpSysMidwBuilder()
-: mpMidw(NULL)
+WrpSimpleMidwBuilder::WrpSimpleMidwBuilder()
+: WrpMidwBuilder()
+, mpMidw(NULL)
 {
    WRPPRINT("%s\n", "WrpSimpleMidwBuilder::WrpSimpleMidwBuilder() Begin");
    mpMidw = new WrpMidw;
    WRPPRINT("%s\n", "WrpSimpleMidwBuilder::WrpSimpleMidwBuilder() End");
 }
-WrpSysMidwBuilder::~WrpSysMidwBuilder()
+WrpSimpleMidwBuilder::~WrpSimpleMidwBuilder()
 {
    WRPPRINT("%s\n", "WrpSimpleMidwBuilder::~WrpSimpleMidwBuilder() Begin");
    delete mpMidw;
    WRPPRINT("%s\n", "WrpSimpleMidwBuilder::~WrpSimpleMidwBuilder() End");
 }
-void WrpSysMidwBuilder::BuildStorage()
+void WrpSimpleMidwBuilder::BuildStorage()
 {
    WRPPRINT("%s\n", "WrpSimpleMidwBuilder::BuildStorage() Begin");
 #if USE_ESP_IDF
@@ -133,7 +78,7 @@ void WrpSysMidwBuilder::BuildStorage()
    mpMidw->SetStorage(storage);
    WRPPRINT("%s\n", "SimpleWrpMidwBuilder::BuildStorage() End");
 }
-void WrpSysMidwBuilder::BuildConnectivity()
+void WrpSimpleMidwBuilder::BuildConnectivity()
 {
    WRPPRINT("%s\n", "SimpleWrpMidwBuilder::BuildConnectivity() Begin");
    WrpSys::WrpConnectivity::WrpConnectivity* connectivity = new WrpSys::WrpConnectivity::WrpConnectivity;
@@ -141,34 +86,36 @@ void WrpSysMidwBuilder::BuildConnectivity()
    mpMidw->SetConnectivity(connectivity);
    WRPPRINT("%s\n", "SimpleWrpMidwBuilder::BuildConnectivity() End");
 }
-WrpMidw* WrpSysMidwBuilder::GetMidw() const
+WrpMidw* WrpSimpleMidwBuilder::GetMidw() const
 {
    return mpMidw;
 }
-WrpSysMidwBuilder::WrpSysMidwBuilder(const WrpSysMidwBuilder& cp)
-: mpMidw(NULL)
+WrpSimpleMidwBuilder::WrpSimpleMidwBuilder(const WrpSimpleMidwBuilder& cp)
+: WrpMidwBuilder()
+, mpMidw(NULL)
 {
 }
 
 /********************************************************************************************************
- * FUNCTIONS - WrpGuiMidwBuilder
+ * FUNCTIONS - WrpStandardMidwBuilder
  ********************************************************************************************************/
-WrpGuiMidwBuilder::WrpGuiMidwBuilder()
-: mpMidw(NULL)
+WrpStandardMidwBuilder::WrpStandardMidwBuilder()
+: WrpMidwBuilder()
+, mpMidw(NULL)
 {
-   WRPPRINT("%s\n", "WrpGuiMidwBuilder::WrpGuiMidwBuilder() Begin");
+   WRPPRINT("%s\n", "WrpStandardMidwBuilder::WrpStandardMidwBuilder() Begin");
    mpMidw = new WrpMidw;
-   WRPPRINT("%s\n", "WrpGuiMidwBuilder::WrpGuiMidwBuilder() End");
+   WRPPRINT("%s\n", "WrpStandardMidwBuilder::WrpStandardMidwBuilder() End");
 }
-WrpGuiMidwBuilder::~WrpGuiMidwBuilder()
+WrpStandardMidwBuilder::~WrpStandardMidwBuilder()
 {
-   WRPPRINT("%s\n", "WrpGuiMidwBuilder::~WrpGuiMidwBuilder() Begin");
+   WRPPRINT("%s\n", "WrpStandardMidwBuilder::~WrpGuiMidwBuilder() Begin");
    delete mpMidw;
-   WRPPRINT("%s\n", "WrpGuiMidwBuilder::~WrpGuiMidwBuilder() End");
+   WRPPRINT("%s\n", "WrpStandardMidwBuilder::~WrpGuiMidwBuilder() End");
 }
-void WrpGuiMidwBuilder::BuildStorage()
+void WrpStandardMidwBuilder::BuildStorage()
 {
-   WRPPRINT("%s\n", "WrpGuiMidwBuilder::BuildStorage() Begin");
+   WRPPRINT("%s\n", "WrpStandardMidwBuilder::BuildStorage() Begin");
 #if USE_ESP_IDF
    WrpSys::WrpStorage::WrpEspStorage factory;
 #elif LVGL_PC_SIMU
@@ -177,34 +124,27 @@ void WrpGuiMidwBuilder::BuildStorage()
    WrpSys::WrpStorage::WrpStorage* storage = new WrpSys::WrpStorage::WrpStorage;
    storage->Initialize(factory);
    mpMidw->SetStorage(storage);
-   WRPPRINT("%s\n", "WrpGuiMidwBuilder::BuildStorage() End");
+   WRPPRINT("%s\n", "WrpStandardMidwBuilder::BuildStorage() End");
 }
-void WrpGuiMidwBuilder::BuildConnectivity()
+void WrpStandardMidwBuilder::BuildConnectivity()
 {
-   WRPPRINT("%s\n", "WrpGuiMidwBuilder::BuildConnectivity() Begin");
+   WRPPRINT("%s\n", "WrpStandardMidwBuilder::BuildConnectivity() Begin");
    WrpSys::WrpConnectivity::WrpConnectivity* connectivity = new WrpSys::WrpConnectivity::WrpConnectivity;
    connectivity->Initialize();
    mpMidw->SetConnectivity(connectivity);
    WRPPRINT("%s\n", "WrpGuiMidwBuilder::BuildConnectivity() End");
 }
-void WrpGuiMidwBuilder::BuildDisplay()
+void WrpStandardMidwBuilder::BuildSystem()
 {
-   WRPPRINT("%s\n", "WrpGuiMidwBuilder::BuildDisplay() Begin");
-   WrpSys::WrpDisplay::WrpDisplay* display = new WrpSys::WrpDisplay::WrpDisplay;
-   display->Initialize();
-   mpMidw->SetDisplay(display);
-   WRPPRINT("%s\n", "WrpGuiMidwBuilder::BuildDisplay() End");
-}
-void WrpGuiMidwBuilder::BuildSystem()
-{
-   WRPPRINT("%s\n", "WrpGuiMidwBuilder::BuildSystem() Begin");
+   WRPPRINT("%s\n", "WrpStandardMidwBuilder::BuildSystem() Begin");
    WRPPRINT("%s\n", "WrpGuiMidwBuilder::BuildSystem() End");
 }
-WrpMidw* WrpGuiMidwBuilder::GetMidw() const
+WrpMidw* WrpStandardMidwBuilder::GetMidw() const
 {
    return mpMidw;
 }
-WrpGuiMidwBuilder::WrpGuiMidwBuilder(const WrpGuiMidwBuilder& cp)
-: mpMidw(NULL)
+WrpStandardMidwBuilder::WrpStandardMidwBuilder(const WrpStandardMidwBuilder& cp)
+: WrpMidwBuilder()
+, mpMidw(NULL)
 {
 }

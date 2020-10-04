@@ -10,7 +10,7 @@
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
-#include "wrpbase/wrpbase.hpp"
+//#include "wrpbase/wrpbase.hpp"
 #include "wrpbase/wrpsys/wrpsystem.hpp"
 #include "wrpbase/wrpgui/wrpscreen.hpp"
 
@@ -66,7 +66,6 @@ private:
    WrpHmiLvgl(const WrpHmiLvgl& cp);
    // methods
    static void  ThreadWrpHmi(void* param);
-
    // members
 };
 

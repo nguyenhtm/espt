@@ -71,5 +71,5 @@ void PrintChipInfo()
    WRPPRINT("%s\n", "WrpSys::System::PrintChipInfo() End");
 }
 
-} /* Namespace Storage */
+} /* Namespace System */
 } /* Namespace WrpSys */

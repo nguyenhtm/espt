@@ -1,12 +1,11 @@
 /********************************************************************************************************
- * @File  : diagscreen.cpp
+ * @File  : speedometer.cpp
  * @Date  : 2019-10-06
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#include "speedometer.hpp"
-#include "appdefines.hpp"
 #include "wrpbase/wrpbase.hpp"
+#include "speedometer.hpp"
 #include "wrpbase/wrpgui/wrplabel.hpp"
 #include "wrpbase/wrpgui/wrpimage.hpp"
 
@@ -63,7 +62,7 @@ void Speedometer::HideAndDestroy()
    mCanvasBufSize = 0;
    WRPPRINT("%s\n", "LoadingScreenEx::HideAndDestroy() End");
 }
-void Speedometer::ActiveScreen(const WrpScreen& obj)
+void Speedometer::ActiveScreen(const WrpGui::WrpScreen& obj)
 {
    WRPPRINT("%s%p:%p\n", "Speedometer::ActiveScreen() Begin ", &obj, this);
    if (this == &obj)

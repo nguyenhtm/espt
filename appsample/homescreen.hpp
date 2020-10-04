@@ -10,9 +10,7 @@
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
-#include "wrpbase/wrphmi/wrphmiapp.hpp"
-#include "wrpbase/wrpmidw/wrpmidwapp.hpp"
-#include "wrpbase/wrphmi/wrphmiscreen.hpp"
+#include "wrpbase/wrpgui/wrpscreen.hpp"
 #include "wrpbase/wrpgui/wrpanim.hpp"
 
 /********************************************************************************************************
@@ -22,17 +20,17 @@
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
-class HomeScreenEx : public WrpGui::WrpScreen
+class HomeScreen : public WrpGui::WrpScreen
 {
 public:
    /*
     * Constructor
     */
-	HomeScreenEx();
+	HomeScreen();
    /*
     * Destructor
     */
-   ~HomeScreenEx();
+   ~HomeScreen();
    /*
     * Call back function called on a WrpHmiObserver screen creation
     */
@@ -44,13 +42,13 @@ public:
    /*
     * Call back function called on a WrpHmiObserver screen active
     */
-   void ActiveScreen(const WrpScreen& obj);
+   void ActiveScreen(const WrpGui::WrpScreen& obj);
 
 private:
    /*
     * Default constructor
     */
-   HomeScreenEx(const HomeScreenEx& cp);
+   HomeScreen(const HomeScreen& cp);
    // members
    WrpGui::WrpImage* mpLogo;
    WrpGui::WrpImage* mpMenuItem[3];

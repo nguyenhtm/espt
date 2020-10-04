@@ -4,9 +4,9 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#include "appsample/appdefines.hpp"
+#include "appsample/sampleapp.hpp"
 #include "appcluster/clusterapp.hpp"
-#include "wrpbase/wrptest/wrpguitest.hpp"
+#include "wrpbase/wrptest/wrptesthmi/wrptesthmi.hpp"
 
 /********************************************************************************************************
  * VARIABLES
@@ -19,7 +19,7 @@ extern "C" void app_main();
 
 void app_main()
 {
-	appsample();
+   //appsample();
    //appcluster();
-	//WrpTest::GuiTestApp();
+	WrpTest::WrpTestHmi();
 }

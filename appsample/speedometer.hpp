@@ -10,9 +10,7 @@
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
-#include "wrpbase/wrphmi/wrphmiapp.hpp"
-#include "wrpbase/wrphmi/wrphmiscreen.hpp"
-#include "wrpbase/wrpmidw/wrpmidwapp.hpp"
+#include "wrpbase/wrpgui/wrpscreen.hpp"
 
 /********************************************************************************************************
  * DEFINES
@@ -22,8 +20,8 @@
  * CLASSES
  ********************************************************************************************************/
 // Forward classes
-class WrpGui::WrpLabel;
-class WrpGui::WrpImage;
+//class WrpGui::WrpLabel;
+//class WrpGui::WrpImage;
 
 class Speedometer : public WrpGui::WrpScreen
 {
@@ -47,7 +45,7 @@ public:
    /*
     * Call back function called on a WrpHmiObserver screen active
     */
-   void ActiveScreen(const WrpScreen& obj);
+   void ActiveScreen(const WrpGui::WrpScreen& obj);
    void RunSpeedMeter(const uint16_t km);
 private:
    /*

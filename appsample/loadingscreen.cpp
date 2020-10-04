@@ -4,7 +4,7 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#include "appdefines.hpp"
+#include "wrpbase/wrpbase.hpp"
 #include "loadingscreen.hpp"
 #include "wrpbase/wrpgui/wrplabel.hpp"
 
@@ -15,44 +15,44 @@
 /********************************************************************************************************
  * FUNCTIONS - LoadingScreenEx
  ********************************************************************************************************/
-LoadingScreenEx::LoadingScreenEx()
+LoadingScreen::LoadingScreen()
 : WrpGui::WrpScreen(true)
 , mpLblLoadingStatus(NULL)
 {
-   WRPPRINT("%s\n", "LoadingScreenEx::LoadingScreenEx() Begin");
-   WRPPRINT("%s\n", "LoadingScreenEx::LoadingScreenEx() End");
+   WRPPRINT("%s\n", "LoadingScreen::LoadingScreen() Begin");
+   WRPPRINT("%s\n", "LoadingScreen::LoadingScreen() End");
 }
-LoadingScreenEx::~LoadingScreenEx()
+LoadingScreen::~LoadingScreen()
 {
-   WRPPRINT("%s\n", "LoadingScreenEx::~LoadingScreenEx() Begin");
-   WRPPRINT("%s\n", "LoadingScreenEx::~LoadingScreenEx() End");
+   WRPPRINT("%s\n", "LoadingScreen::~LoadingScreen() Begin");
+   WRPPRINT("%s\n", "LoadingScreen::~LoadingScreen() End");
 }
-void LoadingScreenEx::CreateAndShow()
+void LoadingScreen::CreateAndShow()
 {
-   WRPPRINT("%s\n", "LoadingScreenEx::CreateAndShow() Begin");
+   WRPPRINT("%s\n", "LoadingScreen::CreateAndShow() Begin");
    mpLblLoadingStatus = new WrpGui::WrpLabel(this);
    mpLblLoadingStatus->SetText("Loading...");
    mpLblLoadingStatus->SetPos(50, 90);
-   WRPPRINT("%s\n", "LoadingScreenEx::CreateAndShow() End");
+   WRPPRINT("%s\n", "LoadingScreen::CreateAndShow() End");
 }
-void LoadingScreenEx::HideAndDestroy()
+void LoadingScreen::HideAndDestroy()
 {
-   WRPPRINT("%s\n", "LoadingScreenEx::HideAndDestroy() Begin");
+   WRPPRINT("%s\n", "LoadingScreen::HideAndDestroy() Begin");
    WRPNULL_CHECK(mpLblLoadingStatus)
    delete mpLblLoadingStatus;
    mpLblLoadingStatus = NULL;
-   WRPPRINT("%s\n", "LoadingScreenEx::HideAndDestroy() End");
+   WRPPRINT("%s\n", "LoadingScreen::HideAndDestroy() End");
 }
-void LoadingScreenEx::ActiveScreen(const WrpScreen& obj)
+void LoadingScreen::ActiveScreen(const WrpGui::WrpScreen& obj)
 {
-   WRPPRINT("%s%p:%p\n", "TestScreen::ActiveScreen() Begin ", &obj, this);
+   WRPPRINT("%s%p:%p\n", "LoadingScreen::ActiveScreen() Begin ", &obj, this);
    if (this == &obj)
    {
       WrpScreen::Load();
    }
-   WRPPRINT("%s\n", "TestScreen::ActiveScreen() End");
+   WRPPRINT("%s\n", "LoadingScreen::ActiveScreen() End");
 }
-LoadingScreenEx::LoadingScreenEx(const LoadingScreenEx& cp)
+LoadingScreen::LoadingScreen(const LoadingScreen& cp)
 : WrpGui::WrpScreen(true)
 , mpLblLoadingStatus(NULL)
 {

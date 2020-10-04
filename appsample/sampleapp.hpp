@@ -1,6 +1,6 @@
 /********************************************************************************************************
- * @File  : sampleapp.hpp
- * @Date  : 2020-02-08
+ * @File  : appdefines.hpp
+ * @Date  : 2019-10-06
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
@@ -10,67 +10,18 @@
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
-#include "wrpbase/wrpbase.hpp"
-#include "wrpbase/wrpmidw/wrpmidwapp.hpp"
-#include "wrpbase/wrphmi/wrphmiscreen.hpp"
 
 /********************************************************************************************************
  * DEFINES
  ********************************************************************************************************/
+#define HOMESCREEN      0x01
+#define LOADINGSCREEN   0x02
+#define DIAGNOSISSCREEN 0x03
+#define CFLOWSCREEN     0x04
 
 /********************************************************************************************************
- * CLASSES
+ * FUNCTIONS
  ********************************************************************************************************/
-class SampleAppCommand
-{
-public:
-   SampleAppCommand();
-   virtual ~SampleAppCommand();
-   virtual void Execute() const = 0;
-
-private:
-   SampleAppCommand(const SampleAppCommand& cp);
-};
-
-class ScreenManagerOnCommand : public SampleAppCommand
-{
-public:
-   ScreenManagerOnCommand(WrpScreenManager* pScreenManager);
-   ~ScreenManagerOnCommand();
-   void Execute() const;
-
-private:
-   ScreenManagerOnCommand();
-   ScreenManagerOnCommand(const ScreenManagerOnCommand& cp);
-   // members
-   WrpScreenManager* mpScreenManager;
-};
-
-class ServiceManagerOnCommand : public SampleAppCommand
-{
-public:
-   ServiceManagerOnCommand(WrpServiceManager* pServiceManager);
-   ~ServiceManagerOnCommand();
-   void Execute() const;
-
-private:
-   ServiceManagerOnCommand();
-   ServiceManagerOnCommand(const ServiceManagerOnCommand& cp);
-   // members
-   WrpServiceManager* mpServiceManager;
-};
-
-class SampleAppInvoker
-{
-public:
-   SampleAppInvoker();
-   ~SampleAppInvoker();
-   void ExecuteCommand(SampleAppCommand* pCommand);
-
-private:
-   SampleAppInvoker(const SampleAppInvoker& cp);
-   //members
-   SampleAppCommand* mpCommand;
-};
+extern void appsample();
 
 #endif /* APPSAMPLE_SAMPLEAPP_HPP */

@@ -14,7 +14,16 @@ PROJECT_NAME := esp32diag
 CPPFLAGS += -DLVGL_PC_SIMU=0 -DLVGL_ESP32_ILI9341=0 -DUSE_ESP_IDF=1
 
 #Use wrpbase component
-EXTRA_COMPONENT_DIRS += D:/iotprj/espt/wrpbase/wrpdrv D:/iotprj/espt/wrpbase/wrpmidw D:/iotprj/espt/wrpbase/wrpsys D:/iotprj/espt/wrpbase/wrptest
+EXTRA_COMPONENT_DIRS += D:/iotprj/espt/wrpbase D:/iotprj/espt/wrpbase/wrpdrv D:/iotprj/espt/wrpbase/wrpsys D:/iotprj/espt/wrpbase/wrpmidw
+#Use wrpbase with hmi
+#EXTRA_COMPONENT_DIRS += D:/iotprj/espt/wrpbase/wrpgui D:/iotprj/espt/wrpbase/wrpres D:/iotprj/espt/wrpbase/wrphmi
+
+#Use wrptest resource for test sys only
+EXTRA_COMPONENT_DIRS += D:/iotprj/espt/wrpbase/wrptest/wrptestmidw
+#EXTRA_COMPONENT_DIRS += D:/iotprj/espt/wrpbase/wrptest/wrptesthmi
+
+#Use appsample component
+#EXTRA_COMPONENT_DIRS += D:/iotprj/espt/appcluster D:/iotprj/espt/appsample
 
 #esp-idf platform makefile
 include $(IDF_PATH)/make/project.mk

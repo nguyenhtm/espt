@@ -1,103 +1,58 @@
 /********************************************************************************************************
- * @File  : sampleapp.cpp
- * @Date  : 2020-02-08
+ * @File  : appsample.cpp
+ * @Date  : 2019-10-06
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#include "sampleapp.hpp"
+#include "wrpbase/wrpbase.hpp"
+#include "wrpbase/wrphmi/wrphmi.hpp"
+#include "appsample/sampleapp.hpp"
+#include "appsample/loadingscreen.hpp"
+#include "appsample/homescreen.hpp"
+#include "appsample/cflowscreen.hpp"
+#include "appsample/speedometer.hpp"
 
 /********************************************************************************************************
  * VARIABLES
  ********************************************************************************************************/
 
 /********************************************************************************************************
- * FUNCTIONS - SampleAppCommand
+ * FUNCTIONS
  ********************************************************************************************************/
-SampleAppCommand::SampleAppCommand()
+void appsample()
 {
-}
+   WrpHmiApp app;
+   app.Initialize();
 
-SampleAppCommand::~SampleAppCommand()
-{
-}
+   LoadingScreen loadingScreen;
+   HomeScreen    homeScreen;
+   CFlowScreen   cflowScreen;
+   Speedometer   meter;
 
-SampleAppCommand::SampleAppCommand(const SampleAppCommand& cp)
-{
-}
+   app.GetHmiInstance()->Attach(&loadingScreen);
+   app.GetHmiInstance()->Attach(&homeScreen);
+   app.GetHmiInstance()->Attach(&cflowScreen);
+   app.GetHmiInstance()->Attach(&meter);
 
-/********************************************************************************************************
- * FUNCTIONS - ScreenManagerOnCommand
- ********************************************************************************************************/
-ScreenManagerOnCommand::ScreenManagerOnCommand(WrpScreenManager* pScreenManager)
-: mpScreenManager(pScreenManager)
-{
-}
-
-ScreenManagerOnCommand::~ScreenManagerOnCommand()
-{
-}
-
-void ScreenManagerOnCommand::Execute() const
-{
-   mpScreenManager->CreateWrpHmiApp();
-}
-
-ScreenManagerOnCommand::ScreenManagerOnCommand()
-: mpScreenManager(NULL)
-{
-}
-
-ScreenManagerOnCommand::ScreenManagerOnCommand(const ScreenManagerOnCommand& cp)
-: mpScreenManager(NULL)
-{
-}
-
-/********************************************************************************************************
- * FUNCTIONS - ServiceManagerOnCommand
- ********************************************************************************************************/
-ServiceManagerOnCommand::ServiceManagerOnCommand(WrpServiceManager* pServiceManager)
-: mpServiceManager(pServiceManager)
-{
-}
-
-ServiceManagerOnCommand::~ServiceManagerOnCommand()
-{
-}
-
-void ServiceManagerOnCommand::Execute() const
-{
-   mpServiceManager->BuildWrpMidwApp();
-}
-
-ServiceManagerOnCommand::ServiceManagerOnCommand()
-: mpServiceManager(NULL)
-{
-}
-
-ServiceManagerOnCommand::ServiceManagerOnCommand(const ServiceManagerOnCommand& cp)
-: mpServiceManager(NULL)
-{
-}
-
-/********************************************************************************************************
- * FUNCTIONS - SampleAppInvoker
- ********************************************************************************************************/
-SampleAppInvoker::SampleAppInvoker()
-: mpCommand(NULL)
-{
-}
-
-SampleAppInvoker::~SampleAppInvoker()
-{
-}
-
-void SampleAppInvoker::ExecuteCommand(SampleAppCommand* pCommand)
-{
-   mpCommand = pCommand;
-   mpCommand->Execute();
-}
-
-SampleAppInvoker::SampleAppInvoker(const SampleAppInvoker& cp)
-: mpCommand(NULL)
-{
+   app.GetHmiInstance()->LoadScreen(&loadingScreen);
+   sleep(3);
+   //app.GetHmiInstance()->LoadScreen(&homeScreen);
+   //sleep(3);
+   //app.GetHmiInstance()->LoadScreen(&cflowScreen);
+   //sleep(5);
+   app.GetHmiInstance()->LoadScreen(&meter);
+   meter.RunSpeedMeter(360);
+   meter.RunSpeedMeter(20);
+#ifndef USE_ESP_IDF
+   SDL_Event e;
+   while(1)
+   {
+      if (SDL_WaitEvent(&e)) {
+         if (e.type == SDL_QUIT)
+            break;
+      }
+   }
+#else
+   while(1){}
+#endif
 }

@@ -5,6 +5,7 @@
  *
  ********************************************************************************************************/
 #include "wrphmi.hpp"
+#include "wrpbase/wrpgui/wrpdisplay.hpp"
 
 /********************************************************************************************************
  * VARIABLES
@@ -118,6 +119,9 @@ void WrpHmiLvgl::Initialize()
 {
    WRPPRINT("%s\n", "WrpHmiLvgl::Initialize() Begin");
    mStatus = WRPHMI_STATUS_START;
+   WrpGui::WrpDisplay* display = new WrpGui::WrpDisplay; //TODO
+   display->Initialize();
+
    mThreadId = WrpSys::System::WrpCreateThread(WrpHmiLvgl::ThreadWrpHmi, "ThreadWrpHmi", this);
    if (!mThreadId)
    {
@@ -136,6 +140,7 @@ void WrpHmiLvgl::ThreadWrpHmi(void* param)
 {
    WRPPRINT("%s\n", "WrpHmiLvgl::ThreadWrpHmi() Begin");
    WrpHmi* app = (WrpHmi*)param;
+
    while(app->GetStatus() == WRPHMI_STATUS_START)
    {
       usleep(5*1000); /*Tell LittelvGL that 5 milliseconds were elapsed*/

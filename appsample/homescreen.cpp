@@ -4,7 +4,7 @@
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#include "appdefines.hpp"
+#include "wrpbase/wrpbase.hpp"
 #include "homescreen.hpp"
 #include "wrpbase/wrpgui/wrpimage.hpp"
 #include "wrpbase/wrpgui/wrplabel.hpp"
@@ -19,21 +19,21 @@
 /********************************************************************************************************
  * FUNCTIONS - HomeScreenEx
  ********************************************************************************************************/
-HomeScreenEx::HomeScreenEx()
+HomeScreen::HomeScreen()
 : WrpGui::WrpScreen(false)
 , mpLogo(NULL)
 {
-   WRPPRINT("%s\n", "HomeScreenEx::HomeScreenEx() Begin");
-   WRPPRINT("%s\n", "HomeScreenEx::HomeScreenEx() End");
+   WRPPRINT("%s\n", "HomeScreen::HomeScreen() Begin");
+   WRPPRINT("%s\n", "HomeScreen::HomeScreen() End");
 }
-HomeScreenEx::~HomeScreenEx()
+HomeScreen::~HomeScreen()
 {
-   WRPPRINT("%s\n", "HomeScreenEx::~HomeScreenEx() Begin");
-   WRPPRINT("%s\n", "HomeScreenEx::~HomeScreenEx() End");
+   WRPPRINT("%s\n", "HomeScreen::~HomeScreen() Begin");
+   WRPPRINT("%s\n", "HomeScreen::~HomeScreen() End");
 }
-void HomeScreenEx::CreateAndShow()
+void HomeScreen::CreateAndShow()
 {
-   WRPPRINT("%s\n", "HomeScreenEx::CreateAndShow() Begin");
+   WRPPRINT("%s\n", "HomeScreen::CreateAndShow() Begin");
    // homescreen has a logo
    mpLogo = new WrpGui::WrpImage(this);
    mpLogo->SetImage(WRPRESIMG_DEF01LOGO);
@@ -48,26 +48,26 @@ void HomeScreenEx::CreateAndShow()
    mpMenuItem[2] = new WrpGui::WrpImage(this);
    mpMenuItem[2]->SetImage(WRPRESIMG_DEF01DIAGNOSIS);
    mpMenuItem[2]->SetPos(WRPSCREEN_WIDTH-90, WRPSCREEN_MENU_POSY);
-   WRPPRINT("%s\n", "HomeScreenEx::CreateAndShow() End");
+   WRPPRINT("%s\n", "HomeScreen::CreateAndShow() End");
 }
-void HomeScreenEx::HideAndDestroy()
+void HomeScreen::HideAndDestroy()
 {
-   WRPPRINT("%s\n", "HomeScreenEx::HideAndDestroy() Begin");
+   WRPPRINT("%s\n", "HomeScreen::HideAndDestroy() Begin");
    WRPNULL_CHECK(mpLogo)
    delete mpLogo; mpLogo = NULL;
-   delete [] mpMenuItem;
+   delete [] mpMenuItem; //wrong
    WRPPRINT("%s\n", "HomeScreenEx::HideAndDestroy() End");
 }
-void HomeScreenEx::ActiveScreen(const WrpScreen& obj)
+void HomeScreen::ActiveScreen(const WrpGui::WrpScreen& obj)
 {
-   WRPPRINT("%s%p:%p\n", "HomeScreenEx::ActiveScreen() Begin ", &obj, this);
+   WRPPRINT("%s%p:%p\n", "HomeScreen::ActiveScreen() Begin ", &obj, this);
    if (this == &obj)
    {
       WrpScreen::Load();
    }
-   WRPPRINT("%s\n", "HomeScreenEx::ActiveScreen() End");
+   WRPPRINT("%s\n", "HomeScreen::ActiveScreen() End");
 }
-HomeScreenEx::HomeScreenEx(const HomeScreenEx& cp)
+HomeScreen::HomeScreen(const HomeScreen& cp)
 : WrpGui::WrpScreen(false)
 , mpLogo(NULL)
 {

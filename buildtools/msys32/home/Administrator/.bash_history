@@ -105,3 +105,37 @@ make flash
 make monitor
 make monitor
 exit
+ls
+pwd
+mkdir /tmp
+exit
+cd /d/iotprj/espt/lvglesp32/
+make clean
+make all
+cd ..
+cd esp32diag/
+dir
+make all
+make flash
+make flash
+make monitor
+make monitor
+make menuconfig
+make
+make flash
+make flash
+exit
+cd /d/iotprj/espt/
+ls
+cd esp32diag/
+make flash
+cd /d/iotprj/espt/esp32diag/
+make menuconfig
+make all
+make flash
+make menuconfig
+make flash
+make flash
+make monitor
+make monitor
+exit

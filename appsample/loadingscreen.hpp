@@ -10,9 +10,6 @@
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
-#include "wrpbase/wrphmi/wrphmiapp.hpp"
-#include "wrpbase/wrpmidw/wrpmidwapp.hpp"
-#include "wrpbase/wrphmi/wrphmiscreen.hpp"
 #include "wrpbase/wrpgui/wrpscreen.hpp"
 
 /********************************************************************************************************
@@ -22,17 +19,17 @@
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
-class LoadingScreenEx : public WrpGui::WrpScreen
+class LoadingScreen : public WrpGui::WrpScreen
 {
 public:
    /*
     * Constructor
     */
-   LoadingScreenEx();
+	LoadingScreen();
    /*
     * Destructor
     */
-   ~LoadingScreenEx();
+   ~LoadingScreen();
    /*
     * Call back function called on a WrpHmiObserver screen creation
     */
@@ -44,13 +41,13 @@ public:
    /*
     * Call back function called on a WrpHmiObserver screen active
     */
-   void ActiveScreen(const WrpScreen& obj);
+   void ActiveScreen(const WrpGui::WrpScreen& obj);
 
 private:
    /*
     * Default constructor
     */
-   LoadingScreenEx(const LoadingScreenEx& cp);
+   LoadingScreen(const LoadingScreen& cp);
    // members
    WrpGui::WrpLabel* mpLblLoadingStatus;
 };

@@ -1,16 +1,16 @@
 /********************************************************************************************************
  * @File  : wrpdisplay.hpp
- * @Date  : 2019-10-06
+ * @Date  : 2020-08-20
  * @Author: nguyenhtm - htminhnguyen@gmail.com
  *
  ********************************************************************************************************/
-#ifndef WRPBASE_WRPDISPLAY_HPP
-#define WRPBASE_WRPDISPLAY_HPP
+#ifndef WRPGUI_WRPDISPLAY_HPP
+#define WRPGUI_WRPDISPLAY_HPP
 
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
-#include "wrpbase/wrpbase.hpp"
+#include "wrpgui.hpp"
 
 namespace WrpGui {
 
@@ -18,16 +18,22 @@ namespace WrpGui {
  * DEFINES
  ********************************************************************************************************/
 
-typedef FILE* pc_file_t;
-
 /********************************************************************************************************
  * CLASSES
  ********************************************************************************************************/
+// Class WrpDisplay
+class WrpDisplay
+{
+public:
+   WrpDisplay();
+   ~WrpDisplay();
+   void Initialize();
+   void DeInitialize();
 
-void InitLvglLib();
+private:
+   WrpDisplay(const WrpDisplay& cp);
+};
 
-bool InitLvglFileSystem();
+} /* Namespace WrpGui */
 
-} /* Namespace WrpSys */
-
-#endif /* WRPBASE_WRPDISPLAY_HPP */
+#endif /* WRPGUI_WRPDISPLAY_HPP */

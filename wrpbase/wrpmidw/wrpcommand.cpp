@@ -5,7 +5,9 @@
  *
  ********************************************************************************************************/
 #include "wrpcommand.hpp"
+#if (LVGL_ESP32_ILI9341 || LVGL_PC_SIMU)
 #include "wrpbase/wrphmi/wrphmi.hpp"
+#endif
 #include "wrpbase/wrpmidw/wrpmidwbuilder.hpp"
 #include "wrpbase/wrpdrv/wrpdrvfacade.hpp"
 
@@ -27,6 +29,7 @@ WrpCommand::~WrpCommand()
    WRPPRINT("%s\n", "WrpCommand::~WrpCommand() End");
 }
 
+#if (LVGL_ESP32_ILI9341 || LVGL_PC_SIMU)
 /********************************************************************************************************
  * FUNCTIONS - StartWrpHmiCmd
  ********************************************************************************************************/
@@ -76,6 +79,7 @@ StopWrpHmiCmd::StopWrpHmiCmd(const StopWrpHmiCmd& cp)
 : mpReceiver(NULL)
 {
 }
+#endif
 
 /********************************************************************************************************
  * FUNCTIONS - DiagnosisCmd

@@ -10,9 +10,7 @@
 /********************************************************************************************************
  * INCLUDES
  ********************************************************************************************************/
-#include "wrpbase/wrphmi/wrphmiapp.hpp"
-#include "wrpbase/wrpmidw/wrpmidwapp.hpp"
-#include "wrpbase/wrphmi/wrphmiscreen.hpp"
+#include "wrpbase/wrpgui/wrpscreen.hpp"
 #include "wrpbase/wrpgui/wrpanim.hpp"
 
 /********************************************************************************************************
@@ -25,17 +23,17 @@
  * CLASSES
  ********************************************************************************************************/
 //
-class CFlowScreenEx : public WrpGui::WrpScreen
+class CFlowScreen : public WrpGui::WrpScreen
 {
 public:
    /*
     * Constructor
     */
-	CFlowScreenEx();
+   CFlowScreen();
    /*
     * Destructor
     */
-   ~CFlowScreenEx();
+   ~CFlowScreen();
    /*
     * Call back function called on a WrpHmiObserver screen creation
     */
@@ -47,15 +45,15 @@ public:
    /*
     * Call back function called on a WrpHmiObserver screen active
     */
-   void ActiveScreen(const WrpScreen& obj);
+   void ActiveScreen(const WrpGui::WrpScreen& obj);
 
 private:
    /*
     * Default constructor
     */
-   CFlowScreenEx(const CFlowScreenEx& cp);
+   CFlowScreen(const CFlowScreen& cp);
    // members
-   WrpGui::WrpAnim   mAnim;
+   WrpGui::WrpAnim  mAnim;
    WrpGui::WrpImage* mpMenuItem[MENUITEMS_MAX];
    WrpGui::WrpImage* mpAnimItem[ANIMITEMS_MAX];
 };
