@@ -95,7 +95,10 @@ void WrpTestHmi()
       }
    }
 #else
-   while(1){}
+   while(1)
+   {
+	      vTaskDelay(1000 / portTICK_PERIOD_MS);
+   }
 #endif
    app.DeInitialize();
 }

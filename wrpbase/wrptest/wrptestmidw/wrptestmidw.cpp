@@ -109,6 +109,20 @@ void WrpTestMidw(void)
    //WrpStorageTest();
    //WrpSystemTest();
    //WrpNetworkTest();
+#ifndef USE_ESP_IDF
+   SDL_Event e;
+   while(1)
+   {
+      if (SDL_WaitEvent(&e)) {
+         if (e.type == SDL_QUIT) break;
+      }
+   }
+#else
+   while(1)
+   {
+      vTaskDelay(1000 / portTICK_PERIOD_MS);
+   }
+#endif
    WRPPRINT("%s\n", "WrpTestMidw() End");
 }
 

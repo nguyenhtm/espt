@@ -275,13 +275,19 @@ void WrpStorage::Initialize(WrpSys::WrpStorage::WrpStorageFactory& factory)
 {
    WRPPRINT("%s\n", "WrpStorage::Initialize() Begin");
    mpNvs = factory.CreateWrpNvs();
+   mpNvs->Initialize();
    mpSpiffs = factory.CreateWrpSpiffs();
+   mpSpiffs->Mount();
    mpSdCard = factory.CreateWrpSdCard();
+   mpSdCard->Initialize();
    WRPPRINT("%s\n", "WrpStorage::Initialize() End");
 }
 void WrpStorage::DeInitialize()
 {
    WRPPRINT("%s\n", "WrpStorage::DeInitialize() Begin");
+   mpNvs->DeInitialize();
+   mpSpiffs->Unmount();
+   mpSdCard->DeInitialize();
    WRPPRINT("%s\n", "WrpStorage::DeInitialize() End");
 }
 WrpStorage::WrpStorage(const WrpStorage& cp)
